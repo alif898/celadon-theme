@@ -1,0 +1,61 @@
+metadata:
+  name: "Celadon"
+  author: "Alif Naufal"
+
+theme:
+  base0: "1b2222"
+  base1: "222b2b"
+  base2: "2d3838"
+  base3: "5c7070"
+  base4: "cedddd"
+
+  accent: "75c2b3"
+  accent_alt: "518c83"
+  accent_alt2: "38615b"
+
+  green: "75C2B3"
+  green_alt: "5DA89A"
+  green_alt2: "75C2B333"
+
+  blue: "65DFFF"
+  blue_alt: "49B0CE"
+  blue_alt2: "65DFFF33"
+
+  red: "c72a47"
+  red_alt: "e66e6e"
+  red_alt2: "F97BB033"
+
+  orange: "FFA245"
+  orange_alt: "E5913E"
+  orange_alt2: "FFA24533"
+
+  yellow: "cfe68a"
+  yellow_alt: "C1B374"
+  yellow_alt2: "D7C78133"
+
+  purple: "AC73EF"
+  purple_alt: "965ED7"
+  purple_alt2: "AC73EF33"
+
+  pink: "EDA1D6"
+  pink_alt: "F97BB0"
+  pink_alt2: "EDA1D633"
+
+  cyan: "82E6FF"
+  cyan_alt: "65DFFF"
+  cyan_alt2: "82E6FF33"
+
+  lime: "B4E380"
+  lime_alt: "9AC46D"
+  lime_alt2: "B4E38033"
+
+  cream: "f5f5f0"
+  cream_alt: "b8b8ae"
+  cream_alt2: "1e211f"
+
+  bone: "b0b0a8"
+  bone_alt: "8a8a82"
+  bone_alt2: "242421"
+
+  transparent: "00000000"
+  translucent: "00000033"

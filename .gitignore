@@ -1,0 +1,14 @@
+*/.idea
+.idea
+*.iws
+*.iml
+*.ipr
+
+*.egg-info
+*.mvn
+
+*.crt
+*.txt
+*.pem
+
+AGENTS.md
