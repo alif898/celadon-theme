@@ -1,14 +1,44 @@
-*/.idea
-.idea
-*.iws
-*.iml
-*.ipr
+# JetBrains
+**/.idea/
+**/.iws/
+**/.iml/
+**/.ipr/
 
-*.egg-info
-*.mvn
+# Build/Environment
+**/dist/
+**/.venv/
+**/*.egg-info/
+.python-version
+uv.lock
 
+**/.gradle/
+**/.intellijPlatform/
+**/build/
+**/gradle/
+gradlew
+gradlew.bat
+jetbrains/src
+jetbrains/gradle.properties
+
+**/.mvn/
+mvnw
+mvnw.cmd
+.gitattributes
+
+**/.next/
+**/node_modules/
+
+.coverage
+
+# Sensitive
+/secrets
 *.crt
 *.txt
 *.pem
+
+# Unnecessary
+/sample-projects
+/screenshots
+*.png
 
 AGENTS.md

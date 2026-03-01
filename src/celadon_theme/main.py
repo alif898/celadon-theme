@@ -1,50 +1,34 @@
 import logging
-import yaml
-from jinja2 import Environment, FileSystemLoader, Template
+from jinja2 import Environment, FileSystemLoader
 from logging.config import dictConfig
-from pathlib import Path
-from typing import Any
 
 from .config.logging_config import logging_config
-
-dictConfig(logging_config.model_dump())
-logger = logging.getLogger(__name__)
-
-
-def load_config(path: Path) -> dict[str, Any]:
-    with open(path, "r") as f:
-        raw_data = yaml.safe_load(f)
-
-    # Resolve internal YAML references
-    logger.info("Resolving internal YAML references")
-    yaml_as_str = yaml.dump(raw_data)
-    resolved_str = Template(yaml_as_str).render(**raw_data)
-    return yaml.safe_load(resolved_str)
-
-
-def generate() -> None:
-    root = Path(__file__).resolve().parent.parent.parent
-    config = load_config(root / "templates/palette.yaml")
-
-    env = Environment(loader=FileSystemLoader(str(root / "templates")))
-    dist_path = root / "jetbrains/src/main/resources/themes"
-    dist_path.mkdir(parents=True, exist_ok=True)
-
-    # Render the templates
-    files = {
-        "celadon.icls.j2": "Celadon.xml",
-        "celadon.theme.json.j2": "celadon.theme.json"
-    }
-
-    for tpl, out in files.items():
-        content = env.get_template(tpl).render(**config)
-        with open(dist_path / out, "w") as f:
-            f.write(content)
-    logger.info(f"Templates rendered successfully to {dist_path}")
+from .config.paths import PALETTE_FILE, CONFIG_FILE, TEMPLATES_DIR
+from .generator.jetbrains import JetbrainsGenerator
+from .template.parser import ThemeParser
 
 
 def main() -> None:
-    generate()
+    dictConfig(logging_config.model_dump())
+    logger = logging.getLogger(__name__)
+    logger.info("Starting theme generation")
+
+    # Load data
+    palette = ThemeParser.load_palette(PALETTE_FILE)
+    config = ThemeParser.load_config(CONFIG_FILE)
+    env = Environment(loader=FileSystemLoader(str(TEMPLATES_DIR)))
+    
+    # Initialize theme generators
+    generators = [
+        JetbrainsGenerator(palette, config, env)
+    ]
+    logger.info(f"Initialized theme generators: {generators}")
+    
+    for generator in generators:
+        generator.generate_theme_files()
+        generator.generate_theme_metadata()
+    
+    logger.info("Theme generation completed successfully")
 
 
 if __name__ == "__main__":

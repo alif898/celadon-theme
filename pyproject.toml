@@ -1,8 +1,13 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
 [project]
 name = "celadon-theme"
-version = "0.1.0"
-description = "Add your description here"
+dynamic = ["version"]
+description = "A ceramic-inspired IDE dark theme generator using Python and Jinja2"
 readme = "README.md"
+license = { file = "LICENSE.md" }
 authors = [
     { name = "Alif Naufal", email = "alif898@gmail.com" }
 ]
@@ -13,6 +18,44 @@ dependencies = [
     "pydantic-settings>=2.13.1",
     "pyyaml>=6.0.3",
 ]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3.4",
+    "pytest-cov>=7.0.0",
+    "mypy>=1.15.0",
+    "types-PyYAML>=6.0.12",
+]
+
+[tool.hatch.version]
+path = "config.json"
+pattern = "\"version\":\\s*\"(?P<version>[^\"]+)\""
+
+[tool.coverage.run]
+source = ["src/main"]
+omit = [
+    "*/tests/*",
+    "*/test_*.py",
+    "*/__init__.py",
+    "src/celadon_theme/main.py",
+    "src/celadon_theme/config/logging_config.py",
+]
+
+[tool.coverage.report]
+show_missing = true
+
+[tool.pytest.ini_options]
+addopts = "--cov=src/celadon_theme --cov-report=term-missing"
+testpaths = ["tests"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+ignore_missing_imports = true
+
+[project.urls]
+Homepage = "https://github.com/alif898/celadon-theme"
+Issues = "https://github.com/alif898/celadon-theme/issues"
 
 [project.scripts]
 celadon-theme = "celadon_theme.main:main"

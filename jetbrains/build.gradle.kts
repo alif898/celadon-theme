@@ -3,9 +3,6 @@ plugins {
     id("org.jetbrains.intellij.platform") version "2.11.0"
 }
 
-group = "com.alifnaufal.celadon-theme"
-version = "0.0.1"
-
 repositories {
     mavenCentral()
     intellijPlatform { defaultRepositories() }
@@ -17,7 +14,10 @@ val sampleProjectsMap = mapOf(
     "IU" to "java",
     "IC" to "java",
     "PY" to "python",
-    "PC" to "python"
+    "PC" to "python",
+    "WS" to "typescript",
+    "GO" to "go",
+    "DB" to "database"
 )
 val projectSubDir = sampleProjectsMap[platformType] ?: "java"
 
@@ -43,6 +43,11 @@ tasks.runIde {
     systemProperty("ide.show.tips.on.startup", "false")
     systemProperty("idea.ignore.project.colors", "true")
     systemProperty("jetbrains.privacy_policy.accepted", "true")
+}
+
+tasks.patchPluginXml {
+    sinceBuild.set("251")
+    untilBuild.set(null as String?)
 }
 
 tasks.signPlugin {

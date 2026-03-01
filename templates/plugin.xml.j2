@@ -1,0 +1,23 @@
+<idea-plugin>
+    <id>{{ manifest.id }}</id>
+    <version>{{ manifest.version }}</version>
+    <name>{{ manifest.name }}</name>
+    <category>UI</category>
+    <vendor url="{{ manifest.vendor_url }}">{{ manifest.author }}</vendor>
+
+    <idea-version since-build="251"/>
+
+    <description><![CDATA[
+{{ manifest.description }}
+    ]]></description>
+
+    <change-notes><![CDATA[
+{{ manifest.change_notes }}
+    ]]></change-notes>
+
+    <depends>com.intellij.modules.platform</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <themeProvider id="{{ manifest.id }}" path="/themes/celadon.theme.json"/>
+    </extensions>
+</idea-plugin>
