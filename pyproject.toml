@@ -32,7 +32,7 @@ path = "config.json"
 pattern = "\"version\":\\s*\"(?P<version>[^\"]+)\""
 
 [tool.coverage.run]
-source = ["src/main"]
+source = ["src/celadon_theme"]
 omit = [
     "*/tests/*",
     "*/test_*.py",

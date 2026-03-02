@@ -14,9 +14,6 @@ uv.lock
 **/.gradle/
 **/.intellijPlatform/
 **/build/
-**/gradle/
-gradlew
-gradlew.bat
 jetbrains/src
 jetbrains/gradle.properties
 
