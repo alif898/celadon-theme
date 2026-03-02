@@ -1,0 +1,86 @@
+name: Quality Test
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  quality-test:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      checks: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Calculate snapshot version
+        id: versioning
+        run: |
+          CURRENT_VERSION=$(jq -r '.version' config.json)
+          BASE_VERSION=$(echo $CURRENT_VERSION | awk -F. '{$NF = $NF + 1;} 1' OFS=.)
+          TIMESTAMP=$(date +'%Y%m%d')
+          if [ "${{ github.event_name }}" == "pull_request" ]; then
+            ID="pr${{ github.event.number }}"
+          else
+            ID="main"
+          fi
+          
+          DEV_VERSION="${BASE_VERSION}+${ID}.${TIMESTAMP}"
+          jq ".version = \"$DEV_VERSION\"" config.json > config.json.tmp && mv config.json.tmp config.json
+          echo "Building version: $DEV_VERSION"
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
+
+      - name: Generate theme files
+        run: uv run celadon-theme
+
+      - name: Run Python tests
+        run: uv run pytest tests --cov-report=xml
+
+      - name: Run mypy type checking
+        run: uv run mypy src tests
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./coverage.xml
+
+      - name: Run Qodana Scan
+        uses: JetBrains/qodana-action@v2025.3
+        env:
+          QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
+        with:
+          pr-mode: ${{ github.event_name == 'pull_request' }}
+
+      - name: Setup Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v5
+
+      - name: Verify JetBrains plugin
+        working-directory: jetbrains
+        run: |
+          chmod +x gradlew
+          ./gradlew verifyPlugin
+
+      - name: Archive rolling build
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: actions/upload-artifact@v6
+        with:
+          name: celadon-theme-rolling
+          path: jetbrains/build/distributions/*.zip
+          retention-days: 14

@@ -1,0 +1,12 @@
+linter: qodana-python-community:latest
+
+include:
+  - name: src
+  - name: tests
+
+exclude:
+  - name: All
+    paths:
+      - .venv
+      - jetbrains/build
+      - sample-projects
