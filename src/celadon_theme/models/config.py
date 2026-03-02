@@ -8,7 +8,6 @@ class ConfigModel(BaseModel):
     id: str
     name: str
     version: str
-    group: str | None = None
     plugin_name: str
     author: str
     vendor_url: str | None = None

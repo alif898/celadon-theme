@@ -29,6 +29,11 @@ dependencies {
 
 intellijPlatform {
     buildSearchableOptions = false
+    pluginVerification {
+        ides {
+            recommended()
+        }
+    }
 }
 
 tasks.runIde {
