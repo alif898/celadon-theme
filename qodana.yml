@@ -1,4 +1,4 @@
-linter: qodana-python-community:latest
+linter: jetbrains/qodana-python-community:latest
 
 include:
   - name: src
