@@ -6,6 +6,8 @@
 [![codecov](https://codecov.io/gh/alif898/celadon-theme/graph/badge.svg?token=H8KVORM1T7&style=flat)](https://codecov.io/gh/alif898/celadon-theme)
 [![Quality Check CI](https://github.com/alif898/celadon-theme/actions/workflows/quality-check-ci.yml/badge.svg)](https://github.com/alif898/celadon-theme/actions/workflows/quality-check-ci.yml)
 
+---
+
 ![celadon-icon](templates/pluginIcon.svg)
 
 **Celadon** is a dark IDE theme inspired by the muted, matte finish of classical ceramics. 

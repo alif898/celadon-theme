@@ -75,6 +75,24 @@ jobs:
           chmod +x gradlew
           ./gradlew verifyPlugin
 
+      - name: Commit version and changelog back to Main
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add config.json CHANGELOG.md
+          
+          if git diff --staged --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "[skip ci]: ${{ github.event.release.tag_name }} release, sync version and changelog"
+            git push https://x-access-token:${{ secrets.BYPASS_TOKEN }}@github.com/${{ github.repository }}.git main
+          fi
+
+      - name: Upload Zip to GitHub Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh release upload ${{ github.event.release.tag_name }} ./jetbrains/build/distributions/*.zip --clobber
+
       - name: Publish to JetBrains Marketplace
         working-directory: jetbrains
         run: |
@@ -85,22 +103,3 @@ jobs:
           CERTIFICATE_CHAIN: ${{ secrets.CERTIFICATE_CHAIN }}
           PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
           PRIVATE_KEY_PASSWORD: ${{ secrets.PRIVATE_KEY_PASSWORD }}
-
-      - name: Upload Zip to GitHub Release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh release upload ${{ github.event.release.tag_name }} ./jetbrains/build/distributions/*.zip --clobber
-
-      - name: Commit version and changelog back to Main
-        if: success()
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add config.json CHANGELOG.md
-          
-          if git diff --staged --quiet; then
-            echo "No changes to commit."
-          else
-            git commit -m "[skip ci]: ${{ github.event.release.tag_name }} release, sync version and changelog"
-            git push origin main
-          fi
