@@ -25,16 +25,23 @@ jobs:
           
           echo "Processing Release: $FULL_TAG"
           
-          CURRENT_VERSION=$(jq -r '.version' config.json | cut -d'+' -f1)
+          CURRENT_VERSION=$(jq -r '.version' config.json)
           if [ "$CLEAN_VERSION" != "$CURRENT_VERSION" ]; then
-            echo "Updating config.json to $CLEAN_VERSION"
-            jq ".version = \"$CLEAN_VERSION\"" config.json > config.json.tmp && mv config.json.tmp config.json
+            echo "Updating config.json to $CLEAN_VERSION..."
+            jq --arg ver "$CLEAN_VERSION" --arg notes "$NOTES" \
+               '.version = $ver | .change_notes = $notes' \
+               config.json > config.json.tmp && mv config.json.tmp config.json
           fi
           
           if ! grep -q "## \[$FULL_TAG\]" CHANGELOG.md; then
             echo "Updating Changelog..."
-            NEW_ENTRY="## [$FULL_TAG] - $DATE\n$NOTES\n"
-            sed -i "0,/^# /s/^# .*/&\n\n$NEW_ENTRY/" CHANGELOG.md
+            echo "# Changelog" > CHANGELOG.new
+            echo "" >> CHANGELOG.new
+            echo "## [$FULL_TAG] - $DATE" >> CHANGELOG.new
+            echo "$NOTES" >> CHANGELOG.new
+            echo "" >> CHANGELOG.new
+            tail -n +2 CHANGELOG.md >> CHANGELOG.new
+            mv CHANGELOG.new CHANGELOG.md
           fi
 
       - name: Install uv
