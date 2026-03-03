@@ -1,9 +1,12 @@
 # celadon-theme
 
+![Config Version](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/alif898/celadon-theme/main/config.json&query=$.version&label=Version&color=518c83&style=flat)
 [![JetBrains Plugin Downloads](https://img.shields.io/jetbrains/plugin/d/30354?style=flat&logo=jetbrains&label=Downloads&color=518c83)](https://plugins.jetbrains.com/plugin/30354)
 
-[![codecov](https://codecov.io/gh/alif898/celadon-theme/graph/badge.svg?token=H8KVORM1T7)](https://codecov.io/gh/alif898/celadon-theme)
-[![Quality Check CI](https://github.com/alif898/celadon-theme/actions/workflows/quality-check-ci.yml/badge.svg?branch=main)](https://github.com/alif898/celadon-theme/actions/workflows/quality-check-ci.yml)
+[![codecov](https://codecov.io/gh/alif898/celadon-theme/graph/badge.svg?token=H8KVORM1T7&style=flat)](https://codecov.io/gh/alif898/celadon-theme)
+[![Quality Check CI](https://github.com/alif898/celadon-theme/actions/workflows/quality-check-ci.yml/badge.svg)](https://github.com/alif898/celadon-theme/actions/workflows/quality-check-ci.yml)
+
+![celadon-icon](templates/pluginIcon.svg)
 
 **Celadon** is a dark IDE theme inspired by the muted, matte finish of classical ceramics. 
 It layers cheerful, milky pastels over a deep jade base, 
@@ -11,12 +14,16 @@ providing a high-contrast yet eye-friendly environment for long-form coding.
 
 ## Project Details
 
+For change history, refer to [CHANGELOG.md](CHANGELOG.md).
+
+### Project Structure
+
 This project uses a single source of truth for the color palette, defined in `palette.yml`.
 The palette, along with Jinja2 templates, are used to generate the theme files.
 
 The project uses Python `3.12` and is managed using `uv`
 
-## Instructions
+### Instructions
 
 To install the project:
 ```bash
@@ -38,7 +45,7 @@ To run `mypy` static type checks:
 uv run mypy src tests
 ```
 
-## CI/CD
+### CI/CD
 
 CI/CD is performed with GitHub Actions.
 On top of unit tests, code coverage is also checked with `codecov` and code quality is checked with `Qodana`.
