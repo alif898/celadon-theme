@@ -1,5 +1,9 @@
 # Changelog
 
+## [v0.0.7] - 2026-03-03
+ - Renamed back to Celadon Theme
+
+
 ## [v0.0.6] - 2026-03-03
  - Explicitly declared as dynamic plugin
 
