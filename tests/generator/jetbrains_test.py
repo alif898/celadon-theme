@@ -10,9 +10,9 @@ from tests.celadon_theme_base_test import mock_palette, mock_config
 def mock_env() -> Environment:
     return Environment(loader=DictLoader({
         "celadon.icls.j2": "ICLS: {{ theme.ansi.black }}",
-        "celadon.theme.json.j2": "JSON: {{ manifest.name }}",
-        "gradle.properties.j2": "GRADLE: {{ manifest.version }}",
-        "plugin.xml.j2": "PLUGIN: {{ manifest.author }}",
+        "celadon.theme.json.j2": "JSON: {{ config.name }}",
+        "gradle.properties.j2": "GRADLE: {{ config.version }}",
+        "plugin.xml.j2": "PLUGIN: {{ config.author }}",
         "pluginIcon.svg": "<svg>Icon</svg>"
     }))
 

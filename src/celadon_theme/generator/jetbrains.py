@@ -33,7 +33,7 @@ class JetbrainsGenerator(AbstractThemeGenerator):
         
         context = {
             **self.palette.model_dump(),
-            "manifest": self.config.model_dump()
+            "config": self.config.model_dump()
         }
 
         files = {
@@ -65,7 +65,7 @@ class JetbrainsGenerator(AbstractThemeGenerator):
 
         context = {
             **self.palette.model_dump(),
-            "manifest": self.config.model_dump()
+            "config": self.config.model_dump()
         }
 
         # plugin.xml
