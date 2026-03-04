@@ -6,6 +6,6 @@
   "vendor_url": "https://github.com/alif898",
   "github_url": "https://github.com/alif898/celadon-theme",
   "description": "<p>A dark theme inspired by the muted, matte finish of classical ceramics.</p>\n<p>\n    Celadon layers cheerful, milky pastels over a deep jade base.\n    It provides a high-contrast yet eye-friendly environment designed specifically for long-form coding sessions.\n    Crafted for discerning developers who appreciate a workspace that feels like a quiet studio.\n</p>\n<h3>Key Features</h3>\n<ul>\n    <li><b>Matte Palette:</b> Reduced glare with a focus on organic, ceramic-inspired tones.</li>\n    <li><b>Soft Contrast:</b> Carefully balanced syntax highlighting to prevent eye strain without sacrificing clarity.</li>\n    <li><b>Universal Compatibility:</b> Fully compatible with all IntelliJ-based IDEs.</li>\n    <li><b>100% Free:</b> A passion project designed for fellow artisans.</li>\n</ul>",
-  "version": "0.0.7",
-  "change_notes": " - Renamed back to Celadon Theme"
+  "version": "0.0.8",
+  "change_notes": " - Fixed plugin install/update buttons"
 }

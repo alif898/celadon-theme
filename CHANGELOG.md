@@ -1,5 +1,9 @@
 # Changelog
 
+## [v0.0.8] - 2026-03-04
+ - Fixed plugin install/update buttons
+
+
 ## [v0.0.7] - 2026-03-03
  - Renamed back to Celadon Theme
 
