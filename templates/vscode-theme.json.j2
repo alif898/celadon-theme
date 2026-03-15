@@ -1,0 +1,558 @@
+{
+  "name": "{{ config.name }}",
+  "type": "dark",
+  "colors": {
+    "editor.background": "#{{ theme.base0 }}",
+    "editor.foreground": "#{{ theme.base4 }}",
+    "editor.lineHighlightBackground": "#{{ theme.base1 }}",
+    "editor.selectionBackground": "#{{ theme.accent_alt2 }}",
+    "editorGutter.background": "#{{ theme.base0 }}",
+    "editorIndentGuide.background": "#{{ theme.base2 }}",
+    "editorIndentGuide.activeBackground": "#{{ theme.accent_alt }}",
+    "editorBracketMatch.background": "#{{ theme.base2 }}",
+    "editorBracketMatch.border": "#{{ theme.accent }}",
+    "editorCursor.foreground": "#{{ theme.accent }}",
+
+    "activityBar.background": "#{{ theme.base0 }}",
+    "activityBar.foreground": "#{{ theme.accent }}",
+    "activityBarBadge.background": "#{{ theme.accent }}",
+
+    "sideBar.background": "#{{ theme.base0 }}",
+    "sideBar.foreground": "#{{ theme.base4 }}",
+    "sideBar.border": "#{{ theme.base2 }}",
+    "sideBarTitle.foreground": "#{{ theme.accent }}",
+    "sideBarSectionHeader.background": "#{{ theme.base1 }}",
+    "sideBarSectionHeader.foreground": "#{{ theme.base4 }}",
+    "sideBarSectionHeader.border": "#{{ theme.base2 }}",
+
+    "statusBar.background": "#{{ theme.base0 }}",
+    "statusBar.foreground": "#{{ theme.base4 }}",
+    "statusBar.border": "#{{ theme.base2 }}",
+
+    "titleBar.activeBackground": "#{{ theme.base0 }}",
+    "titleBar.activeForeground": "#{{ theme.base4 }}",
+    "titleBar.border": "#{{ theme.base2 }}",
+    "menubar.selectionBackground": "#{{ theme.base2 }}",
+
+    "editorGroupHeader.tabsBackground": "#{{ theme.base0 }}",
+    "editorGroupHeader.tabsBorder": "#{{ theme.base2 }}",
+    "tab.activeBackground": "#{{ theme.base2 }}",
+    "tab.activeForeground": "#{{ theme.accent }}",
+    "tab.inactiveBackground": "#{{ theme.base0 }}",
+    "tab.inactiveForeground": "#{{ theme.base3 }}",
+    "tab.border": "#{{ theme.base2 }}",
+    "tab.activeBorderTop": "#{{ theme.accent }}",
+
+    "list.hoverBackground": "#{{ theme.base2 }}",
+    "list.activeSelectionBackground": "#{{ theme.accent_alt2 }}",
+    "list.activeSelectionForeground": "#{{ theme.base4 }}",
+    "list.inactiveSelectionBackground": "#{{ theme.base1 }}",
+
+    "terminal.background": "#{{ theme.base0 }}",
+    "terminal.foreground": "#{{ theme.base4 }}",
+    "terminal.ansiBlack": "#{{ theme.base0 }}",
+    "terminal.ansiRed": "#{{ theme.red_alt }}",
+    "terminal.ansiGreen": "#{{ theme.lime_alt }}",
+    "terminal.ansiYellow": "#{{ theme.yellow_alt }}",
+    "terminal.ansiBrightYellow": "#{{ theme.yellow_alt }}",
+    "terminal.ansiBlue": "#{{ theme.blue }}",
+    "terminal.ansiMagenta": "#{{ theme.purple_alt }}",
+    "terminal.ansiCyan": "#{{ theme.cyan_alt }}",
+    "terminal.ansiWhite": "#{{ theme.base4 }}",
+
+    "button.background": "#{{ theme.base1 }}",
+    "button.foreground": "#{{ theme.accent }}",
+    "button.hoverBackground": "#{{ theme.base2 }}",
+    "input.background": "#{{ theme.base1 }}",
+    "input.foreground": "#{{ theme.base4 }}",
+    "input.border": "#{{ theme.base2 }}",
+    "input.placeholderForeground": "#{{ theme.base3 }}",
+    "scrollbarSlider.background": "#{{ theme.base2 }}",
+    "scrollbarSlider.hoverBackground": "#{{ theme.base3 }}",
+    "scrollbarSlider.activeBackground": "#{{ theme.accent }}",
+    "focusBorder": "#{{ theme.accent_alt }}"
+  },
+  "tokenColors": [
+    {
+      "name": "Base: Variables",
+      "scope": [
+        "variable",
+        "variable.other",
+        "variable.declaration",
+        "variable.parameter",
+        "meta.definition.variable",
+        "string constant.other.placeholder",
+        "text.variable",
+        "variable.parameter.java",
+        "variable.other.definition.java"
+      ],
+      "settings": {
+        "foreground": "#{{ theme.base4 }}"
+      }
+    },
+    {
+      "name": "Base: Punctuation and Structural Elements",
+      "scope": [
+        "punctuation",
+        "meta.brace",
+        "punctuation.definition.parameters",
+        "punctuation.definition.arguments",
+        "punctuation.definition.template-expression",
+        "punctuation.section.block",
+        "punctuation.section.group",
+        "punctuation.section.array",
+        "punctuation.separator",
+        "punctuation.terminator",
+        "meta.delimiter",
+        "punctuation.definition.keyword",
+        "punctuation.separator.period.python",
+        "punctuation.separator.element.python",
+        "punctuation.separator.colon.python",
+        "punctuation.separator.annotation.python",
+        "punctuation.separator.annotation.result.python",
+        "punctuation.parenthesis.begin",
+        "punctuation.parenthesis.end",
+        "punctuation.bracket.begin",
+        "punctuation.bracket.end",
+        "punctuation.curlybrace.begin",
+        "punctuation.curlybrace.end"
+      ],
+      "settings": {
+        "foreground": "#{{ theme.base4 }}"
+      }
+    },
+    {
+      "name": "Base: Comments",
+      "scope": [
+        "comment",
+        "punctuation.definition.comment"
+      ],
+      "settings": {
+        "fontStyle": "italic",
+        "foreground": "#{{ theme.base3 }}"
+      }
+    },
+    {
+      "name": "Base: Strings",
+      "scope": [
+        "string"
+      ],
+      "settings": {
+        "foreground": "#{{ theme.purple }}"
+      }
+    },
+    {
+      "name": "Base: Numbers",
+      "scope": [
+        "constant.numeric"
+      ],
+      "settings": {
+        "foreground": "#{{ theme.orange }}"
+      }
+    },
+    {
+      "name": "Base: Keywords & Storage",
+      "scope": [
+        "keyword",
+        "storage.type",
+        "storage.modifier",
+        "constant.language",
+        "keyword.control",
+        "keyword.operator.new",
+        "keyword.operator.expression",
+        "keyword.operator.cast",
+        "keyword.operator.sizeof",
+        "keyword.operator.instanceof",
+        "keyword.operator.logical.python",
+        "keyword.operator.wordlike",
+        "keyword.other.sql",
+        "keyword.other.create.sql",
+        "keyword.other.DML.sql",
+        "keyword.other.LUW.sql",
+        "keyword.other.authorization.sql",
+        "keyword.other.data-integrity.sql",
+        "keyword.other.object-comments.sql",
+        "keyword.other.alias.sql",
+        "keyword.other.order.sql",
+        "keyword.operator.star.sql",
+        "keyword.operator.comparison.sql",
+        "keyword.operator.math.sql",
+        "keyword.operator.concatenator.sql",
+        "keyword.control.java",
+        "keyword.control.throw.java",
+        "keyword.control.ternary.java",
+        "keyword.operator.instanceof.java",
+        "keyword.operator.assignment.java",
+        "keyword.operator.arithmetic.java",
+        "keyword.operator.logical.java",
+        "keyword.operator.bitwise.java",
+        "keyword.operator.increment-decrement.java",
+        "keyword.control.import.ts",
+        "keyword.control.import.tsx",
+        "keyword.control.from.ts",
+        "keyword.control.from.tsx",
+        "keyword.control.export.ts",
+        "keyword.control.export.tsx"
+      ],
+      "settings": {
+        "fontStyle": "bold",
+        "foreground": "#{{ theme.pink }}"
+      }
+    },
+    {
+      "name": "Base: Booleans & Nulls",
+      "scope": [
+        "constant.language.boolean",
+        "constant.language.null",
+        "constant.language.undefined",
+        "constant.language.python"
+      ],
+      "settings": {
+        "foreground": "#{{ theme.pink }}"
+      }
+    },
+    {
+      "name": "Base: Operators",
+      "scope": [
+        "keyword.operator",
+        "keyword.operator.logical.ts",
+        "keyword.operator.logical.tsx",
+        "keyword.operator.arithmetic.ts",
+        "keyword.operator.arithmetic.tsx",
+        "keyword.operator.comparison.ts",
+        "keyword.operator.comparison.tsx",
+        "keyword.operator.assignment.ts",
+        "keyword.operator.assignment.tsx",
+        "keyword.operator.relational.ts",
+        "keyword.operator.relational.tsx",
+        "storage.type.function.arrow.ts",
+        "storage.type.function.arrow.tsx",
+        "keyword.operator.arithmetic.python",
+        "keyword.operator.assignment.python",
+        "keyword.operator.comparison.python",
+        "keyword.operator.logical.python",
+        "keyword.operator.bitwise.python",
+        "keyword.operator.format.specifier.python"
+      ],
+      "settings": {
+        "fontStyle": "",
+        "foreground": "#{{ theme.base4 }}"
+      }
+    },
+    {
+      "name": "Types: Classes & Interfaces",
+      "scope": [
+        "entity.name.type",
+        "entity.name.class",
+        "support.type",
+        "support.class",
+        "entity.name.namespace",
+        "entity.name.type.class.ts",
+        "entity.name.type.class.tsx",
+        "entity.name.type.interface.ts",
+        "entity.name.type.interface.tsx",
+        "entity.name.type.enum.ts",
+        "entity.name.type.enum.tsx",
+        "storage.type.sql",
+        "entity.name.type.class.java",
+        "entity.name.type.enum.java",
+        "entity.name.type.record.java",
+        "storage.type.java",
+        "storage.type.primitive.java",
+        "storage.type.primitive.array.java",
+        "storage.type.object.array.java",
+        "storage.type.generic.java",
+        "entity.name.type.class.js",
+        "entity.name.type.class.python"
+      ],
+      "settings": {
+        "foreground": "#{{ theme.cyan }}"
+      }
+    },
+    {
+      "name": "Types: Functions & Methods",
+      "scope": [
+        "entity.name.function",
+        "meta.function-call",
+        "variable.function",
+        "support.function",
+        "entity.name.type.class",
+        "support.class",
+        "entity.name.class",
+        "entity.name.type",
+        "support.function.aggregate.sql",
+        "support.function.analytic.sql",
+        "support.function.bitmanipulation.sql",
+        "support.function.conversion.sql",
+        "support.function.collation.sql",
+        "support.function.cryptographic.sql",
+        "support.function.cursor.sql",
+        "support.function.datetime.sql",
+        "support.function.datatype.sql",
+        "support.function.expression.sql",
+        "support.function.globalvar.sql",
+        "support.function.json.sql",
+        "support.function.logical.sql",
+        "support.function.mathematical.sql",
+        "support.function.metadata.sql",
+        "support.function.ranking.sql",
+        "support.function.rowset.sql",
+        "support.function.security.sql",
+        "support.function.string.sql",
+        "support.function.system.sql",
+        "support.function.textimage.sql",
+        "support.function.vector.sql",
+        "entity.name.function.java"
+      ],
+      "settings": {
+        "foreground": "#{{ theme.green }}"
+      }
+    },
+    {
+      "name": "Types: Members & Properties",
+      "scope": [
+        "variable.other.member",
+        "variable.other.property",
+        "variable.other.object.property",
+        "variable.other.readwrite.instance",
+        "variable.other.readwrite.property",
+        "support.type.property-name",
+        "entity.other.attribute-name",
+        "variable.other.object.property.java",
+        "variable.other.property.java",
+        "variable.other.object.java",
+        "variable.other.readwrite.instance.java"
+      ],
+      "settings": {
+        "foreground": "#{{ theme.cyan_alt }}"
+      }
+    },
+    {
+      "name": "Types: Constants",
+      "scope": [
+        "variable.other.constant",
+        "variable.other.static",
+        "variable.readonly",
+        "constant.other",
+        "variable.other.constant.js",
+        "variable.other.constant.ts",
+        "variable.other.constant.tsx"
+      ],
+      "settings": {
+        "fontStyle": "italic",
+        "foreground": "#{{ theme.lime_alt }}"
+      }
+    },
+    {
+      "name": "Lang: Java Specifics",
+      "scope": [
+        "variable.language.this.java",
+        "storage.modifier.import.java",
+        "storage.modifier.package.java",
+        "keyword.other.import.java",
+        "keyword.other.package.java",
+        "variable.other.static.java",
+        "variable.other.static.field.java"
+      ],
+      "settings": {
+        "foreground": "#{{ theme.cyan_alt }}"
+      }
+    },
+    {
+      "name": "Lang: Python Specifics",
+      "scope": [
+        "variable.language.special.self.python",
+        "variable.language.special.cls.python",
+        "variable.parameter.function.language.special.self.python",
+        "variable.parameter.function.language.special.cls.python"
+      ],
+      "settings": {
+        "foreground": "#{{ theme.cyan }}"
+      }
+    },
+    {
+      "name": "Lang: Python Magic & Types",
+      "scope": [
+        "support.function.magic.python",
+        "support.variable.magic.python"
+      ],
+      "settings": {
+        "fontStyle": "bold",
+        "foreground": "#{{ theme.pink }}"
+      }
+    },
+    {
+      "name": "Lang: Python Type Hints",
+      "scope": [
+        "meta.function.parameters.annotation.python",
+        "support.type.python"
+      ],
+      "settings": {
+        "foreground": "#{{ theme.purple }}"
+      }
+    },
+    {
+      "name": "Lang: Decorators & Annotations",
+      "scope": [
+        "meta.annotation",
+        "meta.decorator",
+        "entity.name.function.decorator",
+        "storage.type.annotation",
+        "meta.function.decorator.python",
+        "entity.name.function.decorator.python",
+        "punctuation.definition.decorator.python",
+        "meta.declaration.annotation.java",
+        "storage.type.annotation.java"
+      ],
+      "settings": {
+        "foreground": "#{{ theme.lime }}"
+      }
+    },
+    {
+      "name": "Web: Tags",
+      "scope": [
+        "entity.name.tag",
+        "meta.tag.sgml",
+        "entity.name.tag.js",
+        "entity.name.tag.tsx",
+        "entity.name.tag.html",
+        "punctuation.definition.tag.begin.tsx",
+        "punctuation.definition.tag.end.tsx"
+      ],
+      "settings": {
+        "foreground": "#{{ theme.pink }}"
+      }
+    },
+    {
+      "name": "Web: Attributes",
+      "scope": [
+        "entity.other.attribute-name.js",
+        "entity.other.attribute-name.tsx",
+        "entity.other.attribute-name.html",
+        "entity.other.attribute-name.directive.ts",
+        "entity.other.attribute-name.directive.tsx",
+        "entity.other.attribute-name.handlebars"
+      ],
+      "settings": {
+        "foreground": "#{{ theme.cyan_alt }}"
+      }
+    },
+    {
+      "name": "Web: CSS/SCSS",
+      "scope": [
+        "support.type.property-name.css",
+        "support.type.property-name.scss",
+        "support.type.property-name.less"
+      ],
+      "settings": {
+        "foreground": "#{{ theme.base4 }}"
+      }
+    },
+    {
+      "name": "Other: Regex",
+      "scope": [
+        "string.regexp",
+        "string.regexp keyword",
+        "string.regexp keyword.control",
+        "string.regexp keyword.operator"
+      ],
+      "settings": {
+        "foreground": "#{{ theme.blue }}"
+      }
+    },
+    {
+      "name": "Other: Markup",
+      "scope": [
+        "markup.bold",
+        "punctuation.definition.bold",
+        "markup.italic",
+        "punctuation.definition.italic",
+        "markup.heading",
+        "punctuation.definition.heading",
+        "entity.name.section",
+        "markup.quote",
+        "markup.inline.raw",
+        "markup.fenced_code.block",
+        "markup.underline.link",
+        "string.other.link"
+      ],
+      "settings": {
+        "foreground": "#{{ theme.green }}"
+      }
+    },
+    {
+      "name": "Other: Data Formats",
+      "scope": [
+        "entity.name.tag.yaml",
+        "meta.object-literal.key",
+        "punctuation.support.type.property-name"
+      ],
+      "settings": {
+        "foreground": "#{{ theme.accent }}"
+      }
+    },
+    {
+      "name": "Other: TODOs",
+      "scope": [
+        "comment.todo",
+        "comment.note",
+        "comment.warning",
+        "todo",
+        "storage.type.class.todo",
+        "punctuation.definition.comment.todo"
+      ],
+      "settings": {
+        "foreground": "#{{ theme.yellow }}",
+        "fontStyle": "bold"
+      }
+    }
+  ],
+  "semanticHighlighting": true,
+  "semanticTokenColors": {
+    "variable": "#{{ theme.base4 }}",
+    "variable.declaration": "#{{ theme.base4 }}",
+    "variable.parameter": "#{{ theme.base4 }}",
+    "variable.readonly": {
+      "foreground": "#{{ theme.lime_alt }}",
+      "fontStyle": "italic"
+    },
+    "variable.static": {
+      "foreground": "#{{ theme.cyan_alt }}",
+      "fontStyle": "italic"
+    },
+    "parameter": "#{{ theme.base4 }}",
+    "property": "#{{ theme.cyan_alt }}",
+    "type": "#{{ theme.cyan }}",
+    "class": "#{{ theme.cyan }}",
+    "namespace": "#{{ theme.cyan_alt }}",
+    "enum": "#{{ theme.cyan }}",
+    "enumMember": "#{{ theme.cyan_alt }}",
+    "interface": "#{{ theme.cyan }}",
+    "typeParameter": "#{{ theme.cyan }}",
+    "function": "#{{ theme.green }}",
+    "method": "#{{ theme.green }}",
+    "decorator": "#{{ theme.lime }}",
+    "annotation": "#{{ theme.lime }}",
+    "*.decorator": "#{{ theme.lime }}",
+
+    "variable.language.python": "#{{ theme.cyan }}",
+    "variable.parameter.python": "#{{ theme.cyan }}",
+    "type.python": "#{{ theme.cyan }}",
+    "property.static.python": {
+      "foreground": "#{{ theme.cyan_alt }}",
+      "fontStyle": "italic"
+    },
+    "variable.callable:decorator": "#{{ theme.lime }}",
+    "variable:decorator": "#{{ theme.lime }}",
+    "method:decorator": "#{{ theme.lime }}",
+    "function:decorator": "#{{ theme.lime }}",
+
+    "variable.readonly:typescript": "#{{ theme.base4 }}",
+    "variable.readonly:typescriptreact": "#{{ theme.base4 }}",
+    "variable.local:typescript": "#{{ theme.base4 }}",
+    "variable.local:typescriptreact": "#{{ theme.base4 }}",
+    "variable.declaration:typescript": "#{{ theme.base4 }}",
+    "variable.declaration:typescriptreact": "#{{ theme.base4 }}",
+    "variable.readonly.local.declaration": "#{{ theme.base4 }}"
+  }
+}
