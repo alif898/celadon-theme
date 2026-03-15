@@ -17,6 +17,11 @@ uv.lock
 jetbrains/src
 jetbrains/gradle.properties
 
+vscode/*
+!vscode/.vscode/
+*.vsix
+
+
 **/.mvn/
 mvnw
 mvnw.cmd
@@ -35,7 +40,4 @@ mvnw.cmd
 
 # Unnecessary
 /sample-projects
-/screenshots
-*.png
-
 AGENTS.md

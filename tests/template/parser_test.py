@@ -25,6 +25,7 @@ def test_theme_parser_load_config(tmp_path: Path) -> None:
         "id": "test.id",
         "name": "Test Theme",
         "version": "1.0.0",
+        "short_description": "Test Short Description",
         "plugin_name": "Test Plugin",
         "author": "Test Author",
         "description": "Test Description"

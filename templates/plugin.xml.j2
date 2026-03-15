@@ -12,7 +12,11 @@
     ]]></description>
 
     <change-notes><![CDATA[
+{% if full_changelog %}
+{{ full_changelog }}
+{% else %}
 {{ config.change_notes }}
+{% endif %}
     ]]></change-notes>
 
     <idea-plugin require-restart="false"/>

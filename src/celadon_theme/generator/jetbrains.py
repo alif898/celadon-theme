@@ -4,7 +4,7 @@ from pathlib import Path
 
 from jinja2 import Environment
 from celadon_theme.generator.base import AbstractThemeGenerator
-from celadon_theme.config.paths import JETBRAINS_DIR, TEMPLATES_DIR
+from celadon_theme.config.paths import JETBRAINS_DIR, TEMPLATES_DIR, CHANGELOG_FILE
 from celadon_theme.models.palette import PaletteModel
 from celadon_theme.models.config import ConfigModel
 
@@ -67,6 +67,13 @@ class JetbrainsGenerator(AbstractThemeGenerator):
             **self.palette.model_dump(),
             "config": self.config.model_dump()
         }
+
+        # Read full changelog if available
+        full_changelog = None
+        if CHANGELOG_FILE.exists():
+            full_changelog = CHANGELOG_FILE.read_text(encoding="utf-8")
+        
+        context["full_changelog"] = full_changelog
 
         # plugin.xml
         plugin_xml = self.meta_inf_path / "plugin.xml"

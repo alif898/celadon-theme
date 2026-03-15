@@ -1,0 +1,38 @@
+{
+  "name": "{{ config.plugin_name }}",
+  "displayName": "{{ config.name }}",
+  "description": "{{ config.short_description }}",
+  "version": "{{ config.version }}",
+  "publisher": "{{ config.vs_code_publisher }}",
+  "license": "SEE LICENSE IN LICENSE.md",
+  "icon": "icon.png",
+  "homepage": "{{ config.github_url }}",
+  "repository": {
+    "type": "git",
+    "url": "{{ config.direct_git_url }}"
+  },
+  "qna": "{{ config.issues_url }}",
+  "sponsor": {
+    "url": "{{ config.sponsor_url }}"
+  },
+  "pricing": "Free",
+  "galleryBanner": {
+    "color": "{{ theme.base1 }}",
+    "theme": "dark"
+  },
+  "engines": {
+    "vscode": "^1.60.0"
+  },
+  "categories": [
+    "Themes"
+  ],
+  "contributes": {
+    "themes": [
+      {
+        "label": "{{ config.name }}",
+        "uiTheme": "vs-dark",
+        "path": "./themes/celadon-theme-color-theme.json"
+      }
+    ]
+  }
+}
