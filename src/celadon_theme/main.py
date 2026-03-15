@@ -5,6 +5,7 @@ from logging.config import dictConfig
 from .config.logging_config import logging_config
 from .config.paths import PALETTE_FILE, CONFIG_FILE, TEMPLATES_DIR
 from .generator.jetbrains import JetbrainsGenerator
+from .generator.vscode import VsCodeGenerator
 from .template.parser import ThemeParser
 
 
@@ -20,7 +21,8 @@ def main() -> None:
     
     # Initialize theme generators
     generators = [
-        JetbrainsGenerator(palette, config, env)
+        JetbrainsGenerator(palette, config, env),
+        VsCodeGenerator(palette, config, env)
     ]
     logger.info(f"Initialized theme generators: {generators}")
     

@@ -1,0 +1,53 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Launch: Java Sample",
+            "type": "extensionHost",
+            "request": "launch",
+            "args": [
+                "--extensionDevelopmentPath=${workspaceFolder}",
+                "${workspaceFolder}/../sample-projects/java"
+            ]
+        },
+        {
+            "name": "Launch: Python Sample",
+            "type": "extensionHost",
+            "request": "launch",
+            "args": [
+                "--extensionDevelopmentPath=${workspaceFolder}",
+                "${workspaceFolder}/../sample-projects/python"
+            ]
+        },
+        {
+            "name": "Launch: TypeScript Sample",
+            "type": "extensionHost",
+            "request": "launch",
+            "args": [
+                "--extensionDevelopmentPath=${workspaceFolder}",
+                "${workspaceFolder}/../sample-projects/typescript"
+            ]
+        },
+        {
+            "name": "Launch: DB Sample",
+            "type": "extensionHost",
+            "request": "launch",
+            "args": [
+                "--extensionDevelopmentPath=${workspaceFolder}",
+                "${workspaceFolder}/../sample-projects/database"
+            ]
+        }
+    ],
+    "compounds": [
+        {
+            "name": "Launch All Samples",
+            "configurations": [
+                "Launch: Java Sample",
+                "Launch: Python Sample",
+                "Launch: TypeScript Sample",
+                "Launch: DB Sample"
+            ],
+            "stopAll": true
+        }
+    ]
+}
