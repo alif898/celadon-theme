@@ -22,7 +22,11 @@ and
 ## Project Details
 
 For change history, refer to [CHANGELOG.md](CHANGELOG.md).
-For sample screenshots, refer to [screenshots](screenshots).
+
+For sample screenshots of what the theme looks like, refer to [screenshots](screenshots).
+
+Manual installation can be done by downloading from [GitHub Releases](https://github.com/alif898/celadon-theme/releases),
+the `.zip` file is for JetBrains IDEs and the `.vsix` file is for VS Code.
 
 ### Project Structure
 
@@ -95,6 +99,3 @@ along with the release description.
 Subsequently, the workflow will pick up the new version and release description, and modify `config.json` accordingly.
 The workflow will then run the theme generator with this new version before publishing the new release to all platforms.
 The changelog will also be updated automatically.
-
-
-
