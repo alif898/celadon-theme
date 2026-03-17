@@ -12,7 +12,7 @@ def mock_env() -> Environment:
         "celadon.icls.j2": "ICLS: {{ theme.ansi.black }}",
         "celadon.theme.json.j2": "JSON: {{ config.name }}",
         "gradle.properties.j2": "GRADLE: {{ config.version }}",
-        "plugin.xml.j2": "PLUGIN: {{ config.author }}, CHANGELOG: {{ full_changelog }}",
+        "plugin.xml.j2": "PLUGIN: {{ config.author }}, CHANGES: {{ config.change_notes }}",
         "pluginIcon.svg": "<svg>Icon</svg>"
     }))
 
@@ -39,14 +39,8 @@ def test_jetbrains_generator_metadata(mock_palette: PaletteModel, mock_config: C
     temp_templates_dir.mkdir()
     (temp_templates_dir / "pluginIcon.svg").write_text("<svg>Icon</svg>")
     
-    # Create mock CHANGELOG.md
-    temp_root = temp_dist_path.parent
-    changelog_file = temp_root / "CHANGELOG.md"
-    changelog_file.write_text("Full Changelog Content")
-    
     import celadon_theme.generator.jetbrains as jetbrains_mod
     monkeypatch.setattr(jetbrains_mod, "TEMPLATES_DIR", temp_templates_dir)
-    monkeypatch.setattr(jetbrains_mod, "CHANGELOG_FILE", changelog_file)
     
     generator = JetbrainsGenerator(mock_palette, mock_config, mock_env, dist_path=temp_dist_path)
     generator.generate_theme_metadata()
@@ -55,21 +49,6 @@ def test_jetbrains_generator_metadata(mock_palette: PaletteModel, mock_config: C
     assert (meta_inf_path / "plugin.xml").exists()
     assert (meta_inf_path / "pluginIcon.svg").exists()
     
-    assert (meta_inf_path / "plugin.xml").read_text() == "PLUGIN: Test Author, CHANGELOG: Full Changelog Content"
+    assert (meta_inf_path / "plugin.xml").read_text() == "PLUGIN: Test Author, CHANGES: Fixes bug"
     assert (meta_inf_path / "pluginIcon.svg").read_text() == "<svg>Icon</svg>"
 
-def test_jetbrains_generator_metadata_no_changelog(mock_palette: PaletteModel, mock_config: ConfigModel, mock_env: Environment, temp_dist_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
-    temp_templates_dir = temp_dist_path.parent / "templates"
-    temp_templates_dir.mkdir()
-    (temp_templates_dir / "pluginIcon.svg").write_text("<svg>Icon</svg>")
-    
-    import celadon_theme.generator.jetbrains as jetbrains_mod
-    monkeypatch.setattr(jetbrains_mod, "TEMPLATES_DIR", temp_templates_dir)
-    # Ensure CHANGELOG_FILE does not exist
-    monkeypatch.setattr(jetbrains_mod, "CHANGELOG_FILE", temp_dist_path.parent / "NON_EXISTENT.md")
-    
-    generator = JetbrainsGenerator(mock_palette, mock_config, mock_env, dist_path=temp_dist_path)
-    generator.generate_theme_metadata()
-    
-    meta_inf_path = temp_dist_path / "src/main/resources/META-INF"
-    assert (meta_inf_path / "plugin.xml").read_text() == "PLUGIN: Test Author, CHANGELOG: None"
