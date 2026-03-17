@@ -46,6 +46,9 @@ uv run celadon-theme
 
 ### Testing
 
+To verify the theme generator code, 
+unit tests are written with `pytest` and static type checking is performed with `mypy`.
+
 To run unit tests:
 ```bash
 uv run pytest tests
@@ -56,8 +59,42 @@ To run `mypy` static type checks:
 uv run mypy src tests
 ```
 
+To verify the validity of the generated theme files for each platform,
+there are different commands available for each IDE as part of their respective extension tooling/APIs:
+ - JetBrains IDEs: `verifyPlugin`
+ - VS Code: `vsce ls` or `vsce package`
+
+To verify the aesthetics and looks of the theme,
+a development version of the IDE is launched
+and the theme is inspected against a few sample projects covering various file types and languages.
+
+Currently, the sample projects cover the following: 
+ - `Java` + `Maven` + `Spring Boot`
+ - `Python` + `FastAPI`
+ - `TypeScript` + `React` + `Next.js`
+ - `.sql`
+
+Note that these projects are not included in the repository.
+
+For JetBrains IDEs, the various individual IDEs for each language are tested.
+The configuration and mapping are found in `\jetbrains\build.gradle.kts`.
+
+For VS Code, the various sample projects can be launched from `\vscode\.vscode\launch.json`.
+
 ### CI/CD
 
-CI/CD is performed with GitHub Actions.
-On top of unit tests, code coverage is also checked with `codecov` and code quality is checked with `Qodana`.
+CI/CD is automated using GitHub Actions to ensure code quality and automated deployment to all platforms.
+
+There are three levels of pipelines:
+ - `branch-ci` - Runs on every push to a branch, includes unit tests, static type checks, plugin verifications for target IDEs
+ - `quality-check-ci` - Runs on every pull request, includes all branch level checks, but with `codecov` coverage reporting and `Qodana` for code quality checks 
+ - `release` - Runs on release, includes all quality checks and deployment to all platforms
+
+The release workflow is triggered manually by creating a new release on GitHub, with a corresponding tag following `SemVer` conventions,
+along with the release description.
+Subsequently, the workflow will pick up the new version and release description, and modify `config.json` accordingly.
+The workflow will then run the theme generator with this new version before publishing the new release to all platforms.
+The changelog will also be updated automatically.
+
+
 

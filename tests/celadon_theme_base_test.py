@@ -28,7 +28,8 @@ def mock_config() -> ConfigModel:
         short_description="Test Short Description",
         plugin_name="Test Plugin",
         author="Test Author",
-        description="Test Description"
+        description="Test Description",
+        change_notes="Fixes bug"
     )
 
 def test_abstract_generator(mock_palette: PaletteModel, mock_config: ConfigModel) -> None:
