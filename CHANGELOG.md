@@ -1,5 +1,9 @@
 # Changelog
 
+## [v0.0.11] - 2026-03-17
+ - Fixed changelog
+
+
 ## [v0.0.10] - 2026-03-17
  - VS Code release
 
