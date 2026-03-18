@@ -25,7 +25,7 @@ dependencies = [
 dev = [
     "pytest>=8.3.4",
     "pytest-cov>=7.0.0",
-    "mypy>=1.15.0",
+    "ty>=0.0.23",
     "types-PyYAML>=6.0.12",
 ]
 
@@ -50,10 +50,8 @@ show_missing = true
 addopts = "--cov=src/celadon_theme --cov-report=term-missing"
 testpaths = ["tests"]
 
-[tool.mypy]
-python_version = "3.12"
-strict = true
-ignore_missing_imports = true
+[tool.ty.rules]
+unresolved-import = "ignore"
 
 [project.urls]
 Homepage = "https://github.com/alif898/celadon-theme"
