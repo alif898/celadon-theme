@@ -37,6 +37,7 @@ The palette, along with Jinja2 templates, are used to generate the theme files f
 ### Instructions
 
 Firstly, ensure that Python `3.12` and `uv` are installed.
+`uv` is used over other alternatives like `pip` or `poetry` for its performance.
 
 To install the project:
 ```bash
@@ -51,16 +52,18 @@ uv run celadon-theme
 ### Testing
 
 To verify the theme generator code, 
-unit tests are written with `pytest` and static type checking is performed with `mypy`.
+unit tests are written with `pytest`
+and static type checking is performed with `ty`.
+`ty` was chosen over `mypy` for its speed and for its ease of use with `uv`.
 
 To run unit tests:
 ```bash
 uv run pytest tests
 ```
 
-To run `mypy` static type checks:
+To run `ty` static type checks:
 ```bash
-uv run mypy src tests
+uv run ty check src tests
 ```
 
 To verify the validity of the generated theme files for each platform,
