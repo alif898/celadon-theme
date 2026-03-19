@@ -30,6 +30,27 @@ the `.zip` file is for JetBrains IDEs and the `.vsix` file is for VS Code.
 
 ### Project Structure
 
+**Stack**
+
+![Python Badge](https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=fff&style=flat)
+![uv Badge](https://img.shields.io/badge/uv-DE5FE9?logo=uv&logoColor=fff&style=flat)
+![Jinja Badge](https://img.shields.io/badge/Jinja-7E0C1B?logo=jinja&logoColor=fff&style=flat)
+![Pydantic Badge](https://img.shields.io/badge/Pydantic-E92063?logo=pydantic&logoColor=fff&style=flat)
+
+**Testing**
+
+![Pytest Badge](https://img.shields.io/badge/Pytest-0A9EDC?logo=pytest&logoColor=fff&style=flat)
+![Ty Badge](https://img.shields.io/badge/ty-30173d?style=flat)
+![Ruff Badge](https://img.shields.io/badge/Ruff-D7FF64?logo=ruff&logoColor=000&style=flat)
+
+**CI/CD**
+
+![pre-commit Badge](https://img.shields.io/badge/pre--commit-FAB040?logo=precommit&logoColor=fff&style=flat)
+![GitHub Actions Badge](https://img.shields.io/badge/GitHub%20Actions-2088FF?logo=githubactions&logoColor=fff&style=flat)
+![Codecov Badge](https://img.shields.io/badge/Codecov-F01F7A?logo=codecov&logoColor=fff&style=flat)
+![Qodana Badge](https://img.shields.io/badge/Qodana-f95352?style=flat)
+
+
 This project uses a single source of truth for the color palette, defined in `palette.yml`.
 The Python code reads the palette and injects its values into Jinja2 templates found in `/templates` to produce the necessary theme and metadata files for each target IDE.
 
