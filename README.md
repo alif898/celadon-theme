@@ -31,17 +31,19 @@ the `.zip` file is for JetBrains IDEs and the `.vsix` file is for VS Code.
 ### Project Structure
 
 This project uses a single source of truth for the color palette, defined in `palette.yml`.
-The palette, along with Jinja2 templates, are used to generate the theme files for the respective target IDEs.
-
+The Python code reads the palette and injects its values into Jinja2 templates found in `/templates` to produce the necessary theme and metadata files for each target IDE.
 
 ### Instructions
 
-Firstly, ensure that Python `3.12` and `uv` are installed.
-`uv` is used over other alternatives like `pip` or `poetry` for its performance.
+First, ensure that Python `3.12` and `uv` are installed.
+`uv` is used for fast, reproducible dependency management.
 
-To install the project:
+To install/sync the project:
 ```bash
-uv pip install -e .
+uv sync
+
+# To also install pre-commit hooks
+uv run pre-commit install
 ```
 
 To run the theme generator:
@@ -51,29 +53,63 @@ uv run celadon-theme
 
 ### Testing
 
+#### Code Quality
 To verify the theme generator code, 
-unit tests are written with `pytest`
-and static type checking is performed with `ty`.
+unit tests are run with `pytest`,
+static type checking is performed with `ty`
+and linting/formatting is done with `ruff`.
 `ty` was chosen over `mypy` for its speed and for its ease of use with `uv`.
+
+All of these steps are run within the pre-commit hook, as well as on the CI/CD pipeline.
+To run the pre-commit hook manually:
+```bash
+uv run pre-commit run --all-files
+```
+It is also possible to run the individual steps separately, as shown below.
+
+To run linter:
+```bash
+uv run ruff check
+
+# To summarize results
+uv run ruff check --statistics
+
+# To apply fixes
+uv run ruff check --fix   
+```
+
+To run formatter:
+```bash
+uv run ruff format
+
+# To preview changes
+uv run ruff format --diff
+```
+
+To run static type checks:
+```bash
+uv run ty check
+```
 
 To run unit tests:
 ```bash
-uv run pytest tests
+uv run pytest
 ```
 
-To run `ty` static type checks:
-```bash
-uv run ty check src tests
-```
+#### Plugin Verification
 
 To verify the validity of the generated theme files for each platform,
 there are different commands available for each IDE as part of their respective extension tooling/APIs:
- - JetBrains IDEs: `verifyPlugin`
+ - JetBrains IDEs: `./gradlew verifyPlugin`
  - VS Code: `vsce ls` or `vsce package`
+
+These commands can be run within the respective subfolder of each IDE and are also included in the CI/CD workflows.
+
+#### Visual Inspection
 
 To verify the aesthetics and looks of the theme,
 a development version of the IDE is launched
-and the theme is inspected against a few sample projects covering various file types and languages.
+and the theme is inspected against several sample projects covering various file types and languages.
 
 Currently, the sample projects cover the following: 
  - `Java` + `Maven` + `Spring Boot`
@@ -81,19 +117,20 @@ Currently, the sample projects cover the following:
  - `TypeScript` + `React` + `Next.js`
  - `.sql`
 
-Note that these projects are not included in the repository.
+These projects are not included in this repository as they are placeholder codebases that serve no purpose beyond providing syntax highlighting coverage.
 
 For JetBrains IDEs, the various individual IDEs for each language are tested.
-The configuration and mapping are found in `\jetbrains\build.gradle.kts`.
+The configuration and mapping are found in `/jetbrains/build.gradle.kts`.
 
-For VS Code, the various sample projects can be launched from `\vscode\.vscode\launch.json`.
+For VS Code, the various sample projects can be launched from `/vscode/.vscode/launch.json`.
 
 ### CI/CD
 
 CI/CD is automated using GitHub Actions to ensure code quality and automated deployment to all platforms.
+This is supported with a pre-commit hook, that will run linting/formatting checks, static type checks, and unit tests.
 
-There are three levels of pipelines:
- - `branch-ci` - Runs on every push to a branch, includes unit tests, static type checks, plugin verifications for target IDEs
+There are three levels of workflow:
+ - `branch-ci` - Runs on every push to a branch, includes the same basic checks as the pre-commit hook but with additional plugin verifications for target IDEs
  - `quality-check-ci` - Runs on every pull request, includes all branch level checks, but with `codecov` coverage reporting and `Qodana` for code quality checks 
  - `release` - Runs on release, includes all quality checks and deployment to all platforms
 

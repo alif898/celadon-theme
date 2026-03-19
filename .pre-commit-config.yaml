@@ -1,0 +1,37 @@
+repos:
+  - repo: local
+    hooks:
+      - id: ruff-check
+        name: Run linter
+        entry: uv run ruff check --fix
+        language: system
+        types: [python]
+        require_serial: true
+
+      - id: ruff-format
+        name: Run formatter
+        entry: uv run ruff format
+        language: system
+        types: [python]
+        require_serial: true
+
+      - id: ty-check
+        name: Run static type checking
+        entry: uv run ty check
+        language: system
+        pass_filenames: false
+        types: [python]
+
+      - id: pytest
+        name: Run Python tests
+        entry: uv run pytest
+        language: system
+        pass_filenames: false
+        always_run: true
+
+      - id: generate-theme
+        name: Generate theme files
+        entry: uv run celadon-theme
+        language: system
+        pass_filenames: false
+        always_run: true

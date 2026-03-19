@@ -2,6 +2,8 @@
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
+# Project details
+
 [project]
 name = "celadon-theme"
 dynamic = ["version"]
@@ -23,11 +25,22 @@ dependencies = [
 
 [dependency-groups]
 dev = [
+    "pre-commit>=4.5.1",
     "pytest>=8.3.4",
     "pytest-cov>=7.0.0",
+    "ruff>=0.15.6",
     "ty>=0.0.23",
     "types-PyYAML>=6.0.12",
 ]
+
+[project.urls]
+Homepage = "https://github.com/alif898/celadon-theme"
+Issues = "https://github.com/alif898/celadon-theme/issues"
+
+[project.scripts]
+celadon-theme = "celadon_theme.main:main"
+
+# Tooling
 
 [tool.hatch.version]
 path = "config.json"
@@ -50,12 +63,22 @@ show_missing = true
 addopts = "--cov=src/celadon_theme --cov-report=term-missing"
 testpaths = ["tests"]
 
+[tool.ty.src]
+include = ["src", "tests"]
+
 [tool.ty.rules]
 unresolved-import = "ignore"
 
-[project.urls]
-Homepage = "https://github.com/alif898/celadon-theme"
-Issues = "https://github.com/alif898/celadon-theme/issues"
+[tool.ruff]
+src = ["src", "tests"]
+include = ["src/**/*.py", "tests/**/*.py"]
 
-[project.scripts]
-celadon-theme = "celadon_theme.main:main"
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = [
+    "D",
+    "COM812",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = ["S101"]

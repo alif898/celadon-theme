@@ -8,8 +8,6 @@
 **/dist/
 **/.venv/
 **/*.egg-info/
-.python-version
-uv.lock
 
 **/.gradle/
 **/.intellijPlatform/

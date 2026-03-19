@@ -1,10 +1,14 @@
+from typing import Any
+
 from pydantic import Field
 from pydantic_settings import BaseSettings
-from typing import Any
+
+LOGGER_FORMAT = (
+    "[%(asctime)s][%(levelname)s][%(name)s][%(funcName)s:%(lineno)d]: %(message)s"
+)
 
 
 class LoggingConfig(BaseSettings):
-
     version: int = 1
     disable_existing_loggers: bool = False
     formatters: dict[str, Any] = Field(default_factory=dict)
@@ -15,8 +19,8 @@ class LoggingConfig(BaseSettings):
 logging_config = LoggingConfig(
     formatters={
         "standard": {
-            "format": "[%(asctime)s][%(levelname)s][%(name)s][%(funcName)s:%(lineno)d]: %(message)s",
-            "datefmt": "%Y-%m-%d %H:%M:%S"
+            "format": LOGGER_FORMAT,
+            "datefmt": "%Y-%m-%d %H:%M:%S",
         },
     },
     handlers={
@@ -32,5 +36,5 @@ logging_config = LoggingConfig(
             "level": "INFO",
             "propagate": True,
         },
-    }
+    },
 )

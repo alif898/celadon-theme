@@ -57,11 +57,17 @@ jobs:
       - name: Generate theme files
         run: uv run celadon-theme
 
-      - name: Run Python tests
-        run: uv run pytest tests
+      - name: Run linter
+        run: uv run ruff check
+
+      - name: Run formatter
+        run: uv run ruff format --check
 
       - name: Run static type checking
-        run: uv run ty check src tests
+        run: uv run ty check
+
+      - name: Run Python tests
+        run: uv run pytest
 
       - name: Setup Java
         uses: actions/setup-java@v5

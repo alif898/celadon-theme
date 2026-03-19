@@ -1,10 +1,12 @@
-from pydantic import BaseModel, ConfigDict
 from typing import Any
+
+from pydantic import BaseModel, ConfigDict
 
 
 class PaletteModel(BaseModel):
     """
-    Flexible model to hold palette colors
+    Flexible model of palette.yml to hold palette colors
     """
+
     model_config = ConfigDict(extra="allow")
     theme: dict[str, Any]

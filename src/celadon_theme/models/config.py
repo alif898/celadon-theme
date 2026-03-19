@@ -5,6 +5,7 @@ class ConfigModel(BaseModel):
     """
     Model for config.json
     """
+
     id: str
     name: str
     version: str
