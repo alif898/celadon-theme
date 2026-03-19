@@ -1,8 +1,9 @@
 import logging
 from pathlib import Path
 
-
 logger = logging.getLogger(__name__)
+
+ROOT_FIXED_DEPTH = 3
 
 
 def get_project_root() -> Path:
@@ -12,18 +13,23 @@ def get_project_root() -> Path:
     logger.info("Finding project root")
 
     current = Path(__file__).resolve().parent
-    logger.info(f"Current directory: {current}")
-    for parent in [current] + list(current.parents):
-        logger.info(f"Checking parent: {parent}")
+    logger.info("Current directory: %s", current)
+    for parent in [current, *list(current.parents)]:
+        logger.info("Checking parent: %s", parent)
         if (parent / "pyproject.toml").exists():
-            logger.info(f"Project root found: {parent}")
+            logger.info("Project root found: %s", parent)
             return parent
-    
+        logger.warning(
+            "File: pyproject.toml not found, skipping root check step for %s",
+            parent,
+        )
+
     # Fallback to a fixed depth if not found (src/celadon_theme/core/paths.py)
-    logger.warning("Project root not found, using fixed depth")
-    return Path(__file__).resolve().parents[3]
+    logger.warning("Project root not found, using fixed depth: %s", ROOT_FIXED_DEPTH)
+    return Path(__file__).resolve().parents[ROOT_FIXED_DEPTH]
 
 
+# Set up commonly used paths
 ROOT_DIR = get_project_root()
 TEMPLATES_DIR = ROOT_DIR / "templates"
 JETBRAINS_DIR = ROOT_DIR / "jetbrains"
