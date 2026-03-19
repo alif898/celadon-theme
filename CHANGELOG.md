@@ -1,5 +1,10 @@
 # Changelog
 
+## [v0.0.12] - 2026-03-19
+ - Modified image links to use jsDelivr
+ - Added ty, ruff, pre-commit hook for more robust checks
+
+
 ## [v0.0.11] - 2026-03-17
  - Fixed changelog
 
