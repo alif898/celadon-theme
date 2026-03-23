@@ -1,5 +1,9 @@
 # Changelog
 
+## [v0.0.13] - 2026-03-23
+ - Fixed template autoescaping causing description to not render HTML
+
+
 ## [v0.0.12] - 2026-03-19
  - Modified image links to use jsDelivr
  - Added ty, ruff, pre-commit hook for more robust checks
