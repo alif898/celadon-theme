@@ -12,15 +12,15 @@ def test_theme_parser_load_palette(tmp_path: Path) -> None:
     palette_file = tmp_path / "palette.yml"
     palette_content = {
         "theme": {
-            "colors": {"base": "#FFFFFF"},
-            "ansi": {"black": "{{ theme.colors.base }}"},
+            "base": "FFFFFF",
+            "black": "{{ theme.base }}",
         },
     }
     palette_file.write_text(yaml.dump(palette_content))
 
     palette = ThemeParser.load_palette(palette_file)
     assert isinstance(palette, PaletteModel)
-    assert palette.theme["ansi"]["black"] == "#FFFFFF"
+    assert palette.theme["black"] == "FFFFFF"
 
 
 def test_theme_parser_load_config(tmp_path: Path) -> None:

@@ -8,14 +8,10 @@ from celadon_theme.models.palette import PaletteModel
 def mock_palette() -> PaletteModel:
     return PaletteModel(
         theme={
-            "colors": {
-                "base": "#FFFFFF",
-                "text": "#000000",
-            },
-            "ansi": {
-                "black": "#000000",
-                "red": "#FF0000",
-            },
+            "base": "FFFFFF",
+            "text": "000000",
+            "black": "000000",
+            "red": "FF0000",
         },
     )
 

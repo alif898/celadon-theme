@@ -8,7 +8,7 @@ ROOT_FIXED_DEPTH = 3
 
 def get_project_root() -> Path:
     """
-    Finds the project root by looking for pyproject.toml
+    Finds the project root by looking for pyproject.toml.
     """
     logger.info("Finding project root")
 

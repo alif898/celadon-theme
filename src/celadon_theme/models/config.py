@@ -3,7 +3,7 @@ from pydantic import BaseModel
 
 class ConfigModel(BaseModel):
     """
-    Model for config.json
+    Model for config.json.
     """
 
     id: str

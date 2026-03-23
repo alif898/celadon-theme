@@ -2,7 +2,7 @@ from pathlib import Path
 from unittest.mock import patch
 
 import pytest
-from jinja2 import DictLoader, Environment
+from jinja2 import DictLoader, Environment, select_autoescape
 
 import celadon_theme.generator.vscode as vscode_mod
 from celadon_theme.generator.vscode import VsCodeGenerator
@@ -19,7 +19,7 @@ def mock_env() -> Environment:
                 "vscode-package.json.j2": "PACKAGE: {{ config.version }}",
             }
         ),
-        autoescape=True,
+        autoescape=select_autoescape(enabled_extensions=("html",)),
     )
 
 

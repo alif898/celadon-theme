@@ -21,7 +21,7 @@ def test_get_project_root() -> None:
 def test_get_project_root_fallback() -> None:
     # Test fallback by mocking Path.exists to always return False
     with patch.object(Path, "exists", return_value=False):
-        # We need to use a different approach because get_project_root
+        # Need to use a different approach because get_project_root
         # is called during module import
         # But we can call the function directly
         root = get_project_root()

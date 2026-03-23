@@ -28,10 +28,3 @@ repos:
         language: system
         pass_filenames: false
         always_run: true
-
-      - id: generate-theme
-        name: Generate theme files
-        entry: uv run celadon-theme
-        language: system
-        pass_filenames: false
-        always_run: true

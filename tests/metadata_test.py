@@ -5,7 +5,7 @@ from pathlib import Path
 
 def test_version_sync() -> None:
     """
-    Ensure the installed package version matches config.json
+    Ensure the installed package version matches config.json.
     """
     with Path("config.json").open() as f:
         config = json.load(f)

@@ -21,7 +21,7 @@ logger = logging.getLogger(__name__)
 
 class VsCodeGenerator(AbstractThemeGenerator):
     """
-    Generator for VSCode
+    Generator for VSCode.
     """
 
     def __init__(
@@ -37,7 +37,7 @@ class VsCodeGenerator(AbstractThemeGenerator):
 
     def generate_theme_files(self) -> None:
         """
-        Generate core theme files (JSON)
+        Generate core theme files (JSON).
         """
         logger.info("Generating VSCode theme files")
         self.themes_path.mkdir(parents=True, exist_ok=True)
@@ -61,7 +61,7 @@ class VsCodeGenerator(AbstractThemeGenerator):
 
     def generate_theme_metadata(self) -> None:
         """
-        Generate metadata (package.json) and copy README/CHANGELOG/LICENSE/Icon
+        Generate metadata (package.json) and copy README/CHANGELOG/LICENSE/Icon.
         """
         logger.info("Generating VSCode theme metadata")
         self.dist_path.mkdir(parents=True, exist_ok=True)
@@ -81,7 +81,7 @@ class VsCodeGenerator(AbstractThemeGenerator):
 
     def _generate_package_json(self, context: dict) -> None:
         """
-        Generate package.json for VSCode
+        Generate package.json for VSCode.
         """
         template = self.env.get_template("vscode-package.json.j2")
         content = template.render(**context)
@@ -93,7 +93,7 @@ class VsCodeGenerator(AbstractThemeGenerator):
 
     def _generate_readme(self) -> None:
         """
-        Generate README from config description
+        Generate README from config description.
         """
         readme_path = self.dist_path / "README.md"
         readme_content = self.config.description
@@ -109,7 +109,7 @@ class VsCodeGenerator(AbstractThemeGenerator):
 
     def _copy_metadata_files(self) -> None:
         """
-        Copy CHANGELOG and LICENSE if they exist
+        Copy CHANGELOG and LICENSE if they exist.
         """
         files_to_copy = [CHANGELOG_FILE, LICENSE_FILE]
         for src_file in files_to_copy:
@@ -127,7 +127,7 @@ class VsCodeGenerator(AbstractThemeGenerator):
 
     def _generate_icon(self) -> None:
         """
-        Convert SVG icon to PNG for VSCode
+        Convert SVG icon to PNG for VSCode.
         """
         if PLUGIN_ICON_SVG.exists():
             logger.info("Converting %s to PNG", PLUGIN_ICON_SVG.name)
