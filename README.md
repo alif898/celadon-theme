@@ -84,7 +84,7 @@ and linting/formatting is done with `ruff`.
 All of these steps are run within the pre-commit hook, as well as on the CI/CD pipeline.
 To run the pre-commit hook manually:
 ```bash
-uv run pre-commit run --all-files
+uv run pre-commit run --all-files --verbose
 ```
 It is also possible to run the individual steps separately, as shown below.
 

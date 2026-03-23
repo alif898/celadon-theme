@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 
 class ThemeParser:
     """
-    Parser for palette.yml and config.json
+    Parser for palette.yml and config.json.
     """
 
     @staticmethod

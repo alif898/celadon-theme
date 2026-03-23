@@ -1,7 +1,7 @@
 from pathlib import Path
 
 import pytest
-from jinja2 import DictLoader, Environment
+from jinja2 import DictLoader, Environment, select_autoescape
 
 import celadon_theme.generator.jetbrains as jetbrains_mod
 from celadon_theme.generator.jetbrains import JetBrainsGenerator
@@ -14,7 +14,7 @@ def mock_env() -> Environment:
     return Environment(
         loader=DictLoader(
             {
-                "celadon.icls.j2": "ICLS: {{ theme.ansi.black }}",
+                "celadon.icls.j2": "ICLS: #{{ theme.black }}",
                 "celadon.theme.json.j2": "JSON: {{ config.name }}",
                 "gradle.properties.j2": "GRADLE: {{ config.version }}",
                 "plugin.xml.j2": (
@@ -23,7 +23,7 @@ def mock_env() -> Environment:
                 "pluginIcon.svg": "<svg>Icon</svg>",
             }
         ),
-        autoescape=True,
+        autoescape=select_autoescape(enabled_extensions=("html",)),
     )
 
 

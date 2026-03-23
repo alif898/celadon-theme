@@ -1,7 +1,7 @@
 import logging
 from logging.config import dictConfig
 
-from jinja2 import Environment, FileSystemLoader
+from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 from .config.logging_config import logging_config
 from .config.paths import CONFIG_FILE, PALETTE_FILE, TEMPLATES_DIR
@@ -12,7 +12,7 @@ from .template.parser import ThemeParser
 
 def main() -> None:
     """
-    Main function used to generate theme files
+    Main function used to generate theme files.
     """
     dictConfig(logging_config.model_dump())
     logger = logging.getLogger(__name__)
@@ -22,7 +22,10 @@ def main() -> None:
     logger.info("Loading palette and config data")
     palette = ThemeParser.load_palette(PALETTE_FILE)
     config = ThemeParser.load_config(CONFIG_FILE)
-    env = Environment(loader=FileSystemLoader(str(TEMPLATES_DIR)), autoescape=True)
+    env = Environment(
+        loader=FileSystemLoader(str(TEMPLATES_DIR)),
+        autoescape=select_autoescape(enabled_extensions=("html",)),
+    )
     logger.info("Successfully loaded palette and config data")
 
     # Initialize theme generators, for any new target theme type, add class here

@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 
 class AbstractThemeGenerator(ABC):
     """
-    Abstract class to represent the generator code for a specific target IDE
+    Abstract class to represent the generator code for a specific target IDE.
     """
 
     palette: PaletteModel
@@ -30,13 +30,13 @@ class AbstractThemeGenerator(ABC):
     @abstractmethod
     def generate_theme_files(self) -> None:
         """
-        Method to generate core theme files
+        Method to generate core theme files.
         """
 
     @abstractmethod
     def generate_theme_metadata(self) -> None:
         """
-        Method to populate theme metadata, such as plugin details, icons, etc
+        Method to populate theme metadata, such as plugin details, icons, etc.
         """
 
     @override

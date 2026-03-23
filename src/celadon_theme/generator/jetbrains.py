@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 
 class JetBrainsGenerator(AbstractThemeGenerator):
     """
-    Generator for JetBrains IDEs
+    Generator for JetBrains IDEs.
     """
 
     def __init__(
@@ -32,7 +32,7 @@ class JetBrainsGenerator(AbstractThemeGenerator):
 
     def generate_theme_files(self) -> None:
         """
-        Generate core theme files (XML and JSON)
+        Generate core theme files (XML and JSON).
         """
         logger.info("Generating JetBrains theme files")
         self.themes_path.mkdir(parents=True, exist_ok=True)
@@ -68,7 +68,7 @@ class JetBrainsGenerator(AbstractThemeGenerator):
 
     def generate_theme_metadata(self) -> None:
         """
-        Generate metadata (plugin.xml) and copy icons
+        Generate metadata (plugin.xml) and copy icons.
         """
         logger.info("Generating JetBrains theme metadata")
         self.meta_inf_path.mkdir(parents=True, exist_ok=True)
