@@ -137,13 +137,15 @@ To verify the aesthetics and looks of the theme,
 a development version of the IDE is launched
 and the theme is inspected against several sample projects covering various file types and languages.
 
-Currently, the sample projects cover the following: 
+The file extensions covered by the sample projects can be seen from [STATS.md](STATS.md).
+Currently, the sample projects cover the following programming languages and frameworks: 
  - `Java` + `Maven` + `Spring Boot`
  - `Python` + `FastAPI`
  - `TypeScript` + `React` + `Next.js`
  - `.sql`
 
 These projects are not included in this repository as they are placeholder codebases that serve no purpose beyond providing syntax highlighting coverage.
+As such, `STATS.md` can only be generated locally, which is done via the generator script itself.
 
 For JetBrains IDEs, the various individual IDEs for each language are tested.
 The configuration and mapping are found in `/jetbrains/build.gradle.kts`.
