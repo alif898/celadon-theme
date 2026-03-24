@@ -1,5 +1,9 @@
 # Changelog
 
+## [v0.0.14] - 2026-03-24
+ - Added support for Open VSX Registry
+
+
 ## [v0.0.13] - 2026-03-23
  - Fixed template autoescaping causing description to not render HTML
 
