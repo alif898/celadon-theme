@@ -94,6 +94,9 @@ jobs:
       - name: Install vsce
         run: npm install -g @vscode/vsce
 
+      - name: Install Open VSX tools
+        run: npm install -g ovsx
+
       - name: Build VS Code extension
         working-directory: vscode
         run: vsce package --no-git-tag-version
@@ -137,4 +140,4 @@ jobs:
 
       - name: Publish to Open VSX Registry
         working-directory: vscode
-        run: npx ovsx publish -p ${{ secrets.OPEN_VSX_TOKEN }} --no-git-tag-version
+        run: ovsx publish -p ${{ secrets.OPEN_VSX_TOKEN }}
