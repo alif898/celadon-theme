@@ -1,5 +1,9 @@
 # Changelog
 
+## [v0.0.15] - 2026-03-24
+ - Fixing CI/CD for Open VSX Registry publish
+
+
 ## [v0.0.14] - 2026-03-24
  - Added support for Open VSX Registry
 
