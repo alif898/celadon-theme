@@ -3,8 +3,10 @@ from logging.config import dictConfig
 
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
+from celadon_theme.reporting.sample_projects import update_stats_report
+
 from .config.logging_config import logging_config
-from .config.paths import CONFIG_FILE, PALETTE_FILE, TEMPLATES_DIR
+from .config.paths import CONFIG_FILE, PALETTE_FILE, SAMPLE_PROJECTS_DIR, TEMPLATES_DIR
 from .generator.jetbrains import JetBrainsGenerator
 from .generator.vscode import VsCodeGenerator
 from .template.parser import ThemeParser
@@ -44,6 +46,11 @@ def main() -> None:
     logger.info(
         "Theme generation completed successfully for version: %s", config.version
     )
+
+    # For local runs, generate report of sample-project coverage
+    if SAMPLE_PROJECTS_DIR.exists():
+        logger.info("sample-projects is present, will generate coverage report")
+        update_stats_report(SAMPLE_PROJECTS_DIR)
 
 
 if __name__ == "__main__":
