@@ -134,3 +134,7 @@ jobs:
       - name: Publish to VS Code Marketplace
         working-directory: vscode
         run: vsce publish -p ${{ secrets.VSCE_TOKEN }} --no-git-tag-version
+
+      - name: Publish to Open VSX Registry
+        working-directory: vscode
+        run: npx ovsx publish -p ${{ secrets.OPEN_VSX_TOKEN }} --no-git-tag-version
