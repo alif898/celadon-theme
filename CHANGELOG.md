@@ -1,5 +1,9 @@
 # Changelog
 
+## [v0.0.16] - 2026-03-24
+ - Added keywords to VS Code extension listing
+
+
 ## [v0.0.15] - 2026-03-24
  - Fixing CI/CD for Open VSX Registry publish
 
