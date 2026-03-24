@@ -1,8 +1,10 @@
 # celadon-theme
 
 ![Config Version](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/alif898/celadon-theme/main/config.json&query=$.version&label=Version&color=518c83&style=flat)
+
 [![JetBrains Plugin Downloads](https://img.shields.io/jetbrains/plugin/d/30354?style=flat&label=JetBrains%20Downloads&color=518c83)](https://plugins.jetbrains.com/plugin/30354)
 [![VS Code Plugin Downloads](https://img.shields.io/visual-studio-marketplace/d/alif-naufal.celadon-theme?style=flat&label=VS%20Code%20Downloads&color=518c83)](https://marketplace.visualstudio.com/items?itemName=alif-naufal.celadon-theme)
+[![Open VSX Downloads](https://img.shields.io/open-vsx/dt/alif-naufal/celadon-theme?style=flat&label=Open%20VSX%20Downloads&color=518c83)](https://open-vsx.org/extension/alif-naufal/celadon-theme)
 
 [![codecov](https://codecov.io/gh/alif898/celadon-theme/graph/badge.svg?token=H8KVORM1T7&style=flat)](https://codecov.io/gh/alif898/celadon-theme)
 [![Quality Check CI](https://github.com/alif898/celadon-theme/actions/workflows/quality-check-ci.yml/badge.svg)](https://github.com/alif898/celadon-theme/actions/workflows/quality-check-ci.yml)
@@ -15,9 +17,11 @@
 It layers cheerful, milky pastels over a deep jade base, 
 providing a high-contrast yet eye-friendly environment for long-form coding.
 **Celadon** is available for 
-[JetBrains IDEs](https://plugins.jetbrains.com/plugin/30354)
-and 
-[VS Code](https://marketplace.visualstudio.com/items?itemName=alif-naufal.celadon-theme).
+[JetBrains IDEs](https://plugins.jetbrains.com/plugin/30354),
+[VS Code](https://marketplace.visualstudio.com/items?itemName=alif-naufal.celadon-theme),
+and VS Code-compatible editors,
+including new generation AI-native IDEs like Cursor, Windsurf, and Antigravity,
+via the [Open VSX Registry](https://open-vsx.org/extension/alif-naufal/celadon-theme).
 
 ## Project Details
 
@@ -26,7 +30,7 @@ For change history, refer to [CHANGELOG.md](CHANGELOG.md).
 For sample screenshots of what the theme looks like, refer to [screenshots](screenshots).
 
 Manual installation can be done by downloading from [GitHub Releases](https://github.com/alif898/celadon-theme/releases),
-the `.zip` file is for JetBrains IDEs and the `.vsix` file is for VS Code.
+the `.zip` file is for JetBrains IDEs and the `.vsix` file is for VS Code/VS Code-compatible editors.
 
 ### Project Structure
 
@@ -125,6 +129,7 @@ there are different commands available for each IDE as part of their respective 
  - VS Code: `vsce ls` or `vsce package`
 
 These commands can be run within the respective subfolder of each IDE and are also included in the CI/CD workflows.
+The `.vsix` file built for VS Code can directly be used for Open VSX Registry too.
 
 #### Visual Inspection
 

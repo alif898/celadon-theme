@@ -26,7 +26,9 @@ def main() -> None:
         loader=FileSystemLoader(str(TEMPLATES_DIR)),
         autoescape=select_autoescape(enabled_extensions=("html",)),
     )
-    logger.info("Successfully loaded palette and config data")
+    logger.info(
+        "Successfully loaded palette and config data, found version: %s", config.version
+    )
 
     # Initialize theme generators, for any new target theme type, add class here
     generators = [
@@ -39,7 +41,9 @@ def main() -> None:
         generator.generate_theme_files()
         generator.generate_theme_metadata()
 
-    logger.info("Theme generation completed successfully")
+    logger.info(
+        "Theme generation completed successfully for version: %s", config.version
+    )
 
 
 if __name__ == "__main__":
