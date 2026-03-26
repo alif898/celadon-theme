@@ -159,7 +159,7 @@ This is supported with a pre-commit hook, that will run linting/formatting check
 
 There are three levels of workflow:
  - `branch-ci` - Runs on every push to a branch, includes the same basic checks as the pre-commit hook but with additional plugin verifications for target IDEs
- - `quality-check-ci` - Runs on every pull request, includes all branch level checks, but with `codecov` coverage reporting and `Qodana` for code quality checks 
+ - `quality-check-ci` - Runs on every pull request, includes all branch level checks, but with `uv audit` to scan dependency vulnerabilities, `codecov` coverage reporting and `Qodana` for code quality checks 
  - `release` - Runs on release, includes all quality checks and deployment to all platforms
 
 The release workflow is triggered manually by creating a new release on GitHub, with a corresponding tag following `SemVer` conventions,
