@@ -1,5 +1,9 @@
 # Changelog
 
+## [v0.0.17] - 2026-03-26
+ - Updated description, keywords
+
+
 ## [v0.0.16] - 2026-03-24
  - Added keywords to VS Code extension listing
 
