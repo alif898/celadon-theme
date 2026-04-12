@@ -3,7 +3,7 @@
 ![Config Version](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/alif898/celadon-theme/main/config.json&query=$.version&label=Version&color=518c83&style=flat)
 
 [![JetBrains Plugin Downloads](https://img.shields.io/jetbrains/plugin/d/30354?style=flat&label=JetBrains%20Downloads&color=518c83)](https://plugins.jetbrains.com/plugin/30354)
-[![VS Code Plugin Downloads](https://img.shields.io/visual-studio-marketplace/d/alif-naufal.celadon-theme?style=flat&label=VS%20Code%20Downloads&color=518c83)](https://marketplace.visualstudio.com/items?itemName=alif-naufal.celadon-theme)
+[![VS Code Downloads](https://img.shields.io/badge/VS%20Code%20Downloads-View%20on%20Marketplace-518c83?style=flat)](https://marketplace.visualstudio.com/items?itemName=alif-naufal.celadon-theme)
 [![Open VSX Downloads](https://img.shields.io/open-vsx/dt/alif-naufal/celadon-theme?style=flat&label=Open%20VSX%20Downloads&color=518c83)](https://open-vsx.org/extension/alif-naufal/celadon-theme)
 
 [![codecov](https://codecov.io/gh/alif898/celadon-theme/graph/badge.svg?token=H8KVORM1T7&style=flat)](https://codecov.io/gh/alif898/celadon-theme)
@@ -44,7 +44,7 @@ the `.zip` file is for JetBrains IDEs and the `.vsix` file is for VS Code/VS Cod
 **Testing**
 
 ![Pytest Badge](https://img.shields.io/badge/Pytest-0A9EDC?logo=pytest&logoColor=fff&style=flat)
-![Ty Badge](https://img.shields.io/badge/ty-30173d?style=flat)
+![ty Badge](https://img.shields.io/badge/ty-46EBE1?logo=ty&logoColor=000&style=flat)
 ![Ruff Badge](https://img.shields.io/badge/Ruff-D7FF64?logo=ruff&logoColor=000&style=flat)
 
 **CI/CD**
