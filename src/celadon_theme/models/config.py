@@ -10,7 +10,7 @@ class ConfigModel(BaseModel):
     name: str
     version: str
     short_description: str
-    vscode_description_prefix: str | None = None
+    vscode_screenshot_path: str | None = None
     plugin_name: str
     author: str
     vendor_url: str | None = None
