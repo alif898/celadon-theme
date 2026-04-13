@@ -140,10 +140,55 @@ def test_vscode_generator_readme_prefix(
     mock_env: Environment,
     temp_dist_path: Path,
 ) -> None:
-    mock_config.vscode_description_prefix = "PREFIX"
     generator = VsCodeGenerator(
         mock_palette, mock_config, mock_env, dist_path=temp_dist_path
     )
     generator.generate_theme_metadata()
 
-    assert (temp_dist_path / "README.md").read_text() == "PREFIX\nTest Description"
+    assert (temp_dist_path / "README.md").read_text() == "Test Description"
+
+
+def test_vscode_generator_readme_screenshot_path(
+    mock_palette: PaletteModel,
+    mock_config: ConfigModel,
+    mock_env: Environment,
+    temp_dist_path: Path,
+) -> None:
+    # When a screenshot path is provided, the generator should compose
+    # a jsDelivr URL pinned to the tag v{version} and prepend it
+    mock_config.vscode_screenshot_path = "screenshots/vscode.png"
+    mock_config.version = "1.2.3"
+    mock_config.github_url = "https://github.com/alif898/celadon-theme"
+
+    generator = VsCodeGenerator(
+        mock_palette, mock_config, mock_env, dist_path=temp_dist_path
+    )
+    generator.generate_theme_metadata()
+
+    readme = (temp_dist_path / "README.md").read_text()
+    assert (
+        "https://cdn.jsdelivr.net/gh/alif898/celadon-theme@v1.2.3/screenshots/vscode.png"
+        in readme
+    )
+    assert readme.endswith("Test Description")
+
+
+def test_vscode_generator_readme_screenshot_path_missing_github_url(
+    mock_palette: PaletteModel,
+    mock_config: ConfigModel,
+    mock_env: Environment,
+    temp_dist_path: Path,
+) -> None:
+    # With a screenshot path but missing/invalid github_url, the generator
+    # should skip adding the prefix and keep README as description only.
+    mock_config.vscode_screenshot_path = "screenshots/vscode.png"
+    mock_config.version = "9.9.9"
+    mock_config.github_url = None  # Explicitly unset to trigger the skip path
+
+    generator = VsCodeGenerator(
+        mock_palette, mock_config, mock_env, dist_path=temp_dist_path
+    )
+    generator.generate_theme_metadata()
+
+    readme = (temp_dist_path / "README.md").read_text()
+    assert readme == "Test Description"
