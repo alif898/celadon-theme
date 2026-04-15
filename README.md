@@ -76,6 +76,26 @@ To run the theme generator:
 uv run celadon-theme
 ```
 
+It is also possible to build the final extension files locally for manual installation into the respective IDEs.
+
+For JetBrains:
+```bash
+cd jetbrains
+./gradlew buildPlugin
+
+# Alternatively with below environment variables
+# CERTIFICATE_CHAIN, PRIVATE_KEY, PRIVATE_KEY_PASSWORD, PUBLISH_TOKEN
+./gradlew signPlugin
+```
+Output `.zip` file will be located in `jetbrains/build/distributions/celadon-theme-*.zip`.
+
+For VS Code:
+```bash
+cd vscode
+vsce package --no-git-tag-version
+```
+Output `.vsix` file will be located in `vscode/celadon-theme-*.vsix`.
+
 ### Testing
 
 #### Code Quality
