@@ -1,5 +1,9 @@
 # Changelog
 
+## [v0.0.19] - 2026-04-15
+ - Added full changelog for JetBrains
+
+
 ## [v0.0.18] - 2026-03-26
  - Republishing after timeout issue
 
