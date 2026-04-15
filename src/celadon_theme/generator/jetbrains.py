@@ -3,8 +3,13 @@ import shutil
 from pathlib import Path
 
 from jinja2 import Environment
+from markdown_it import MarkdownIt
 
-from celadon_theme.config.paths import JETBRAINS_DIR, TEMPLATES_DIR
+from celadon_theme.config.paths import (
+    CHANGELOG_FILE,
+    JETBRAINS_DIR,
+    TEMPLATES_DIR,
+)
 from celadon_theme.generator.base import AbstractThemeGenerator
 from celadon_theme.models.config import ConfigModel
 from celadon_theme.models.palette import PaletteModel
@@ -77,6 +82,36 @@ class JetBrainsGenerator(AbstractThemeGenerator):
             **self.palette.model_dump(),
             "config": self.config.model_dump(),
         }
+
+        # Prepare change notes from CHANGELOG.md as HTML for JetBrains plugin.xml
+        # If unavailable, fall back to config.change_notes
+        change_notes_html = None
+        try:
+            if CHANGELOG_FILE.exists():
+                logger.info("Converting CHANGELOG.md to HTML for change notes")
+                md = MarkdownIt("commonmark")
+                # Read whole changelog, JetBrains supports long HTML inside CDATA
+                with CHANGELOG_FILE.open() as f:
+                    changelog_md = f.read()
+                change_notes_html = md.render(changelog_md)
+                logger.info("Successfully converted CHANGELOG.md to HTML")
+            else:
+                logger.warning(
+                    "File: %s not found, skipping changelog HTML conversion for %s",
+                    CHANGELOG_FILE.name,
+                    self,
+                )
+        except (OSError, UnicodeDecodeError, ValueError, RuntimeError) as exc:
+            # Do not fail generation purely due to changelog conversion
+            logger.warning(
+                "Failed to convert CHANGELOG.md to HTML due to error: %s",
+                exc,
+            )
+
+        fallback_notes = context["config"].get("change_notes")
+        context["change_notes_html"] = (
+            change_notes_html if change_notes_html is not None else fallback_notes
+        )
 
         # plugin.xml
         plugin_xml = self.meta_inf_path / "plugin.xml"
