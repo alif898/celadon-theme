@@ -1,5 +1,9 @@
 # Changelog
 
+## [v0.0.20] - 2026-04-19
+ - Improved syntax highlighting for C++, Go, Kotlin, PHP, Ruby, Rust, Vue
+
+
 ## [v0.0.19] - 2026-04-15
  - Added full changelog for JetBrains
 
