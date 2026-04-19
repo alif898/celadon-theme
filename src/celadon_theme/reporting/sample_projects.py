@@ -22,7 +22,7 @@ def get_sample_project_file_coverage(root: Path) -> dict[str, list[str]]:
     result = defaultdict(set)
 
     for file_path in root.rglob("*"):
-        if not file_path.is_file() or not file_path.suffix:
+        if not file_path.is_file():
             continue
 
         relative_path = file_path.relative_to(root)
@@ -41,7 +41,15 @@ def get_sample_project_file_coverage(root: Path) -> dict[str, list[str]]:
         if project_gitignore and project_gitignore.match_file(str(relative_to_project)):
             continue
 
-        result[first_subfolder].add(file_path.suffix)
+        # Skip the .gitignore file itself from coverage tokens
+        if file_path.name == ".gitignore":
+            continue
+
+        # Determine the token to record:
+        # If the file has a standard suffix, keep it (e.g., ".py").
+        # If there is no suffix, use the full filename (e.g., "Dockerfile", ".env")
+        token = file_path.suffix or file_path.name
+        result[first_subfolder].add(token)
 
     final_result = {
         project: sorted(extensions) for project, extensions in result.items()

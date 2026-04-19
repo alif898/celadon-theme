@@ -1,23 +1,17 @@
-<idea-plugin>
+<idea-plugin require-restart="false">
     <id>{{ config.id }}</id>
     <version>{{ config.version }}</version>
     <name>{{ config.name }}</name>
     <category>UI</category>
     <vendor url="{{ config.vendor_url }}">{{ config.author }}</vendor>
-
     <idea-version since-build="251"/>
-
     <description><![CDATA[
 {{ config.description }}
     ]]></description>
-
     <change-notes><![CDATA[
 {{ change_notes_html }}
     ]]></change-notes>
-
-    <idea-plugin require-restart="false"/>
     <depends>com.intellij.modules.platform</depends>
-
     <extensions defaultExtensionNs="com.intellij">
         <themeProvider id="{{ config.id }}" path="/themes/celadon.theme.json"/>
     </extensions>

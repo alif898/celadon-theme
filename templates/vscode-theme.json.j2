@@ -8,7 +8,9 @@
     "editor.selectionBackground": "#{{ theme.accent_alt2 }}",
     "editorGutter.background": "#{{ theme.base0 }}",
     "editorIndentGuide.background": "#{{ theme.base2 }}",
+    "editorIndentGuide.background1": "#{{ theme.base2 }}",
     "editorIndentGuide.activeBackground": "#{{ theme.accent_alt }}",
+    "editorIndentGuide.activeBackground1": "#{{ theme.accent_alt }}",
     "editorBracketMatch.background": "#{{ theme.base2 }}",
     "editorBracketMatch.border": "#{{ theme.accent }}",
     "editorCursor.foreground": "#{{ theme.accent }}",
@@ -344,6 +346,20 @@
       }
     },
     {
+      "name": "Lang: Go Types",
+      "scope": [
+        "entity.name.type.go",
+        "entity.name.type",
+        "source.go entity.name.type",
+        "source.go entity.name.class",
+        "storage.type.struct.go",
+        "storage.type.interface.go"
+      ],
+      "settings": {
+        "foreground": "#{{ theme.cyan }}"
+      }
+    },
+    {
       "name": "Lang: Java Specifics",
       "scope": [
         "variable.language.this.java",
@@ -356,6 +372,16 @@
       ],
       "settings": {
         "foreground": "#{{ theme.cyan_alt }}"
+      }
+    },
+    {
+      "name": "Lang: PHP Types",
+      "scope": [
+        "entity.name.type.class.php",
+        "support.class.php"
+      ],
+      "settings": {
+        "foreground": "#{{ theme.cyan }}"
       }
     },
     {
@@ -389,6 +415,27 @@
       ],
       "settings": {
         "foreground": "#{{ theme.purple }}"
+      }
+    },
+    {
+      "name": "Lang: Ruby Class",
+      "scope": [
+        "entity.other.inherited-class.ruby",
+        "entity.name.type.class.ruby",
+        "support.class.ruby"
+      ],
+      "settings": {
+        "foreground": "#{{ theme.cyan }}"
+      }
+    },
+    {
+      "name": "Lang: Ruby Constants",
+      "scope": [
+        "constant.language.symbol.ruby",
+        "constant.language.symbol.hashkey.ruby"
+      ],
+      "settings": {
+        "foreground": "#{{ theme.cyan_alt }}"
       }
     },
     {
@@ -524,6 +571,7 @@
     "property": "#{{ theme.cyan_alt }}",
     "type": "#{{ theme.cyan }}",
     "class": "#{{ theme.cyan }}",
+    "struct": "#{{ theme.cyan }}",
     "namespace": "#{{ theme.cyan_alt }}",
     "enum": "#{{ theme.cyan }}",
     "enumMember": "#{{ theme.cyan_alt }}",
@@ -547,12 +595,23 @@
     "method:decorator": "#{{ theme.lime }}",
     "function:decorator": "#{{ theme.lime }}",
 
+    "variable.readonly:javascript": "#{{ theme.base4 }}",
+    "variable.readonly:javascriptreact": "#{{ theme.base4 }}",
+    "variable.local:javascript": "#{{ theme.base4 }}",
+    "variable.local:javascriptreact": "#{{ theme.base4 }}",
+    "variable.declaration:javascript": "#{{ theme.base4 }}",
+    "variable.declaration:javascriptreact": "#{{ theme.base4 }}",
+
     "variable.readonly:typescript": "#{{ theme.base4 }}",
     "variable.readonly:typescriptreact": "#{{ theme.base4 }}",
     "variable.local:typescript": "#{{ theme.base4 }}",
     "variable.local:typescriptreact": "#{{ theme.base4 }}",
     "variable.declaration:typescript": "#{{ theme.base4 }}",
     "variable.declaration:typescriptreact": "#{{ theme.base4 }}",
-    "variable.readonly.local.declaration": "#{{ theme.base4 }}"
+    "variable.readonly.local.declaration": "#{{ theme.base4 }}",
+
+    "entity.name.type.struct.rust": "#{{ theme.pink_alt }}",
+    "entity.name.type.rust": "#{{ theme.lime }}",
+    "entity.name.namespace.rust": "#{{ theme.base4 }}"
   }
 }
