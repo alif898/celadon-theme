@@ -154,23 +154,22 @@ The `.vsix` file built for VS Code can directly be used for Open VSX Registry to
 #### Visual Inspection
 
 To verify the aesthetics and looks of the theme,
-a development version of the IDE is launched
+a development/sandbox version of the IDE is launched with the theme loaded
 and the theme is inspected against several sample projects covering various file types and languages.
 
-The file extensions covered by the sample projects can be seen from [STATS.md](STATS.md).
-Currently, the sample projects cover the following programming languages and frameworks: 
- - `Java` + `Maven` + `Spring Boot`
- - `Python` + `FastAPI`
- - `TypeScript` + `React` + `Next.js`
- - `.sql`
-
+The programming languages and frameworks covered by the sample projects can be seen in [STATS.md](STATS.md).
 These projects are not included in this repository as they are placeholder codebases that serve no purpose beyond providing syntax highlighting coverage.
 As such, `STATS.md` can only be generated locally, which is done via the generator script itself.
 
 For JetBrains IDEs, the various individual IDEs for each language are tested.
+For example, the `Java` project will be tested against IntelliJ, 
+while the `Rust` project will be tested against RustRover.
 The configuration and mapping are found in `/jetbrains/build.gradle.kts`.
 
-For VS Code, the various sample projects can be launched from `/vscode/.vscode/launch.json`.
+Analogously, the relevant language extensions need to be installed for VS Code.
+The various sample projects can be launched from `/vscode/.vscode/launch.json`.
+However, depending on the specific language extension, the way it interacts with the theme keys may be inconsistent.
+
 
 ### CI/CD
 
@@ -179,7 +178,7 @@ This is supported with a pre-commit hook, that will run linting/formatting check
 
 There are three levels of workflow:
  - `branch-ci` - Runs on every push to a branch, includes the same basic checks as the pre-commit hook but with additional plugin verifications for target IDEs
- - `quality-check-ci` - Runs on every pull request, includes all branch level checks, but with `uv audit` to scan dependency vulnerabilities, `codecov` coverage reporting and `Qodana` for code quality checks 
+ - `quality-check-ci` - Runs on every pull request, includes all branch level checks, but with `uv audit` to scan dependency vulnerabilities, `codecov` for unit test coverage reporting and `Qodana` for code quality checks 
  - `release` - Runs on release, includes all quality checks and deployment to all platforms
 
 The release workflow is triggered manually by creating a new release on GitHub, with a corresponding tag following `SemVer` conventions,

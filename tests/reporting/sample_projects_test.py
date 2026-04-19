@@ -76,12 +76,19 @@ def test_empty_directory_returns_empty_dict(tmp_path: Path) -> None:
     assert result == {}
 
 
-def test_ignores_files_without_extension(tmp_path: Path) -> None:
+def test_includes_files_without_extension(tmp_path: Path) -> None:
     (tmp_path / "python").mkdir()
     (tmp_path / "python" / "Makefile").touch()
     (tmp_path / "python" / "main.py").touch()
     result = get_sample_project_file_coverage(tmp_path)
-    assert "" not in result["python"]
+    assert "Makefile" in result["python"]
+
+
+def test_includes_dotfiles_literal(tmp_path: Path) -> None:
+    (tmp_path / "infra").mkdir()
+    (tmp_path / "infra" / ".env").touch()
+    result = get_sample_project_file_coverage(tmp_path)
+    assert ".env" in result["infra"]
 
 
 def test_gitignore_is_respected(tmp_path: Path) -> None:
@@ -91,6 +98,21 @@ def test_gitignore_is_respected(tmp_path: Path) -> None:
     (tmp_path / "python" / ".gitignore").write_text("*.pyc\n", encoding="utf-8")
     result = get_sample_project_file_coverage(tmp_path)
     assert ".pyc" not in result["python"]
+
+
+def test_ignores_gitignore_file_itself(tmp_path: Path) -> None:
+    (tmp_path / "project").mkdir()
+    # Add a .gitignore file and a real source file
+    (tmp_path / "project" / ".gitignore").write_text(
+        "node_modules/\n", encoding="utf-8"
+    )
+    (tmp_path / "project" / "main.ts").touch()
+
+    result = get_sample_project_file_coverage(tmp_path)
+    # Ensure project detected and .gitignore is not counted as an extension token
+    assert "project" in result
+    assert ".gitignore" not in result["project"]
+    assert ".ts" in result["project"]
 
 
 def test_root_gitignore_is_respected(tmp_path: Path) -> None:

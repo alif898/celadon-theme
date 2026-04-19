@@ -2,12 +2,57 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Launch: C++ Sample",
+            "type": "extensionHost",
+            "request": "launch",
+            "args": [
+                "--extensionDevelopmentPath=${workspaceFolder}",
+                "${workspaceFolder}/../sample-projects/cpp"
+            ]
+        },
+        {
+            "name": "Launch: DB Sample",
+            "type": "extensionHost",
+            "request": "launch",
+            "args": [
+                "--extensionDevelopmentPath=${workspaceFolder}",
+                "${workspaceFolder}/../sample-projects/database"
+            ]
+        },
+        {
+            "name": "Launch: Go Sample",
+            "type": "extensionHost",
+            "request": "launch",
+            "args": [
+                "--extensionDevelopmentPath=${workspaceFolder}",
+                "${workspaceFolder}/../sample-projects/go"
+            ]
+        },
+        {
             "name": "Launch: Java Sample",
             "type": "extensionHost",
             "request": "launch",
             "args": [
                 "--extensionDevelopmentPath=${workspaceFolder}",
                 "${workspaceFolder}/../sample-projects/java"
+            ]
+        },
+        {
+            "name": "Launch: Kotlin Sample",
+            "type": "extensionHost",
+            "request": "launch",
+            "args": [
+                "--extensionDevelopmentPath=${workspaceFolder}",
+                "${workspaceFolder}/../sample-projects/kotlin"
+            ]
+        },
+        {
+            "name": "Launch: PHP Sample",
+            "type": "extensionHost",
+            "request": "launch",
+            "args": [
+                "--extensionDevelopmentPath=${workspaceFolder}",
+                "${workspaceFolder}/../sample-projects/php"
             ]
         },
         {
@@ -20,21 +65,39 @@
             ]
         },
         {
-            "name": "Launch: TypeScript Sample",
+            "name": "Launch: Ruby Sample",
             "type": "extensionHost",
             "request": "launch",
             "args": [
                 "--extensionDevelopmentPath=${workspaceFolder}",
-                "${workspaceFolder}/../sample-projects/typescript"
+                "${workspaceFolder}/../sample-projects/ruby"
             ]
         },
         {
-            "name": "Launch: DB Sample",
+            "name": "Launch: Rust Sample",
             "type": "extensionHost",
             "request": "launch",
             "args": [
                 "--extensionDevelopmentPath=${workspaceFolder}",
-                "${workspaceFolder}/../sample-projects/database"
+                "${workspaceFolder}/../sample-projects/rust"
+            ]
+        },
+        {
+            "name": "Launch: TypeScript React Sample",
+            "type": "extensionHost",
+            "request": "launch",
+            "args": [
+                "--extensionDevelopmentPath=${workspaceFolder}",
+                "${workspaceFolder}/../sample-projects/typescript-react"
+            ]
+        },
+        {
+            "name": "Launch: TypeScript Vue Sample",
+            "type": "extensionHost",
+            "request": "launch",
+            "args": [
+                "--extensionDevelopmentPath=${workspaceFolder}",
+                "${workspaceFolder}/../sample-projects/typescript-vue"
             ]
         }
     ],
@@ -42,10 +105,17 @@
         {
             "name": "Launch All Samples",
             "configurations": [
+                "Launch: C++ Sample",
+                "Launch: DB Sample",
+                "Launch: Go Sample",
                 "Launch: Java Sample",
+                "Launch: Kotlin Sample",
+                "Launch: PHP Sample",
                 "Launch: Python Sample",
-                "Launch: TypeScript Sample",
-                "Launch: DB Sample"
+                "Launch: Ruby Sample",
+                "Launch: Rust Sample",
+                "Launch: TypeScript React Sample",
+                "Launch: TypeScript Vue Sample"
             ],
             "stopAll": true
         }

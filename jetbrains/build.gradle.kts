@@ -10,16 +10,21 @@ repositories {
 
 val platformType = project.findProperty("platformType") as? String ?: "IU"
 val platformVersion = project.findProperty("platformVersion") as? String ?: "2025.3.2"
+val sampleProjectOverride = project.findProperty("sampleProject") as? String
 val sampleProjectsMap = mapOf(
+    "CL" to "cpp",
+    "DB" to "database",
+    "GO" to "go",
     "IU" to "java",
     "IC" to "java",
+    "PS" to "php",
     "PY" to "python",
     "PC" to "python",
-    "WS" to "typescript",
-    "GO" to "go",
-    "DB" to "database"
+    "RM" to "ruby",
+    "RR" to "rust",
+    "WS" to "typescript-react"
 )
-val projectSubDir = sampleProjectsMap[platformType] ?: "java"
+val projectSubDir = sampleProjectOverride ?: sampleProjectsMap[platformType] ?: "java"
 
 dependencies {
     intellijPlatform {
