@@ -1,5 +1,9 @@
 # Changelog
 
+## [v0.0.21] - 2026-04-21
+ - Improved syntax highlighting for VS Code
+
+
 ## [v0.0.20] - 2026-04-19
  - Improved syntax highlighting for C++, Go, Kotlin, PHP, Ruby, Rust, Vue
 
