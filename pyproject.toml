@@ -22,6 +22,9 @@ dependencies = [
     "pyyaml>=6.0.3",
     "reportlab>=4.4.10",
     "svglib>=1.6.0",
+    # Force patched version to address GHSA-vfmq-68hx-4jfw (XXE in default parsers)
+    # See: https://github.com/lxml/lxml/security/advisories/GHSA-vfmq-68hx-4jfw
+    "lxml>=6.1.0",
     "markdown-it-py>=3.0.0",
 ]
 
