@@ -1,17 +1,23 @@
-# celadon-theme
+<p align="center">
+  <img src="templates/pluginIcon.svg" alt="celadon-icon" width="64">
+</p>
 
-![Config Version](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/alif898/celadon-theme/main/config.json&query=$.version&label=Version&color=518c83&style=flat)
+<h1 align="center">celadon-theme</h1>
 
-[![JetBrains Plugin Downloads](https://img.shields.io/jetbrains/plugin/d/30354?style=flat&label=JetBrains%20Downloads&color=518c83)](https://plugins.jetbrains.com/plugin/30354)
-[![VS Code Downloads](https://img.shields.io/badge/VS%20Code%20Downloads-View%20on%20Marketplace-518c83?style=flat)](https://marketplace.visualstudio.com/items?itemName=alif-naufal.celadon-theme)
-[![Open VSX Downloads](https://img.shields.io/open-vsx/dt/alif-naufal/celadon-theme?style=flat&label=Open%20VSX%20Downloads&color=518c83)](https://open-vsx.org/extension/alif-naufal/celadon-theme)
+<p align="center">
+  <img src="https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/alif898/celadon-theme/main/config.json&query=$.version&label=Version&color=518c83&style=flat" alt="Version">
+</p>
 
-[![codecov](https://codecov.io/gh/alif898/celadon-theme/graph/badge.svg?token=H8KVORM1T7&style=flat)](https://codecov.io/gh/alif898/celadon-theme)
-[![Quality Check CI](https://github.com/alif898/celadon-theme/actions/workflows/quality-check-ci.yml/badge.svg)](https://github.com/alif898/celadon-theme/actions/workflows/quality-check-ci.yml)
+<p align="center">
+  <a href="https://plugins.jetbrains.com/plugin/30354"><img src="https://img.shields.io/jetbrains/plugin/d/30354?style=flat&label=JetBrains%20Downloads&color=518c83" alt="JetBrains Downloads"></a>
+  <a href="https://marketplace.visualstudio.com/items?itemName=alif-naufal.celadon-theme"><img src="https://img.shields.io/badge/VS%20Code%20Downloads-View%20on%20Marketplace-518c83?style=flat" alt="VS Code Downloads"></a>
+  <a href="https://open-vsx.org/extension/alif-naufal/celadon-theme"><img src="https://img.shields.io/open-vsx/dt/alif-naufal/celadon-theme?style=flat&label=Open%20VSX%20Downloads&color=518c83" alt="Open VSX Downloads"></a>
+</p>
 
----
-
-![celadon-icon](templates/pluginIcon.svg)
+<p align="center">
+  <a href="https://codecov.io/gh/alif898/celadon-theme"><img src="https://codecov.io/gh/alif898/celadon-theme/graph/badge.svg?token=H8KVORM1T7&style=flat" alt="codecov"></a>
+  <a href="https://github.com/alif898/celadon-theme/actions/workflows/quality-check-ci.yml"><img src="https://github.com/alif898/celadon-theme/actions/workflows/quality-check-ci.yml/badge.svg" alt="Quality Check CI"></a>
+</p>
 
 **Celadon** is a dark IDE theme inspired by the muted, matte finish of classical ceramics. 
 It layers cheerful, milky pastels over a deep jade base, 
