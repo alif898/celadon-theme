@@ -15,8 +15,16 @@
 </p>
 
 <p align="center">
+  <a href="https://www.jsdelivr.com/package/gh/alif898/celadon-theme"><img src="https://img.shields.io/jsdelivr/gh/hm/alif898/celadon-theme?style=flat&label=Theme%20Previews&color=518c83" alt="Theme Previews"></a>
+</p>
+
+<p align="center">
   <a href="https://codecov.io/gh/alif898/celadon-theme"><img src="https://codecov.io/gh/alif898/celadon-theme/graph/badge.svg?token=H8KVORM1T7&style=flat" alt="codecov"></a>
   <a href="https://github.com/alif898/celadon-theme/actions/workflows/quality-check-ci.yml"><img src="https://github.com/alif898/celadon-theme/actions/workflows/quality-check-ci.yml/badge.svg" alt="Quality Check CI"></a>
+</p>
+
+<p align="center">
+  <img src="https://cdn.jsdelivr.net/gh/alif898/celadon-theme@main/screenshots/vscode.png" alt="Screenshot">
 </p>
 
 **Celadon** is a dark IDE theme inspired by the muted, matte finish of classical ceramics. 
