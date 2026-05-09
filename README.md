@@ -48,12 +48,16 @@ the `.zip` file is for JetBrains IDEs and the `.vsix` file is for VS Code/VS Cod
 
 ### Project Structure
 
-**Stack**
+**Core Technologies**
 
 ![Python Badge](https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=fff&style=flat)
 ![uv Badge](https://img.shields.io/badge/uv-DE5FE9?logo=uv&logoColor=fff&style=flat)
 ![Jinja Badge](https://img.shields.io/badge/Jinja-7E0C1B?logo=jinja&logoColor=fff&style=flat)
 ![Pydantic Badge](https://img.shields.io/badge/Pydantic-E92063?logo=pydantic&logoColor=fff&style=flat)
+
+**CDN**
+
+![jsDelivr Badge](https://img.shields.io/badge/jsDelivr-E84D3D?logo=jsdelivr&logoColor=fff&style=flat)
 
 **Testing**
 
@@ -67,6 +71,7 @@ the `.zip` file is for JetBrains IDEs and the `.vsix` file is for VS Code/VS Cod
 ![GitHub Actions Badge](https://img.shields.io/badge/GitHub%20Actions-2088FF?logo=githubactions&logoColor=fff&style=flat)
 ![Codecov Badge](https://img.shields.io/badge/Codecov-F01F7A?logo=codecov&logoColor=fff&style=flat)
 ![Qodana Badge](https://img.shields.io/badge/Qodana-f95352?style=flat)
+![CodeRabbit Badge](https://img.shields.io/badge/CodeRabbit-FF570A?logo=coderabbit&logoColor=fff&style=flat)
 
 
 This project uses a single source of truth for the color palette, defined in `palette.yml`.
@@ -194,6 +199,8 @@ There are three levels of workflow:
  - `branch-ci` - Runs on every push to a branch, includes the same basic checks as the pre-commit hook but with additional plugin verifications for target IDEs
  - `quality-check-ci` - Runs on every pull request, includes all branch level checks, but with `uv audit` to scan dependency vulnerabilities, `codecov` for unit test coverage reporting and `Qodana` for code quality checks 
  - `release` - Runs on release, includes all quality checks and deployment to all platforms
+
+Additionally, on each pull request, CodeRabbit is used to add an AI-generated summary which will help to contextualize and review the changes.
 
 The release workflow is triggered manually by creating a new release on GitHub, with a corresponding tag following `SemVer` conventions,
 along with the release description.
