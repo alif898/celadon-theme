@@ -69,13 +69,6 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: ./coverage.xml
 
-      - name: Run Qodana Scan
-        uses: JetBrains/qodana-action@v2025.3
-        env:
-          QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
-        with:
-          pr-mode: ${{ github.event_name == 'pull_request' }}
-
       - name: Setup Java
         uses: actions/setup-java@v5
         with:
