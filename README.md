@@ -70,7 +70,6 @@ the `.zip` file is for JetBrains IDEs and the `.vsix` file is for VS Code/VS Cod
 ![pre-commit Badge](https://img.shields.io/badge/pre--commit-FAB040?logo=precommit&logoColor=fff&style=flat)
 ![GitHub Actions Badge](https://img.shields.io/badge/GitHub%20Actions-2088FF?logo=githubactions&logoColor=fff&style=flat)
 ![Codecov Badge](https://img.shields.io/badge/Codecov-F01F7A?logo=codecov&logoColor=fff&style=flat)
-![Qodana Badge](https://img.shields.io/badge/Qodana-f95352?style=flat)
 ![CodeRabbit Badge](https://img.shields.io/badge/CodeRabbit-FF570A?logo=coderabbit&logoColor=fff&style=flat)
 
 
@@ -197,10 +196,8 @@ This is supported with a pre-commit hook, that will run linting/formatting check
 
 There are three levels of workflow:
  - `branch-ci` - Runs on every push to a branch, includes the same basic checks as the pre-commit hook but with additional plugin verifications for target IDEs
- - `quality-check-ci` - Runs on every pull request, includes all branch level checks, but with `uv audit` to scan dependency vulnerabilities, `codecov` for unit test coverage reporting and `Qodana` for code quality checks 
+ - `quality-check-ci` - Runs on every pull request, includes all branch level checks, but with `uv audit` to scan dependency vulnerabilities, `codecov` for unit test coverage reporting and `CodeRabbit` for AI-generated summary and review 
  - `release` - Runs on release, includes all quality checks and deployment to all platforms
-
-Additionally, on each pull request, CodeRabbit is used to add an AI-generated summary which will help to contextualize and review the changes.
 
 The release workflow is triggered manually by creating a new release on GitHub, with a corresponding tag following `SemVer` conventions,
 along with the release description.
