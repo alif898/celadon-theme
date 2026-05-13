@@ -33,7 +33,7 @@ providing a high-contrast yet eye-friendly environment for long-form coding.
 **Celadon** is available for 
 [JetBrains IDEs](https://plugins.jetbrains.com/plugin/30354),
 [VS Code](https://marketplace.visualstudio.com/items?itemName=alif-naufal.celadon-theme),
-and VS Code-compatible editors,
+and VS Code-based editors,
 including new generation AI-native IDEs like Cursor, Windsurf, and Antigravity,
 via the [Open VSX Registry](https://open-vsx.org/extension/alif-naufal/celadon-theme).
 
@@ -44,7 +44,7 @@ For change history, refer to [CHANGELOG.md](CHANGELOG.md).
 For sample screenshots of what the theme looks like, refer to [screenshots](screenshots).
 
 Manual installation can be done by downloading from [GitHub Releases](https://github.com/alif898/celadon-theme/releases),
-the `.zip` file is for JetBrains IDEs and the `.vsix` file is for VS Code/VS Code-compatible editors.
+the `.zip` file is for JetBrains IDEs and the `.vsix` file is for VS Code/VS Code-based editors.
 
 ### Project Structure
 
