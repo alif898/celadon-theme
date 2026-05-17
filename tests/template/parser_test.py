@@ -39,3 +39,28 @@ def test_theme_parser_load_config(tmp_path: Path) -> None:
     config = ThemeParser.load_config(config_file)
     assert isinstance(config, ConfigModel)
     assert config.id == "test.id"
+    assert config.jetbrains_description_suffix == ""
+
+
+def test_theme_parser_load_config_with_jetbrains_description_suffix(
+    tmp_path: Path,
+) -> None:
+    config_file = tmp_path / "config.json"
+    suffix = "<p>Islands variant promo.</p>"
+    config_file.write_text(
+        json.dumps(
+            {
+                "id": "test.id",
+                "name": "Test Theme",
+                "version": "1.0.0",
+                "short_description": "Test Short Description",
+                "plugin_name": "Test Plugin",
+                "author": "Test Author",
+                "description": "Test Description",
+                "jetbrains_description_suffix": suffix,
+            }
+        )
+    )
+
+    config = ThemeParser.load_config(config_file)
+    assert config.jetbrains_description_suffix == suffix

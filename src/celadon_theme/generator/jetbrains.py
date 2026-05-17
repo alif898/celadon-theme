@@ -42,30 +42,43 @@ class JetBrainsGenerator(AbstractThemeGenerator):
         logger.info("Generating JetBrains theme files")
         self.themes_path.mkdir(parents=True, exist_ok=True)
 
-        context = {
+        base_context = {
             **self.palette.model_dump(),
             "config": self.config.model_dump(),
         }
 
-        files = {
-            "celadon.icls.j2": self.themes_path / "Celadon.xml",
-            "celadon.theme.json.j2": self.themes_path / "celadon.theme.json",
+        static_files = {
+            "jetbrains.icls.j2": self.themes_path / "Celadon.xml",
         }
 
-        for tpl_name, out_path in files.items():
+        for tpl_name, out_path in static_files.items():
             logger.info("Generating %s", out_path.name)
             template = self.env.get_template(tpl_name)
-            content = template.render(**context)
-            with out_path.open("w") as f:
+            content = template.render(**base_context)
+            with out_path.open("w", encoding="utf-8") as f:
+                f.write(content)
+            logger.info("Successfully generated %s", out_path.name)
+
+        theme_json_outputs = (
+            ("celadon.theme.json", False),
+            ("celadon-islands.theme.json", True),
+        )
+        theme_template = self.env.get_template("jetbrains-theme.json.j2")
+        for output_name, is_islands in theme_json_outputs:
+            out_path = self.themes_path / output_name
+            logger.info("Generating %s", out_path.name)
+            context = {**base_context, "is_islands": is_islands}
+            content = theme_template.render(**context)
+            with out_path.open("w", encoding="utf-8") as f:
                 f.write(content)
             logger.info("Successfully generated %s", out_path.name)
 
         # Project files
         gradle_props = self.dist_path / "gradle.properties"
         logger.info("Generating %s", gradle_props.name)
-        template = self.env.get_template("gradle.properties.j2")
-        content = template.render(**context)
-        with gradle_props.open("w") as f:
+        template = self.env.get_template("jetbrains-gradle.properties.j2")
+        content = template.render(**base_context)
+        with gradle_props.open("w", encoding="utf-8") as f:
             f.write(content)
         logger.info("Successfully generated %s", gradle_props.name)
 
@@ -116,9 +129,9 @@ class JetBrainsGenerator(AbstractThemeGenerator):
         # plugin.xml
         plugin_xml = self.meta_inf_path / "plugin.xml"
         logger.info("Generating %s", plugin_xml.name)
-        template = self.env.get_template("plugin.xml.j2")
+        template = self.env.get_template("jetbrains-plugin.xml.j2")
         content = template.render(**context)
-        with plugin_xml.open("w") as f:
+        with plugin_xml.open("w", encoding="utf-8") as f:
             f.write(content)
         logger.info("Successfully generated %s", plugin_xml.name)
 

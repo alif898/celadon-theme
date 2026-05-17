@@ -26,5 +26,8 @@ def mock_config() -> ConfigModel:
         plugin_name="Test Plugin",
         author="Test Author",
         description="Test Description",
+        jetbrains_description_suffix=(
+            "<p>Also available: Test Theme (Islands) in Settings &rarr; Appearance.</p>"
+        ),
         change_notes="Fixes bug",
     )
