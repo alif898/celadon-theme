@@ -1,5 +1,10 @@
 # Changelog
 
+## [v1.0.0] - 2026-05-17
+ - Full v1 release
+ - Added Islands UI variant for JetBrains
+
+
 ## [v0.0.21] - 2026-04-21
  - Improved syntax highlighting for VS Code
 
