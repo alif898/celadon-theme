@@ -4,9 +4,10 @@
     <name>{{ config.name }}</name>
     <category>UI</category>
     <vendor url="{{ config.vendor_url }}">{{ config.author }}</vendor>
-    <idea-version since-build="251"/>
+    <idea-version since-build="253"/>
     <description><![CDATA[
 {{ config.description }}
+{{ config.jetbrains_description_suffix }}
     ]]></description>
     <change-notes><![CDATA[
 {{ change_notes_html }}
@@ -14,5 +15,6 @@
     <depends>com.intellij.modules.platform</depends>
     <extensions defaultExtensionNs="com.intellij">
         <themeProvider id="{{ config.id }}" path="/themes/celadon.theme.json"/>
+        <themeProvider id="{{ config.id }}.islands" path="/themes/celadon-islands.theme.json"/>
     </extensions>
 </idea-plugin>

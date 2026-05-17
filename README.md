@@ -188,6 +188,7 @@ Analogously, the relevant language extensions need to be installed for VS Code.
 The various sample projects can be launched from `/vscode/.vscode/launch.json`.
 However, depending on the specific language extension, the way it interacts with the theme keys may be inconsistent.
 
+The new JetBrains Islands UI is also supported, with an additional islands variant included in the plugin.
 
 ### CI/CD
 

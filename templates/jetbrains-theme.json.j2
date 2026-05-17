@@ -1,8 +1,9 @@
 {
-    "name": "{{ config.name }}",
+    "name": "{% if is_islands %}{{ config.name }} (Islands){% else %}{{ config.name }}{% endif %}",
     "dark": true,
     "author": "{{ config.author }}",
-    "editorScheme": "/themes/Celadon.xml",
+    "editorScheme": "/themes/Celadon.xml",{% if is_islands %}
+    "parentTheme": "Islands Dark",{% endif %}
     "colors": {
         "transparent": "#{{ theme.transparent }}",
         "translucent": "#{{ theme.translucent }}",
@@ -50,7 +51,7 @@
     },
     "ui": {
         "*": {
-            "windowBorder": "base1",
+            "windowBorder": {% if is_islands %}"base2"{% else %}"base1"{% endif %},
             "borderColor": "base2",
             "background": "base0",
             "foreground": "base4",
@@ -129,11 +130,6 @@
         "Component.warningFocusColor": "orange_alt",
         "Component.inactiveWarningFocusColor": "orange_alt2",
 
-        "Console.background": "base1",
-        "Console.foreground": "base4",
-        "Console.selectionBackground": "accent_alt2",
-        "Console.selectionForeground": "base4",
-
         "DefaultTabs.borderColor": "base2",
         "DefaultTabs.hoverBackground": "base2",
         "DefaultTabs.underlineColor": "accent",
@@ -147,7 +143,7 @@
         "EditorPane.background": "base1",
         "EditorPane.caretForeground": "accent",
 
-        "EditorTabs.borderColor": "base2",
+        "EditorTabs.borderColor": {% if is_islands %}"base0"{% else %}"base2"{% endif %},
         "EditorTabs.underlineColor": "accent",
         "EditorTabs.inactiveUnderlineColor": "accent_alt",
         "EditorTabs.underlinedTabBackground": "base2",
@@ -172,7 +168,7 @@
         "Link.activeForeground": "accent",
         "Link.secondaryForeground": "accent_alt",
 
-        "MainToolbar.background": "base0",
+        "MainToolbar.background": {% if is_islands %}"base2"{% else %}"base0"{% endif %},
         "MainToolbar.separatorColor": "base4",
 
         "MainWindow.Tab.selectedBackground": "base1",
@@ -229,11 +225,6 @@
         "Table.gridColor": "base2",
         "Table.lightSelectionBackground": "accent_alt2",
 
-        "Terminal.background": "base1",
-        "Terminal.foreground": "base4",
-        "Terminal.cursorColor": "accent",
-        "Terminal.selectionBackground": "accent_alt2",
-
         "TextField.background": "base1",
         "TextField.caretForeground": "accent",
         "TextField.foreground": "base4",
@@ -242,7 +233,7 @@
         "ToggleButton.offBackground": "base0",
 
         "ToolWindow.background": "base0",
-        "ToolWindow.Header.borderColor": "base2",
+        "ToolWindow.Header.borderColor": {% if is_islands %}"base0"{% else %}"base2"{% endif %},
         "ToolWindow.HeaderTab.underlineColor": "accent",
         "ToolWindow.HeaderTab.underlinedTabBackground": "base1",
 
@@ -261,7 +252,31 @@
         "VersionControl.RefLabel.backgroundBase": "base1",
         "VersionControl.RefLabel.foreground": "base4",
 
-        "Window.border": "1,1,1,1,{{ theme.base2 }}"
+        "Window.border": {% if is_islands %}"1,1,1,1,{{ theme.transparent }}"{% else %}"1,1,1,1,{{ theme.base2 }}"{% endif %}
+
+        {%- if is_islands %},
+        "Islands": 1,
+
+        "StatusBar.borderColor": "#{{ theme.base0 }}00",
+        "StatusBar.background": "base2",
+        "ToolWindow.Stripe.borderColor": "#{{ theme.base0 }}00",
+        "ToolWindow.Stripe.background": "base2",
+        "MainToolbar.borderColor": "#{{ theme.base0 }}00",
+
+        "ToolWindow.Header.background": "base0",
+        "ToolWindow.Header.inactiveBackground": "base0",
+
+        "MainWindow.background": "base2",
+        "Island.borderColor": "base2",
+
+        "NavBar.borderColor": "#{{ theme.transparent }}",
+
+        "EditorTabs.background": "base0",
+        "EditorTabs.underTabsBorderColor": "base2",
+        "EditorTabs.underlinedBorderColor": "accent",
+        "EditorTabs.inactiveUnderlinedTabBorderColor": "accent_alt",
+        "EditorTabs.inactiveUnderlinedTabBackground": "base1"
+        {%- endif %}
     },
     "icons": {
         "ColorPalette": {

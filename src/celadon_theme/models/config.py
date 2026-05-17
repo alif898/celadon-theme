@@ -15,6 +15,7 @@ class ConfigModel(BaseModel):
     author: str
     vendor_url: str | None = None
     description: str
+    jetbrains_description_suffix: str = ""
     change_notes: str | None = None
     github_url: str | None = None
     vs_code_publisher: str | None = None

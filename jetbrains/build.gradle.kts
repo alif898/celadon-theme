@@ -56,7 +56,7 @@ tasks.runIde {
 }
 
 tasks.patchPluginXml {
-    sinceBuild.set("251")
+    sinceBuild.set("253")
     untilBuild.set(null as String?)
 }
 
