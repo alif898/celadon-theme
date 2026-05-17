@@ -188,12 +188,12 @@ Analogously, the relevant language extensions need to be installed for VS Code.
 The various sample projects can be launched from `/vscode/.vscode/launch.json`.
 However, depending on the specific language extension, the way it interacts with the theme keys may be inconsistent.
 
-The new JetBrains Islands UI is also supported, with an additional islands variant included in the plugin.
+For the JetBrains plugin, it includes variants for both the classic JetBrains layout and the new Islands UI.
 
 ### CI/CD
 
 CI/CD is automated using GitHub Actions to ensure code quality and automated deployment to all platforms.
-This is supported with a pre-commit hook, that will run linting/formatting checks, static type checks, and unit tests.
+This is supported with a pre-commit hook that will run linting/formatting checks, static type checks, and unit tests.
 
 There are three levels of workflow:
  - `branch-ci` - Runs on every push to a branch, includes the same basic checks as the pre-commit hook but with additional plugin verifications for target IDEs
