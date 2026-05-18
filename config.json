@@ -13,6 +13,6 @@
   "jetbrains_description_suffix": "<p>Includes variants for both the classic JetBrains layout and the new Islands UI.</p>",
   "short_description": "Soft pastel dark theme with jade tones",
   "vscode_screenshot_path": "screenshots/vscode.png",
-  "version": "1.0.0",
-  "change_notes": " - Full v1 release\r\n - Added Islands UI variant for JetBrains"
+  "version": "1.0.1",
+  "change_notes": " - Fixed issue with JetBrains Git log, file colors"
 }

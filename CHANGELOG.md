@@ -1,5 +1,9 @@
 # Changelog
 
+## [v1.0.1] - 2026-05-18
+ - Fixed issue with JetBrains Git log, file colors
+
+
 ## [v1.0.0] - 2026-05-17
  - Full v1 release
  - Added Islands UI variant for JetBrains
