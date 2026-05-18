@@ -240,10 +240,19 @@ def test_jetbrains_islands_theme_json(
     assert islands_theme["ui"]["MainWindow.background"] == "base2"
     assert islands_theme["ui"]["EditorTabs.underTabsBorderColor"] == "base2"
     assert islands_theme["ui"]["EditorTabs.borderColor"] == "base0"
+    git_log_ui_keys = (
+        "VersionControl.Log.Commit.currentBranchBackground",
+        "VersionControl.Log.Commit.hoveredBackground",
+        "VersionControl.Log.Commit.Reference.foreground",
+        "VersionControl.FileHistory.Commit.selectedBranchBackground",
+    )
+    for key in git_log_ui_keys:
+        assert islands_theme["ui"][key] == classic_theme["ui"][key]
+
+    assert "parentTheme" not in classic_theme
     assert islands_theme["ui"]["StatusBar.borderColor"].endswith("00")
     assert islands_theme["ui"]["StatusBar.borderColor"].startswith("#")
 
-    assert "parentTheme" not in classic_theme
     assert "Island.borderColor" not in classic_theme["ui"]
     assert "Islands" not in classic_theme["ui"]
 
