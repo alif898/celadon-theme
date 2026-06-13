@@ -34,7 +34,7 @@ providing a high-contrast yet eye-friendly environment for long-form coding.
 [JetBrains IDEs](https://plugins.jetbrains.com/plugin/30354),
 [VS Code](https://marketplace.visualstudio.com/items?itemName=alif-naufal.celadon-theme),
 and VS Code-based editors,
-including new generation AI-native IDEs like Cursor, Windsurf, and Antigravity,
+including new generation AI-native IDEs like Cursor, Devin, and Antigravity,
 via the [Open VSX Registry](https://open-vsx.org/extension/alif-naufal/celadon-theme).
 
 ## Project Details
