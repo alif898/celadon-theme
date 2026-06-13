@@ -1,5 +1,9 @@
 # Changelog
 
+## [v1.0.2] - 2026-06-13
+ - Modified descriptions to refer to Devin instead of Windsurf
+
+
 ## [v1.0.1] - 2026-05-18
  - Fixed issue with JetBrains Git log, file colors
 

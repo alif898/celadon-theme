@@ -13,6 +13,6 @@
   "jetbrains_description_suffix": "<p>Includes variants for both the classic JetBrains layout and the new Islands UI.</p>",
   "short_description": "Soft pastel dark theme with jade tones",
   "vscode_screenshot_path": "screenshots/vscode.png",
-  "version": "1.0.1",
-  "change_notes": " - Fixed issue with JetBrains Git log, file colors"
+  "version": "1.0.2",
+  "change_notes": " - Modified descriptions to refer to Devin instead of Windsurf"
 }
