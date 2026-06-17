@@ -9,18 +9,21 @@
 </p>
 
 <p align="center">
-  <a href="https://plugins.jetbrains.com/plugin/30354"><img src="https://img.shields.io/jetbrains/plugin/d/30354?style=flat&label=JetBrains%20Downloads&color=518c83" alt="JetBrains Downloads"></a>
-  <a href="https://marketplace.visualstudio.com/items?itemName=alif-naufal.celadon-theme"><img src="https://img.shields.io/badge/VS%20Code%20Downloads-View%20on%20Marketplace-518c83?style=flat" alt="VS Code Downloads"></a>
-  <a href="https://open-vsx.org/extension/alif-naufal/celadon-theme"><img src="https://img.shields.io/open-vsx/dt/alif-naufal/celadon-theme?style=flat&label=Open%20VSX%20Downloads&color=518c83" alt="Open VSX Downloads"></a>
+  <a href="https://codecov.io/gh/alif898/celadon-theme"><img src="https://codecov.io/gh/alif898/celadon-theme/graph/badge.svg?style=flat" alt="codecov"></a>
+  <a href="https://github.com/alif898/celadon-theme/actions/workflows/quality-check-ci.yml"><img src="https://github.com/alif898/celadon-theme/actions/workflows/quality-check-ci.yml/badge.svg" alt="Quality Check CI"></a>
+</p>
+
+<h2 align="center">Download Metrics</h2>
+
+<p align="center">
+  <a href="https://plugins.jetbrains.com/plugin/30354"><img src="https://img.shields.io/jetbrains/plugin/d/30354?style=flat&label=JetBrains&color=518c83" alt="JetBrains"></a>
+  <a href="https://marketplace.visualstudio.com/items?itemName=alif-naufal.celadon-theme"><img src="https://vsmarketplacebadges.dev/downloads-short/alif-naufal.celadon-theme.svg?color=518c83&subject=VS%20Code" alt="VS Code"></a>
+  <a href="https://open-vsx.org/extension/alif-naufal/celadon-theme"><img src="https://img.shields.io/open-vsx/dt/alif-naufal/celadon-theme?style=flat&label=Open%20VSX&color=518c83" alt="Open VSX"></a>
+  <a href="https://github.com/alif898/celadon-theme"><img src="https://img.shields.io/github/downloads/alif898/celadon-theme/total?style=flat&label=GitHub%20Direct&color=518c83" alt="GitHub Direct"></a>
 </p>
 
 <p align="center">
   <a href="https://www.jsdelivr.com/package/gh/alif898/celadon-theme"><img src="https://img.shields.io/jsdelivr/gh/hm/alif898/celadon-theme?style=flat&label=Theme%20Previews&color=518c83" alt="Theme Previews"></a>
-</p>
-
-<p align="center">
-  <a href="https://codecov.io/gh/alif898/celadon-theme"><img src="https://codecov.io/gh/alif898/celadon-theme/graph/badge.svg?token=H8KVORM1T7&style=flat" alt="codecov"></a>
-  <a href="https://github.com/alif898/celadon-theme/actions/workflows/quality-check-ci.yml"><img src="https://github.com/alif898/celadon-theme/actions/workflows/quality-check-ci.yml/badge.svg" alt="Quality Check CI"></a>
 </p>
 
 <p align="center">
