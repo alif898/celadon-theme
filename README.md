@@ -19,7 +19,7 @@
   <a href="https://plugins.jetbrains.com/plugin/30354"><img src="https://img.shields.io/jetbrains/plugin/d/30354?style=flat&label=JetBrains&color=518c83" alt="JetBrains"></a>
   <a href="https://marketplace.visualstudio.com/items?itemName=alif-naufal.celadon-theme"><img src="https://vsmarketplacebadges.dev/downloads-short/alif-naufal.celadon-theme.svg?color=518c83&subject=VS%20Code" alt="VS Code"></a>
   <a href="https://open-vsx.org/extension/alif-naufal/celadon-theme"><img src="https://img.shields.io/open-vsx/dt/alif-naufal/celadon-theme?style=flat&label=Open%20VSX&color=518c83" alt="Open VSX"></a>
-  <a href="https://github.com/alif898/celadon-theme"><img src="https://img.shields.io/github/downloads/alif898/celadon-theme/total?style=flat&label=GitHub%20Direct&color=518c83" alt="GitHub Direct"></a>
+  <a href="https://github.com/alif898/celadon-theme/releases"><img src="https://img.shields.io/github/downloads/alif898/celadon-theme/total?style=flat&label=GitHub%20Direct&color=518c83" alt="GitHub Direct"></a>
 </p>
 
 <p align="center">
