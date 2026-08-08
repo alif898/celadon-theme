@@ -1,7 +1,8 @@
 import json
 import re
 import tomllib
-from pathlib import Path
+
+from celadon_theme.config.paths import CONFIG_FILE, ROOT_DIR
 
 
 def test_version_logic() -> None:
@@ -10,18 +11,18 @@ def test_version_logic() -> None:
     to pull the version from config.json.
     """
     # Get the version from config.json
-    with Path("config.json").open() as f:
+    with CONFIG_FILE.open(encoding="utf-8") as f:
         config = json.load(f)
     expected_version = config["version"]
 
     # Parse pyproject.toml to find the Hatch Regex
-    with Path("pyproject.toml").open("rb") as f:
+    with (ROOT_DIR / "pyproject.toml").open("rb") as f:
         pyproject = tomllib.load(f)
 
     pattern = pyproject["tool"]["hatch"]["version"]["pattern"]
 
     # Verify the regex actually finds the version in config.json
-    config_content = Path("config.json").read_text()
+    config_content = CONFIG_FILE.read_text(encoding="utf-8")
     match = re.search(pattern, config_content)
 
     assert match is not None, "Hatch regex failed to find version in config.json"

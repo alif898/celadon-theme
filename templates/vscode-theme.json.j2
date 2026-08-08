@@ -1,5 +1,5 @@
 {
-  "name": "{{ config.name }}",
+  "name": {{ config.name | tojson }},
   "type": "dark",
   "colors": {
     "editor.background": "#{{ theme.base0 }}",

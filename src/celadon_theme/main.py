@@ -1,15 +1,27 @@
 import logging
 from logging.config import dictConfig
 
-from jinja2 import Environment, FileSystemLoader, select_autoescape
-
-from celadon_theme.reporting.sample_projects import update_stats_report
+from jinja2 import Environment, FileSystemLoader, StrictUndefined, select_autoescape
 
 from .config.logging_config import logging_config
 from .config.paths import CONFIG_FILE, PALETTE_FILE, SAMPLE_PROJECTS_DIR, TEMPLATES_DIR
+from .generator.claude_code import ClaudeCodeGenerator
 from .generator.jetbrains import JetBrainsGenerator
 from .generator.vscode import VsCodeGenerator
+from .generator.windows_terminal import WindowsTerminalGenerator
+from .reporting.sample_projects import update_stats_report
 from .template.parser import ThemeParser
+
+
+def _build_environment() -> Environment:
+    """
+    Build the Jinja2 environment with strict undefined handling.
+    """
+    return Environment(
+        loader=FileSystemLoader(str(TEMPLATES_DIR)),
+        autoescape=select_autoescape(enabled_extensions=("html",)),
+        undefined=StrictUndefined,
+    )
 
 
 def main() -> None:
@@ -24,10 +36,7 @@ def main() -> None:
     logger.info("Loading palette and config data")
     palette = ThemeParser.load_palette(PALETTE_FILE)
     config = ThemeParser.load_config(CONFIG_FILE)
-    env = Environment(
-        loader=FileSystemLoader(str(TEMPLATES_DIR)),
-        autoescape=select_autoescape(enabled_extensions=("html",)),
-    )
+    env = _build_environment()
     logger.info(
         "Successfully loaded palette and config data, found version: %s", config.version
     )
@@ -36,6 +45,8 @@ def main() -> None:
     generators = [
         JetBrainsGenerator(palette, config, env),
         VsCodeGenerator(palette, config, env),
+        ClaudeCodeGenerator(palette, config, env),
+        WindowsTerminalGenerator(palette, config, env),
     ]
     logger.info("Initialized theme generators: %s", generators)
 

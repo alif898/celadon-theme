@@ -3,8 +3,9 @@ import re
 from collections import defaultdict
 from pathlib import Path
 
-import pathspec
 from pathspec import PathSpec
+
+from celadon_theme.config.paths import ROOT_DIR
 
 logger = logging.getLogger(__name__)
 
@@ -13,7 +14,7 @@ def _load_gitignore(directory: Path) -> PathSpec | None:
     gitignore = directory / ".gitignore"
     if gitignore.exists():
         lines = gitignore.read_text(encoding="utf-8").splitlines()
-        return pathspec.PathSpec.from_lines("gitignore", lines)
+        return PathSpec.from_lines("gitignore", lines)
     return None
 
 
@@ -75,7 +76,7 @@ def render_sample_coverage(coverage: dict[str, list[str]]) -> str:
 
 
 def write_report(coverage: dict[str, list[str]]) -> None:
-    stats_file = Path("STATS.md")
+    stats_file = ROOT_DIR / "STATS.md"
 
     content = render_sample_coverage(coverage)
     section = (
@@ -94,13 +95,16 @@ def write_report(coverage: dict[str, list[str]]) -> None:
 
     logger.info("Updating sample coverage section in STATS.md")
     md = stats_file.read_text(encoding="utf-8")
-    md = re.sub(
+    new_md, n_subs = re.subn(
         r"<!-- section:sample-coverage -->.*?<!-- /section:sample-coverage -->",
         section,
         md,
         flags=re.DOTALL,
     )
-    stats_file.write_text(md, encoding="utf-8")
+    if n_subs == 0:
+        logger.warning("STATS.md missing coverage markers, appending section")
+        new_md = f"{md.rstrip()}\n\n## Sample Project Coverage\n\n{section}\n"
+    stats_file.write_text(new_md, encoding="utf-8")
     logger.info("Successfully updated STATS.md")
 
 

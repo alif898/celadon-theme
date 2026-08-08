@@ -3,7 +3,6 @@ import logging
 from pathlib import Path
 
 import yaml
-from jinja2 import Template
 
 from celadon_theme.models.config import ConfigModel
 from celadon_theme.models.palette import PaletteModel
@@ -20,16 +19,10 @@ class ThemeParser:
     def load_palette(path: Path) -> PaletteModel:
         logger.info("Loading palette from %s", path)
 
-        with path.open() as f:
+        with path.open(encoding="utf-8") as f:
             raw_data = yaml.safe_load(f)
 
-        # Resolve internal YAML references
-        logger.info("Resolving internal YAML references for %s", path)
-        yaml_as_str = yaml.dump(raw_data)
-        resolved_str = Template(yaml_as_str).render(**raw_data)
-        resolved_data = yaml.safe_load(resolved_str)
-
-        palette_model = PaletteModel(**resolved_data)
+        palette_model = PaletteModel(**raw_data)
         logger.info("PaletteModel loaded: %s", palette_model)
         return palette_model
 
@@ -37,7 +30,7 @@ class ThemeParser:
     def load_config(path: Path) -> ConfigModel:
         logger.info("Loading config from %s", path)
 
-        with path.open() as f:
+        with path.open(encoding="utf-8") as f:
             raw_data = json.load(f)
 
         config_model = ConfigModel(**raw_data)

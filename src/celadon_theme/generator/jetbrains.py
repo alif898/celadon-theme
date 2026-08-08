@@ -40,47 +40,26 @@ class JetBrainsGenerator(AbstractThemeGenerator):
         Generate core theme files (XML and JSON).
         """
         logger.info("Generating JetBrains theme files")
+        self.dist_path.mkdir(parents=True, exist_ok=True)
         self.themes_path.mkdir(parents=True, exist_ok=True)
 
-        base_context = {
-            **self.palette.model_dump(),
-            "config": self.config.model_dump(),
-        }
-
-        static_files = {
-            "jetbrains.icls.j2": self.themes_path / "Celadon.xml",
-        }
-
-        for tpl_name, out_path in static_files.items():
-            logger.info("Generating %s", out_path.name)
-            template = self.env.get_template(tpl_name)
-            content = template.render(**base_context)
-            with out_path.open("w", encoding="utf-8") as f:
-                f.write(content)
-            logger.info("Successfully generated %s", out_path.name)
+        self._render_to_file("jetbrains.icls.j2", self.themes_path / "Celadon.xml")
 
         theme_json_outputs = (
             ("celadon.theme.json", False),
             ("celadon-islands.theme.json", True),
         )
-        theme_template = self.env.get_template("jetbrains-theme.json.j2")
         for output_name, is_islands in theme_json_outputs:
-            out_path = self.themes_path / output_name
-            logger.info("Generating %s", out_path.name)
-            context = {**base_context, "is_islands": is_islands}
-            content = theme_template.render(**context)
-            with out_path.open("w", encoding="utf-8") as f:
-                f.write(content)
-            logger.info("Successfully generated %s", out_path.name)
+            self._render_to_file(
+                "jetbrains-theme.json.j2",
+                self.themes_path / output_name,
+                is_islands=is_islands,
+            )
 
         # Project files
-        gradle_props = self.dist_path / "gradle.properties"
-        logger.info("Generating %s", gradle_props.name)
-        template = self.env.get_template("jetbrains-gradle.properties.j2")
-        content = template.render(**base_context)
-        with gradle_props.open("w", encoding="utf-8") as f:
-            f.write(content)
-        logger.info("Successfully generated %s", gradle_props.name)
+        self._render_to_file(
+            "jetbrains-gradle.properties.j2", self.dist_path / "gradle.properties"
+        )
 
         logger.info("JetBrains theme files generated")
 
@@ -91,11 +70,6 @@ class JetBrainsGenerator(AbstractThemeGenerator):
         logger.info("Generating JetBrains theme metadata")
         self.meta_inf_path.mkdir(parents=True, exist_ok=True)
 
-        context = {
-            **self.palette.model_dump(),
-            "config": self.config.model_dump(),
-        }
-
         # Prepare change notes from CHANGELOG.md as HTML for JetBrains plugin.xml
         # If unavailable, fall back to config.change_notes
         change_notes_html = None
@@ -104,7 +78,7 @@ class JetBrainsGenerator(AbstractThemeGenerator):
                 logger.info("Converting CHANGELOG.md to HTML for change notes")
                 md = MarkdownIt("commonmark")
                 # Read whole changelog, JetBrains supports long HTML inside CDATA
-                with CHANGELOG_FILE.open() as f:
+                with CHANGELOG_FILE.open(encoding="utf-8") as f:
                     changelog_md = f.read()
                 change_notes_html = md.render(changelog_md)
                 logger.info("Successfully converted CHANGELOG.md to HTML")
@@ -114,26 +88,23 @@ class JetBrainsGenerator(AbstractThemeGenerator):
                     CHANGELOG_FILE.name,
                     self,
                 )
-        except (OSError, UnicodeDecodeError, ValueError, RuntimeError) as exc:
+        except (OSError, ValueError) as exc:
             # Do not fail generation purely due to changelog conversion
             logger.warning(
                 "Failed to convert CHANGELOG.md to HTML due to error: %s",
                 exc,
             )
 
-        fallback_notes = context["config"].get("change_notes")
-        context["change_notes_html"] = (
-            change_notes_html if change_notes_html is not None else fallback_notes
-        )
+        fallback_notes = self.config.change_notes
+        change_notes_html = change_notes_html or fallback_notes or ""
 
         # plugin.xml
         plugin_xml = self.meta_inf_path / "plugin.xml"
-        logger.info("Generating %s", plugin_xml.name)
-        template = self.env.get_template("jetbrains-plugin.xml.j2")
-        content = template.render(**context)
-        with plugin_xml.open("w", encoding="utf-8") as f:
-            f.write(content)
-        logger.info("Successfully generated %s", plugin_xml.name)
+        self._render_to_file(
+            "jetbrains-plugin.xml.j2",
+            plugin_xml,
+            change_notes_html=change_notes_html,
+        )
 
         # Static assets
         icon_file = "pluginIcon.svg"

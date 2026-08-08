@@ -1,7 +1,7 @@
 {
-    "name": "{% if is_islands %}{{ config.name }} (Islands){% else %}{{ config.name }}{% endif %}",
+    "name": {% if is_islands %}{{ (config.name ~ " (Islands)") | tojson }}{% else %}{{ config.name | tojson }}{% endif %},
     "dark": true,
-    "author": "{{ config.author }}",
+    "author": {{ config.author | tojson }},
     "editorScheme": "/themes/Celadon.xml",{% if is_islands %}
     "parentTheme": "Islands Dark",{% endif %}
     "colors": {
