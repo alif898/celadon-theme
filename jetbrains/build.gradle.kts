@@ -39,6 +39,11 @@ intellijPlatform {
             recommended()
         }
     }
+    signing {
+        certificateChain.set(providers.environmentVariable("CERTIFICATE_CHAIN"))
+        privateKey.set(providers.environmentVariable("PRIVATE_KEY"))
+        password.set(providers.environmentVariable("PRIVATE_KEY_PASSWORD"))
+    }
 }
 
 tasks.runIde {
@@ -60,16 +65,12 @@ tasks.patchPluginXml {
     untilBuild.set(null as String?)
 }
 
-tasks.signPlugin {
-    certificateChain.set(providers.environmentVariable("CERTIFICATE_CHAIN"))
-    privateKey.set(providers.environmentVariable("PRIVATE_KEY"))
-    password.set(providers.environmentVariable("PRIVATE_KEY_PASSWORD"))
-}
-
-// verifyPluginSignature consumes the signed archive produced by signPlugin, but the
-// IntelliJ Platform Gradle Plugin wires it as a bare file path without a task
-// dependency. Gradle 9 fails on this implicit dependency, so declare it explicitly.
+// Signing inputs come from the intellijPlatform.signing extension, which signPlugin,
+// verifyPluginSignature, and publishPlugin all read via conventions.
 tasks.verifyPluginSignature {
+    // verifyPluginSignature consumes the signed archive produced by signPlugin, but the
+    // IntelliJ Platform Gradle Plugin wires it as a bare file path without a task
+    // dependency. Gradle 9 fails on this implicit dependency, so declare it explicitly.
     dependsOn(tasks.signPlugin)
 }
 
