@@ -15,6 +15,7 @@ jobs:
           fetch-depth: 0
           ref: main
           token: ${{ secrets.BYPASS_TOKEN }}
+          persist-credentials: false
 
       - name: Sync version and changelog
         env:
@@ -83,8 +84,9 @@ jobs:
           java-version: '17'
 
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v5
+        uses: gradle/actions/setup-gradle@v6
         with:
+          cache-provider: basic
           cache-read-only: true
 
       - name: Verify JetBrains plugin
