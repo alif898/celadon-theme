@@ -118,7 +118,6 @@ def test_ignores_gitignore_file_itself(tmp_path: Path) -> None:
 def test_root_gitignore_is_respected(tmp_path: Path) -> None:
     (tmp_path / "python").mkdir()
     (tmp_path / "python" / "main.py").touch()
-    (tmp_path / "python" / "dist" / "output.js").mkdir(parents=True) if False else None
     (tmp_path / "dist").mkdir()
     (tmp_path / "dist" / "output.js").touch()
     (tmp_path / ".gitignore").write_text("dist/\n", encoding="utf-8")
@@ -153,16 +152,16 @@ def test_render_empty_coverage() -> None:
 
 def test_creates_new_stats_file_if_not_exists(tmp_path: Path) -> None:
     stats_file = tmp_path / "STATS.md"
-    with patch("celadon_theme.reporting.sample_projects.Path") as mock_path:
-        mock_path.return_value = stats_file
+    with patch("celadon_theme.reporting.sample_projects.ROOT_DIR", tmp_path):
         write_report({"python": [".py"]})
     assert stats_file.exists()
     assert "Sample Project Coverage" in stats_file.read_text(encoding="utf-8")
 
 
 def test_updates_existing_section(existing_stats_file: Path) -> None:
-    with patch("celadon_theme.reporting.sample_projects.Path") as mock_path:
-        mock_path.return_value = existing_stats_file
+    with patch(
+        "celadon_theme.reporting.sample_projects.ROOT_DIR", existing_stats_file.parent
+    ):
         write_report({"python": [".py"]})
     content = existing_stats_file.read_text(encoding="utf-8")
     assert "old content" not in content
@@ -178,18 +177,51 @@ def test_preserves_content_outside_section(existing_stats_file: Path) -> None:
         "<!-- /section:sample-coverage -->\n",
         encoding="utf-8",
     )
-    with patch("celadon_theme.reporting.sample_projects.Path") as mock_path:
-        mock_path.return_value = existing_stats_file
+    with patch(
+        "celadon_theme.reporting.sample_projects.ROOT_DIR", existing_stats_file.parent
+    ):
         write_report({"python": [".py"]})
     assert "Some other content" in existing_stats_file.read_text(encoding="utf-8")
+
+
+def test_appends_section_when_markers_missing(tmp_path: Path) -> None:
+    stats_file = tmp_path / "STATS.md"
+    stats_file.write_text(
+        "# Celadon Theme — Stats\n\nSome other content\n", encoding="utf-8"
+    )
+    with patch("celadon_theme.reporting.sample_projects.ROOT_DIR", tmp_path):
+        write_report({"python": [".py"]})
+    content = stats_file.read_text(encoding="utf-8")
+    assert "Some other content" in content
+    assert "<!-- section:sample-coverage -->" in content
+    assert "| python | .py |" in content
+
+
+def test_no_append_when_section_already_current(tmp_path: Path) -> None:
+    # The generated section is byte-identical to what is already in the file;
+    # this must replace in place and never append a duplicate section.
+    stats_file = tmp_path / "STATS.md"
+    stats_file.write_text(
+        "# celadon-theme\n\n## Sample Project Coverage\n\n"
+        "<!-- section:sample-coverage -->\n"
+        "| Project | Extensions |\n"
+        "|---|---|\n"
+        "| python | .py |\n"
+        "<!-- /section:sample-coverage -->\n",
+        encoding="utf-8",
+    )
+    with patch("celadon_theme.reporting.sample_projects.ROOT_DIR", tmp_path):
+        write_report({"python": [".py"]})
+    content = stats_file.read_text(encoding="utf-8")
+    assert content.count("<!-- section:sample-coverage -->") == 1
+    assert content.count("<!-- /section:sample-coverage -->") == 1
 
 
 def test_update_stats_report_writes_all_projects(
     sample_projects_dir: Path, tmp_path: Path
 ) -> None:
     stats_file = tmp_path / "STATS.md"
-    with patch("celadon_theme.reporting.sample_projects.Path") as mock_path:
-        mock_path.return_value = stats_file
+    with patch("celadon_theme.reporting.sample_projects.ROOT_DIR", tmp_path):
         update_stats_report(sample_projects_dir)
     content = stats_file.read_text(encoding="utf-8")
     assert "python" in content

@@ -24,7 +24,7 @@ def get_project_root() -> Path:
             parent,
         )
 
-    # Fallback to a fixed depth if not found (src/celadon_theme/core/paths.py)
+    # Fallback to a fixed depth if not found (src/celadon_theme/config/paths.py)
     logger.warning("Project root not found, using fixed depth: %s", ROOT_FIXED_DEPTH)
     return Path(__file__).resolve().parents[ROOT_FIXED_DEPTH]
 
@@ -34,9 +34,10 @@ ROOT_DIR = get_project_root()
 TEMPLATES_DIR = ROOT_DIR / "templates"
 JETBRAINS_DIR = ROOT_DIR / "jetbrains"
 VSCODE_DIR = ROOT_DIR / "vscode"
+CLAUDE_CODE_DIR = ROOT_DIR / "claude-code"
+WINDOWS_TERMINAL_DIR = ROOT_DIR / "windows-terminal"
 PALETTE_FILE = ROOT_DIR / "palette.yml"
 CONFIG_FILE = ROOT_DIR / "config.json"
-README_FILE = ROOT_DIR / "README.md"
 CHANGELOG_FILE = ROOT_DIR / "CHANGELOG.md"
 LICENSE_FILE = ROOT_DIR / "LICENSE.md"
 PLUGIN_ICON_SVG = TEMPLATES_DIR / "pluginIcon.svg"

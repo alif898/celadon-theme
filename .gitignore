@@ -1,42 +1,48 @@
-# JetBrains
+# Git
+.gitattributes
+
+# Environment
 **/.idea/
 **/.iws/
 **/.iml/
 **/.ipr/
-
-# Build/Environment
-**/dist/
 **/.venv/
-**/*.egg-info/
-
 **/.gradle/
 **/.intellijPlatform/
+**/.mvn/
+mvnw
+mvnw.cmd
+**/__pycache__/
+**/.pytest_cache/
+**/.ruff_cache/
+**/.mypy_cache/
+
+# Generated Assets
+**/dist/
+**/*.egg-info/
 **/build/
+.coverage
 jetbrains/src
 jetbrains/gradle.properties
-
 vscode/*
 !vscode/.vscode/
 !vscode/.vscodeignore
 *.vsix
+claude-code/
+windows-terminal/
 
-
-**/.mvn/
-mvnw
-mvnw.cmd
-.gitattributes
-
+# Sample Projects
+/sample-projects
 **/.next/
 **/node_modules/
 
-.coverage
+# AI
+AGENTS.md
+CLAUDE.md
+.reasonix
 
 # Sensitive
 /secrets
 *.crt
 *.txt
 *.pem
-
-# Unnecessary
-/sample-projects
-AGENTS.md

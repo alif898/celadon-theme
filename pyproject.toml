@@ -16,26 +16,25 @@ authors = [
 requires-python = ">=3.12"
 dependencies = [
     "jinja2>=3.1.6",
-    "pathspec>=1.0.4",
-    "pydantic>=2.12.5",
-    "pydantic-settings>=2.13.1",
+    "pathspec>=1.1.1",
+    "pillow>=12.3.0",
+    "pydantic>=2.13.4",
+    "pydantic-settings>=2.14.2",
     "pyyaml>=6.0.3",
     "reportlab>=4.4.10",
     "svglib>=1.6.0",
-    # Force patched version to address GHSA-vfmq-68hx-4jfw (XXE in default parsers)
-    # See: https://github.com/lxml/lxml/security/advisories/GHSA-vfmq-68hx-4jfw
-    "lxml>=6.1.0",
-    "markdown-it-py>=3.0.0",
+    "lxml>=6.1.1",
+    "markdown-it-py>=4.2.0",
 ]
 
 [dependency-groups]
 dev = [
-    "pre-commit>=4.5.1",
-    "pytest>=8.3.4",
+    "pre-commit>=4.6.1",
+    "pytest>=9.1.1",
     "pytest-cov>=7.0.0",
-    "ruff>=0.15.6",
-    "ty>=0.0.23",
-    "types-PyYAML>=6.0.12",
+    "ruff>=0.16.2",
+    "ty>=0.0.69",
+    "types-PyYAML>=6.0.12.20260724",
 ]
 
 [project.urls]
@@ -81,8 +80,9 @@ include = ["src/**/*.py", "tests/**/*.py"]
 [tool.ruff.lint]
 select = ["ALL"]
 ignore = [
-    "D",
     "COM812",
+    "CPY001",
+    "D",
 ]
 
 [tool.ruff.lint.per-file-ignores]

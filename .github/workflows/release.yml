@@ -10,17 +10,24 @@ jobs:
       contents: write
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
           ref: main
           token: ${{ secrets.BYPASS_TOKEN }}
 
       - name: Sync version and changelog
+        env:
+          FULL_TAG: ${{ github.event.release.tag_name }}
+          NOTES: ${{ github.event.release.body }}
         run: |
-          FULL_TAG=${{ github.event.release.tag_name }}
-          CLEAN_VERSION=${FULL_TAG#v}
-          NOTES="${{ github.event.release.body }}"
+          set -euo pipefail
+          CLEAN_VERSION="${FULL_TAG#v}"
+          # Canonical SemVer pattern (semver.org), adapted to POSIX ERE for grep -E
+          if ! echo "$CLEAN_VERSION" | grep -Eq '^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(-((0|[1-9][0-9]*|[0-9]*[a-zA-Z-][0-9a-zA-Z-]*)(\.(0|[1-9][0-9]*|[0-9]*[a-zA-Z-][0-9a-zA-Z-]*))*))?(\+([0-9a-zA-Z-]+(\.[0-9a-zA-Z-]+)*))?$'; then
+            echo "::error::Release tag '$FULL_TAG' is not valid SemVer (expected vX.Y.Z)"
+            exit 1
+          fi
           DATE=$(date +'%Y-%m-%d')
           
           echo "Processing Release: $FULL_TAG"
@@ -45,7 +52,7 @@ jobs:
           fi
 
       - name: Install uv
-        uses: astral-sh/setup-uv@v7
+        uses: astral-sh/setup-uv@v9.0.0
         with:
           enable-cache: true
 
@@ -87,7 +94,7 @@ jobs:
           ./gradlew verifyPlugin
 
       - name: Setup Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
           node-version: '23'
 
@@ -114,6 +121,17 @@ jobs:
             git push https://x-access-token:${{ secrets.BYPASS_TOKEN }}@github.com/${{ github.repository }}.git main
           fi
 
+      - name: Sign and verify JetBrains plugin
+        working-directory: jetbrains
+        run: |
+          chmod +x gradlew
+          # CERTIFICATE_CHAIN and PRIVATE_KEY must be base64-encoded single-line
+          ./gradlew buildPlugin signPlugin verifyPluginSignature
+        env:
+          CERTIFICATE_CHAIN: ${{ secrets.CERTIFICATE_CHAIN }}
+          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+          PRIVATE_KEY_PASSWORD: ${{ secrets.PRIVATE_KEY_PASSWORD }}
+
       - name: Upload assets to GitHub Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -121,9 +139,12 @@ jobs:
           gh release upload ${{ github.event.release.tag_name }} \
             ./jetbrains/build/distributions/*.zip \
             ./vscode/*.vsix \
+            './claude-code/celadon-claude-code.json#celadon-claude-code.json' \
+            './windows-terminal/celadon-windows-terminal.json#celadon-windows-terminal.json' \
             --clobber
 
       - name: Publish to JetBrains Marketplace
+        if: ${{ !github.event.release.prerelease }}
         working-directory: jetbrains
         run: |
           chmod +x gradlew
@@ -135,9 +156,13 @@ jobs:
           PRIVATE_KEY_PASSWORD: ${{ secrets.PRIVATE_KEY_PASSWORD }}
 
       - name: Publish to VS Code Marketplace
+        if: ${{ !github.event.release.prerelease }}
         working-directory: vscode
-        run: vsce publish -p ${{ secrets.VSCE_TOKEN }} --no-git-tag-version
+        env:
+          VSCE_TOKEN: ${{ secrets.VSCE_TOKEN }}
+        run: vsce publish -p "$VSCE_TOKEN" --no-git-tag-version
 
       - name: Publish to Open VSX Registry
+        if: ${{ !github.event.release.prerelease }}
         working-directory: vscode
         run: ovsx publish -p ${{ secrets.OPEN_VSX_TOKEN }}

@@ -42,9 +42,9 @@ def test_vscode_generator_files(
 
     themes_path = temp_dist_path / "themes"
     assert (themes_path / "celadon-theme-color-theme.json").exists()
-    assert (
-        themes_path / "celadon-theme-color-theme.json"
-    ).read_text() == "THEME: Test Theme"
+    assert (themes_path / "celadon-theme-color-theme.json").read_text() == (
+        f"THEME: {mock_config.name}"
+    )
 
 
 def test_vscode_generator_metadata(
@@ -63,27 +63,41 @@ def test_vscode_generator_metadata(
     license_file.write_text("License Content")
 
     svg_file = temp_root / "pluginIcon.svg"
-    svg_file.write_text(
-        '<svg width="10" height="10"><rect width="10" height="10" fill="red"/></svg>'
-    )
+    svg_file.write_text("<svg>icon</svg>")
 
     monkeypatch.setattr(vscode_mod, "CHANGELOG_FILE", changelog_file)
     monkeypatch.setattr(vscode_mod, "LICENSE_FILE", license_file)
     monkeypatch.setattr(vscode_mod, "PLUGIN_ICON_SVG", svg_file)
 
-    generator = VsCodeGenerator(
-        mock_palette, mock_config, mock_env, dist_path=temp_dist_path
-    )
-    generator.generate_theme_metadata()
+    class FakeDrawing:
+        def __init__(self) -> None:
+            self.width = 10
+            self.height = 10
+
+        def scale(self, sx: float, sy: float) -> None:
+            self.width *= sx
+            self.height *= sy
+
+    with (
+        patch("celadon_theme.generator.vscode.svg2rlg", return_value=FakeDrawing()),
+        patch("celadon_theme.generator.vscode.renderPM.drawToFile") as mock_draw,
+    ):
+        generator = VsCodeGenerator(
+            mock_palette, mock_config, mock_env, dist_path=temp_dist_path
+        )
+        generator.generate_theme_metadata()
+
+    mock_draw.assert_called_once()
 
     assert (temp_dist_path / "package.json").exists()
     assert (temp_dist_path / "README.md").exists()
     assert (temp_dist_path / "CHANGELOG.md").exists()
     assert (temp_dist_path / "LICENSE.md").exists()
-    assert (temp_dist_path / "icon.png").exists()
 
-    assert (temp_dist_path / "package.json").read_text() == "PACKAGE: 1.0.0"
-    assert (temp_dist_path / "README.md").read_text() == "Test Description"
+    assert (temp_dist_path / "package.json").read_text() == (
+        f"PACKAGE: {mock_config.version}"
+    )
+    assert (temp_dist_path / "README.md").read_text() == mock_config.description
     assert (temp_dist_path / "CHANGELOG.md").read_text() == "Change Log Content"
     assert (temp_dist_path / "LICENSE.md").read_text() == "License Content"
 
@@ -134,18 +148,127 @@ def test_vscode_generator_metadata_no_svg(
     assert not (temp_dist_path / "icon.png").exists()
 
 
+def test_vscode_generator_metadata_zero_size_svg(
+    mock_palette: PaletteModel,
+    mock_config: ConfigModel,
+    mock_env: Environment,
+    temp_dist_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    # An SVG with zero width/height must be skipped, not hit a ZeroDivisionError
+    temp_root = temp_dist_path.parent / "non_existent"
+    temp_root.mkdir()
+    monkeypatch.setattr(vscode_mod, "CHANGELOG_FILE", temp_root / "CHANGELOG.md")
+    monkeypatch.setattr(vscode_mod, "LICENSE_FILE", temp_root / "LICENSE.md")
+    svg_file = temp_root / "zero.svg"
+    svg_file.write_text('<svg width="0" height="10"/>', encoding="utf-8")
+    monkeypatch.setattr(vscode_mod, "PLUGIN_ICON_SVG", svg_file)
+
+    class ZeroDrawing:
+        width = 0
+        height = 10
+
+        def scale(self, sx: float, sy: float) -> None:
+            pass
+
+    with patch("celadon_theme.generator.vscode.svg2rlg", return_value=ZeroDrawing()):
+        generator = VsCodeGenerator(
+            mock_palette, mock_config, mock_env, dist_path=temp_dist_path
+        )
+        generator.generate_theme_metadata()
+
+    assert not (temp_dist_path / "icon.png").exists()
+
+
+def test_vscode_generator_metadata_svg_load_raises(
+    mock_palette: PaletteModel,
+    mock_config: ConfigModel,
+    mock_env: Environment,
+    temp_dist_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    # A raise from svg2rlg must degrade to a skipped icon, not abort metadata
+    temp_root = temp_dist_path.parent / "non_existent"
+    temp_root.mkdir()
+    monkeypatch.setattr(vscode_mod, "CHANGELOG_FILE", temp_root / "CHANGELOG.md")
+    monkeypatch.setattr(vscode_mod, "LICENSE_FILE", temp_root / "LICENSE.md")
+    svg_file = temp_root / "broken.svg"
+    svg_file.write_text("<svg>broken</svg>", encoding="utf-8")
+    monkeypatch.setattr(vscode_mod, "PLUGIN_ICON_SVG", svg_file)
+
+    with patch(
+        "celadon_theme.generator.vscode.svg2rlg",
+        side_effect=ValueError("malformed"),
+    ):
+        generator = VsCodeGenerator(
+            mock_palette, mock_config, mock_env, dist_path=temp_dist_path
+        )
+        generator.generate_theme_metadata()
+
+    assert not (temp_dist_path / "icon.png").exists()
+
+
+def test_vscode_generator_metadata_png_render_raises(
+    mock_palette: PaletteModel,
+    mock_config: ConfigModel,
+    mock_env: Environment,
+    temp_dist_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    # A raise from renderPM.drawToFile must degrade to a skipped icon,
+    # not abort the metadata generation
+    temp_root = temp_dist_path.parent / "non_existent"
+    temp_root.mkdir()
+    monkeypatch.setattr(vscode_mod, "CHANGELOG_FILE", temp_root / "CHANGELOG.md")
+    monkeypatch.setattr(vscode_mod, "LICENSE_FILE", temp_root / "LICENSE.md")
+    svg_file = temp_root / "icon.svg"
+    svg_file.write_text("<svg>icon</svg>", encoding="utf-8")
+    monkeypatch.setattr(vscode_mod, "PLUGIN_ICON_SVG", svg_file)
+
+    class FakeDrawing:
+        def __init__(self) -> None:
+            self.width = 10
+            self.height = 10
+
+        def scale(self, sx: float, sy: float) -> None:
+            self.width *= sx
+            self.height *= sy
+
+    with (
+        patch("celadon_theme.generator.vscode.svg2rlg", return_value=FakeDrawing()),
+        patch(
+            "celadon_theme.generator.vscode.renderPM.drawToFile",
+            side_effect=OSError("disk full"),
+        ),
+    ):
+        generator = VsCodeGenerator(
+            mock_palette, mock_config, mock_env, dist_path=temp_dist_path
+        )
+        generator.generate_theme_metadata()
+
+    assert not (temp_dist_path / "icon.png").exists()
+
+
 def test_vscode_generator_readme_prefix(
     mock_palette: PaletteModel,
     mock_config: ConfigModel,
     mock_env: Environment,
     temp_dist_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
 ) -> None:
+    # Point file constants at non-existent paths so no real repo files are used
+    temp_root = temp_dist_path.parent / "non_existent"
+    temp_root.mkdir()
+    monkeypatch.setattr(vscode_mod, "CHANGELOG_FILE", temp_root / "CHANGELOG.md")
+    monkeypatch.setattr(vscode_mod, "LICENSE_FILE", temp_root / "LICENSE.md")
+    monkeypatch.setattr(vscode_mod, "PLUGIN_ICON_SVG", temp_root / "pluginIcon.svg")
+
     generator = VsCodeGenerator(
         mock_palette, mock_config, mock_env, dist_path=temp_dist_path
     )
     generator.generate_theme_metadata()
 
-    assert (temp_dist_path / "README.md").read_text() == "Test Description"
+    assert (temp_dist_path / "README.md").read_text() == mock_config.description
 
 
 def test_vscode_generator_readme_screenshot_path(
@@ -170,7 +293,35 @@ def test_vscode_generator_readme_screenshot_path(
         "https://cdn.jsdelivr.net/gh/alif898/celadon-theme@v1.2.3/screenshots/vscode.png"
         in readme
     )
-    assert readme.endswith("Test Description")
+    assert readme.endswith(mock_config.description)
+
+
+def test_vscode_generator_readme_screenshot_path_version_with_v_prefix(
+    mock_palette: PaletteModel,
+    mock_config: ConfigModel,
+    mock_env: Environment,
+    temp_dist_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    # A version that already starts with "v" must not produce a "vv" tag
+    temp_root = temp_dist_path.parent / "non_existent"
+    temp_root.mkdir()
+    monkeypatch.setattr(vscode_mod, "CHANGELOG_FILE", temp_root / "CHANGELOG.md")
+    monkeypatch.setattr(vscode_mod, "LICENSE_FILE", temp_root / "LICENSE.md")
+    monkeypatch.setattr(vscode_mod, "PLUGIN_ICON_SVG", temp_root / "pluginIcon.svg")
+
+    mock_config.vscode_screenshot_path = "screenshots/vscode.png"
+    mock_config.version = "v1.2.3"
+    mock_config.github_url = "https://github.com/alif898/celadon-theme"
+
+    generator = VsCodeGenerator(
+        mock_palette, mock_config, mock_env, dist_path=temp_dist_path
+    )
+    generator.generate_theme_metadata()
+
+    readme = (temp_dist_path / "README.md").read_text()
+    assert "@v1.2.3/screenshots/vscode.png" in readme
+    assert "@vv1.2.3" not in readme
 
 
 def test_vscode_generator_readme_screenshot_path_missing_github_url(
@@ -183,7 +334,7 @@ def test_vscode_generator_readme_screenshot_path_missing_github_url(
     # should skip adding the prefix and keep README as description only.
     mock_config.vscode_screenshot_path = "screenshots/vscode.png"
     mock_config.version = "9.9.9"
-    mock_config.github_url = None  # Explicitly unset to trigger the skip path
+    mock_config.github_url = ""  # Explicitly unset to trigger the skip path
 
     generator = VsCodeGenerator(
         mock_palette, mock_config, mock_env, dist_path=temp_dist_path
@@ -191,4 +342,32 @@ def test_vscode_generator_readme_screenshot_path_missing_github_url(
     generator.generate_theme_metadata()
 
     readme = (temp_dist_path / "README.md").read_text()
-    assert readme == "Test Description"
+    assert readme == mock_config.description
+
+
+def test_vscode_generator_readme_screenshot_path_short_github_url(
+    mock_palette: PaletteModel,
+    mock_config: ConfigModel,
+    mock_env: Environment,
+    temp_dist_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    # A github_url with only one path segment cannot be split into owner/repo,
+    # so the screenshot prefix must be skipped without crashing.
+    temp_root = temp_dist_path.parent / "non_existent"
+    temp_root.mkdir()
+    monkeypatch.setattr(vscode_mod, "CHANGELOG_FILE", temp_root / "CHANGELOG.md")
+    monkeypatch.setattr(vscode_mod, "LICENSE_FILE", temp_root / "LICENSE.md")
+    monkeypatch.setattr(vscode_mod, "PLUGIN_ICON_SVG", temp_root / "pluginIcon.svg")
+
+    mock_config.vscode_screenshot_path = "screenshots/vscode.png"
+    mock_config.github_url = "https://github.com/alif898"
+
+    generator = VsCodeGenerator(
+        mock_palette, mock_config, mock_env, dist_path=temp_dist_path
+    )
+    generator.generate_theme_metadata()
+
+    readme = (temp_dist_path / "README.md").read_text()
+    assert readme == mock_config.description
+    assert "jsdelivr" not in readme

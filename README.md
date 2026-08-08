@@ -39,6 +39,8 @@ providing a high-contrast yet eye-friendly environment for long-form coding.
 and VS Code-based editors,
 including new generation AI-native IDEs like Cursor, Devin, and Antigravity,
 via the [Open VSX Registry](https://open-vsx.org/extension/alif-naufal/celadon-theme).
+Additionally, it is available for Claude Code
+and Windows Terminal.
 
 ## Project Details
 
@@ -46,8 +48,24 @@ For change history, refer to [CHANGELOG.md](CHANGELOG.md).
 
 For sample screenshots of what the theme looks like, refer to [screenshots](screenshots).
 
+### Installation
+
+Marketplace installation is available for the following platforms:
+ - [JetBrains](https://plugins.jetbrains.com/plugin/30354)
+ - [VS Code](https://marketplace.visualstudio.com/items?itemName=alif-naufal.celadon-theme)
+ - [Open VSX Registry](https://open-vsx.org/extension/alif-naufal/celadon-theme)
+
 Manual installation can be done by downloading from [GitHub Releases](https://github.com/alif898/celadon-theme/releases),
-the `.zip` file is for JetBrains IDEs and the `.vsix` file is for VS Code/VS Code-based editors.
+the `.zip` file is for JetBrains IDEs,
+the `.vsix` file is for VS Code/VS Code-based editors,
+and the `.json` files are for Claude Code and Windows Terminal.
+
+For Claude Code (v2.1.118 or later), place the `.json` file in the `~/.claude/themes` directory,
+then activate it in Claude Code with `/theme` and select **Celadon Theme**.
+
+For Windows Terminal, copy the `.json` into the `schemes` array of `settings.json`,
+by opening Windows Terminal settings and clicking "Open JSON file". 
+Then set the scheme in your profile with `"colorScheme": "Celadon Theme"`.
 
 ### Project Structure
 
@@ -79,7 +97,7 @@ the `.zip` file is for JetBrains IDEs and the `.vsix` file is for VS Code/VS Cod
 This project uses a single source of truth for the color palette, defined in `palette.yml`.
 The Python code reads the palette and injects its values into Jinja2 templates found in `/templates` to produce the necessary theme and metadata files for each target IDE.
 
-### Instructions
+### Running Locally
 
 First, ensure that Python `3.12` and `uv` are installed.
 `uv` is used for fast, reproducible dependency management.
@@ -116,6 +134,10 @@ cd vscode
 vsce package --no-git-tag-version
 ```
 Output `.vsix` file will be located in `vscode/celadon-theme-*.vsix`.
+
+For Claude Code and Windows Terminal,
+their respective `.json` files will be generated automatically when running the generator 
+and can be found in the respective `claude-code` and `windows-terminal` folders.
 
 ### Testing
 

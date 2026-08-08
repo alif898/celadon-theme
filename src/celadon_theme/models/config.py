@@ -13,12 +13,12 @@ class ConfigModel(BaseModel):
     vscode_screenshot_path: str | None = None
     plugin_name: str
     author: str
-    vendor_url: str | None = None
+    vendor_url: str = ""
     description: str
     jetbrains_description_suffix: str = ""
     change_notes: str | None = None
-    github_url: str | None = None
-    vs_code_publisher: str | None = None
-    direct_git_url: str | None = None
-    issues_url: str | None = None
-    sponsor_url: str | None = None
+    github_url: str = ""
+    vs_code_publisher: str = ""
+    direct_git_url: str = ""
+    issues_url: str = ""
+    sponsor_url: str = ""

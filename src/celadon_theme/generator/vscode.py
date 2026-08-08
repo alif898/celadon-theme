@@ -45,20 +45,10 @@ class VsCodeGenerator(AbstractThemeGenerator):
         logger.info("Generating VSCode theme files")
         self.themes_path.mkdir(parents=True, exist_ok=True)
 
-        context = {
-            **self.palette.model_dump(),
-            "theme": self.palette.theme,
-            "config": self.config.model_dump(),
-        }
-
-        # Theme JSON
-        template = self.env.get_template("vscode-theme.json.j2")
-        content = template.render(**context)
-        out_path = self.themes_path / "celadon-theme-color-theme.json"
-        logger.info("Generating %s", out_path.name)
-        with out_path.open("w") as f:
-            f.write(content)
-        logger.info("Successfully generated %s", out_path.name)
+        self._render_to_file(
+            "vscode-theme.json.j2",
+            self.themes_path / "celadon-theme-color-theme.json",
+        )
 
         logger.info("VSCode theme files generated")
 
@@ -69,30 +59,12 @@ class VsCodeGenerator(AbstractThemeGenerator):
         logger.info("Generating VSCode theme metadata")
         self.dist_path.mkdir(parents=True, exist_ok=True)
 
-        context = {
-            **self.palette.model_dump(),
-            "theme": self.palette.theme,
-            "config": self.config.model_dump(),
-        }
-
-        self._generate_package_json(context)
+        self._render_to_file("vscode-package.json.j2", self.dist_path / "package.json")
         self._generate_readme()
         self._copy_metadata_files()
         self._generate_icon()
 
         logger.info("VSCode theme metadata generated")
-
-    def _generate_package_json(self, context: dict) -> None:
-        """
-        Generate package.json for VSCode.
-        """
-        template = self.env.get_template("vscode-package.json.j2")
-        content = template.render(**context)
-        out_path = self.dist_path / "package.json"
-        logger.info("Generating %s", out_path.name)
-        with out_path.open("w") as f:
-            f.write(content)
-        logger.info("Successfully generated %s", out_path.name)
 
     def _generate_readme(self) -> None:
         """
@@ -116,7 +88,8 @@ class VsCodeGenerator(AbstractThemeGenerator):
                     )
 
             if owner and repo:
-                tag = f"v{self.config.version}"
+                version = self.config.version
+                tag = f"v{version}" if not version.startswith("v") else version
                 cdn_url = (
                     "https://cdn.jsdelivr.net/gh/"
                     f"{owner}/{repo}@{tag}/{self.config.vscode_screenshot_path}"
@@ -156,31 +129,40 @@ class VsCodeGenerator(AbstractThemeGenerator):
         """
         Convert SVG icon to PNG for VSCode.
         """
-        if PLUGIN_ICON_SVG.exists():
-            logger.info("Converting %s to PNG", PLUGIN_ICON_SVG.name)
-            drawing = svg2rlg(PLUGIN_ICON_SVG)
-
-            if drawing is None:
-                logger.error("Failed to load SVG from %s", PLUGIN_ICON_SVG)
-                return
-
-            # Ensure minimum resolution of 256x256
-            target_size = 256
-            scale_x = target_size / drawing.width
-            scale_y = target_size / drawing.height
-            scale = max(scale_x, scale_y)
-
-            drawing.scale(scale, scale)
-            drawing.width *= scale
-            drawing.height *= scale
-
-            icon_png_path = self.dist_path / "icon.png"
-            logger.info("Generating %s", icon_png_path.name)
-            renderPM.drawToFile(drawing, str(icon_png_path), fmt="PNG")
-            logger.info("Successfully generated %s", icon_png_path.name)
-        else:
+        if not PLUGIN_ICON_SVG.exists():
             logger.warning(
                 "File: %s not found, skipping icon conversion step for %s",
                 PLUGIN_ICON_SVG.name,
                 self,
             )
+            return
+
+        logger.info("Converting %s to PNG", PLUGIN_ICON_SVG.name)
+        try:
+            drawing = svg2rlg(PLUGIN_ICON_SVG)
+        except (OSError, ValueError, AttributeError):
+            logger.exception("Failed to load SVG from %s", PLUGIN_ICON_SVG)
+            return
+
+        if drawing is None or not drawing.width or not drawing.height:
+            logger.error("Failed to load SVG from %s", PLUGIN_ICON_SVG)
+            return
+
+        # Ensure minimum resolution of 256x256
+        target_size = 256
+        scale_x = target_size / drawing.width
+        scale_y = target_size / drawing.height
+        scale = max(scale_x, scale_y)
+
+        drawing.scale(scale, scale)
+        drawing.width *= scale
+        drawing.height *= scale
+
+        icon_png_path = self.dist_path / "icon.png"
+        logger.info("Generating %s", icon_png_path.name)
+        try:
+            renderPM.drawToFile(drawing, str(icon_png_path), fmt="PNG")
+        except (OSError, ValueError):
+            logger.exception("Failed to render PNG from %s", PLUGIN_ICON_SVG)
+            return
+        logger.info("Successfully generated %s", icon_png_path.name)
