@@ -23,7 +23,7 @@ class ThemeParser:
             raw_data = yaml.safe_load(f)
 
         palette_model = PaletteModel(**raw_data)
-        logger.info("PaletteModel loaded: %s", palette_model)
+        logger.info("%s loaded: %s", type(palette_model).__name__, palette_model)
         return palette_model
 
     @staticmethod
@@ -34,5 +34,5 @@ class ThemeParser:
             raw_data = json.load(f)
 
         config_model = ConfigModel(**raw_data)
-        logger.info("ConfigModel loaded: %s", config_model)
+        logger.info("%s loaded: %s", type(config_model).__name__, config_model)
         return config_model

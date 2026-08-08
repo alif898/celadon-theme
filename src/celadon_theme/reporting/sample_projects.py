@@ -86,14 +86,14 @@ def write_report(coverage: dict[str, list[str]]) -> None:
     )
 
     if not stats_file.exists():
-        logger.info("STATS.md not found, creating new file")
+        logger.info("%s not found, creating new file", stats_file.name)
         stats_file.write_text(
             f"# celadon-theme\n\n## Sample Project Coverage\n\n{section}\n",
             encoding="utf-8",
         )
         return
 
-    logger.info("Updating sample coverage section in STATS.md")
+    logger.info("Updating sample coverage section in %s", stats_file.name)
     md = stats_file.read_text(encoding="utf-8")
     new_md, n_subs = re.subn(
         r"<!-- section:sample-coverage -->.*?<!-- /section:sample-coverage -->",
@@ -102,10 +102,12 @@ def write_report(coverage: dict[str, list[str]]) -> None:
         flags=re.DOTALL,
     )
     if n_subs == 0:
-        logger.warning("STATS.md missing coverage markers, appending section")
+        logger.warning(
+            "%s missing coverage markers, appending section", stats_file.name
+        )
         new_md = f"{md.rstrip()}\n\n## Sample Project Coverage\n\n{section}\n"
     stats_file.write_text(new_md, encoding="utf-8")
-    logger.info("Successfully updated STATS.md")
+    logger.info("Successfully updated %s", stats_file.name)
 
 
 def update_stats_report(sample_projects_dir: Path) -> None:

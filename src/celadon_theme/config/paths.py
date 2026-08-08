@@ -4,6 +4,7 @@ from pathlib import Path
 logger = logging.getLogger(__name__)
 
 ROOT_FIXED_DEPTH = 3
+PYPROJECT_FILE = "pyproject.toml"
 
 
 def get_project_root() -> Path:
@@ -16,11 +17,12 @@ def get_project_root() -> Path:
     logger.info("Current directory: %s", current)
     for parent in [current, *list(current.parents)]:
         logger.info("Checking parent: %s", parent)
-        if (parent / "pyproject.toml").exists():
+        if (parent / PYPROJECT_FILE).exists():
             logger.info("Project root found: %s", parent)
             return parent
         logger.warning(
-            "File: pyproject.toml not found, skipping root check step for %s",
+            "File: %s not found, skipping root check step for %s",
+            PYPROJECT_FILE,
             parent,
         )
 

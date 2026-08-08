@@ -42,7 +42,7 @@ class VsCodeGenerator(AbstractThemeGenerator):
         """
         Generate core theme files (JSON).
         """
-        logger.info("Generating VSCode theme files")
+        logger.info("Generating %s theme files", self)
         self.themes_path.mkdir(parents=True, exist_ok=True)
 
         self._render_to_file(
@@ -50,13 +50,13 @@ class VsCodeGenerator(AbstractThemeGenerator):
             self.themes_path / "celadon-theme-color-theme.json",
         )
 
-        logger.info("VSCode theme files generated")
+        logger.info("%s theme files generated", self)
 
     def generate_theme_metadata(self) -> None:
         """
         Generate metadata (package.json) and copy README/CHANGELOG/LICENSE/Icon.
         """
-        logger.info("Generating VSCode theme metadata")
+        logger.info("Generating %s theme metadata", self)
         self.dist_path.mkdir(parents=True, exist_ok=True)
 
         self._render_to_file("vscode-package.json.j2", self.dist_path / "package.json")
@@ -64,7 +64,7 @@ class VsCodeGenerator(AbstractThemeGenerator):
         self._copy_metadata_files()
         self._generate_icon()
 
-        logger.info("VSCode theme metadata generated")
+        logger.info("%s theme metadata generated", self)
 
     def _generate_readme(self) -> None:
         """

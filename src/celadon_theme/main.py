@@ -60,7 +60,9 @@ def main() -> None:
 
     # For local runs, generate report of sample-project coverage
     if SAMPLE_PROJECTS_DIR.exists():
-        logger.info("sample-projects is present, will generate coverage report")
+        logger.info(
+            "%s is present, will generate coverage report", SAMPLE_PROJECTS_DIR.name
+        )
         update_stats_report(SAMPLE_PROJECTS_DIR)
 
 

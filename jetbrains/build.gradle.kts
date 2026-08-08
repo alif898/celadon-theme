@@ -66,6 +66,13 @@ tasks.signPlugin {
     password.set(providers.environmentVariable("PRIVATE_KEY_PASSWORD"))
 }
 
+// verifyPluginSignature consumes the signed archive produced by signPlugin, but the
+// IntelliJ Platform Gradle Plugin wires it as a bare file path without a task
+// dependency. Gradle 9 fails on this implicit dependency, so declare it explicitly.
+tasks.verifyPluginSignature {
+    dependsOn(tasks.signPlugin)
+}
+
 tasks.publishPlugin {
     token.set(providers.environmentVariable("PUBLISH_TOKEN"))
 }
