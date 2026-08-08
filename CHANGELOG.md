@@ -1,5 +1,10 @@
 # Changelog
 
+## [v1.1.0] - 2026-08-08
+ - Added Claude Code and Windows Terminal
+ - Upgraded dependencies
+
+
 ## [v1.0.2] - 2026-06-13
  - Modified descriptions to refer to Devin instead of Windsurf
 
