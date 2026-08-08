@@ -30,7 +30,7 @@ class WindowsTerminalGenerator(AbstractThemeGenerator):
         """
         Generate the Windows Terminal color scheme JSON file.
         """
-        logger.info("Generating Windows Terminal theme files")
+        logger.info("Generating %s theme files", self)
         self.dist_path.mkdir(parents=True, exist_ok=True)
 
         self._render_to_file(
@@ -38,10 +38,10 @@ class WindowsTerminalGenerator(AbstractThemeGenerator):
             self.dist_path / "celadon-windows-terminal.json",
         )
 
-        logger.info("Windows Terminal theme files generated")
+        logger.info("%s theme files generated", self)
 
     def generate_theme_metadata(self) -> None:
         """
         No-op: Windows Terminal themes are installed manually, no packaging needed.
         """
-        logger.info("Windows Terminal has no metadata to generate, skipping")
+        logger.info("%s has no metadata to generate, skipping", self)

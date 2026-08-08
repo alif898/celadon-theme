@@ -39,7 +39,7 @@ class JetBrainsGenerator(AbstractThemeGenerator):
         """
         Generate core theme files (XML and JSON).
         """
-        logger.info("Generating JetBrains theme files")
+        logger.info("Generating %s theme files", self)
         self.dist_path.mkdir(parents=True, exist_ok=True)
         self.themes_path.mkdir(parents=True, exist_ok=True)
 
@@ -61,13 +61,13 @@ class JetBrainsGenerator(AbstractThemeGenerator):
             "jetbrains-gradle.properties.j2", self.dist_path / "gradle.properties"
         )
 
-        logger.info("JetBrains theme files generated")
+        logger.info("%s theme files generated", self)
 
     def generate_theme_metadata(self) -> None:
         """
         Generate metadata (plugin.xml) and copy icons.
         """
-        logger.info("Generating JetBrains theme metadata")
+        logger.info("Generating %s theme metadata", self)
         self.meta_inf_path.mkdir(parents=True, exist_ok=True)
 
         # Prepare change notes from CHANGELOG.md as HTML for JetBrains plugin.xml
@@ -75,13 +75,15 @@ class JetBrainsGenerator(AbstractThemeGenerator):
         change_notes_html = None
         try:
             if CHANGELOG_FILE.exists():
-                logger.info("Converting CHANGELOG.md to HTML for change notes")
+                logger.info(
+                    "Converting %s to HTML for change notes", CHANGELOG_FILE.name
+                )
                 md = MarkdownIt("commonmark")
                 # Read whole changelog, JetBrains supports long HTML inside CDATA
                 with CHANGELOG_FILE.open(encoding="utf-8") as f:
                     changelog_md = f.read()
                 change_notes_html = md.render(changelog_md)
-                logger.info("Successfully converted CHANGELOG.md to HTML")
+                logger.info("Successfully converted %s to HTML", CHANGELOG_FILE.name)
             else:
                 logger.warning(
                     "File: %s not found, skipping changelog HTML conversion for %s",
@@ -91,7 +93,8 @@ class JetBrainsGenerator(AbstractThemeGenerator):
         except (OSError, ValueError) as exc:
             # Do not fail generation purely due to changelog conversion
             logger.warning(
-                "Failed to convert CHANGELOG.md to HTML due to error: %s",
+                "Failed to convert %s to HTML due to error: %s",
+                CHANGELOG_FILE.name,
                 exc,
             )
 
@@ -121,4 +124,4 @@ class JetBrainsGenerator(AbstractThemeGenerator):
                 self,
             )
 
-        logger.info("JetBrains theme metadata generated")
+        logger.info("%s theme metadata generated", self)

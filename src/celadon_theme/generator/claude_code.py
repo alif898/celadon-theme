@@ -30,17 +30,17 @@ class ClaudeCodeGenerator(AbstractThemeGenerator):
         """
         Generate the Claude Code theme JSON file.
         """
-        logger.info("Generating Claude Code theme files")
+        logger.info("Generating %s theme files", self)
         self.dist_path.mkdir(parents=True, exist_ok=True)
 
         self._render_to_file(
             "claude-code-theme.json.j2", self.dist_path / "celadon-claude-code.json"
         )
 
-        logger.info("Claude Code theme files generated")
+        logger.info("%s theme files generated", self)
 
     def generate_theme_metadata(self) -> None:
         """
         No-op: Claude Code themes are installed manually, no packaging needed.
         """
-        logger.info("Claude Code has no metadata to generate, skipping")
+        logger.info("%s has no metadata to generate, skipping", self)
