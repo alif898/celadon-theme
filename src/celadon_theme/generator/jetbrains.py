@@ -70,8 +70,8 @@ class JetBrainsGenerator(AbstractThemeGenerator):
         logger.info("Generating %s theme metadata", self)
         self.meta_inf_path.mkdir(parents=True, exist_ok=True)
 
-        # Prepare change notes from CHANGELOG.md as HTML for JetBrains plugin.xml
-        # If unavailable, fall back to config.change_notes
+        # Prepare change notes from CHANGELOG.md as HTML for JetBrains plugin.xml.
+        # If unavailable, fall back to config.change_notes.
         change_notes_html = None
         try:
             if CHANGELOG_FILE.exists():
@@ -79,7 +79,7 @@ class JetBrainsGenerator(AbstractThemeGenerator):
                     "Converting %s to HTML for change notes", CHANGELOG_FILE.name
                 )
                 md = MarkdownIt("commonmark")
-                # Read whole changelog, JetBrains supports long HTML inside CDATA
+                # Read whole changelog, JetBrains supports long HTML inside CDATA.
                 with CHANGELOG_FILE.open(encoding="utf-8") as f:
                     changelog_md = f.read()
                 change_notes_html = md.render(changelog_md)
@@ -91,7 +91,7 @@ class JetBrainsGenerator(AbstractThemeGenerator):
                     self,
                 )
         except (OSError, ValueError) as exc:
-            # Do not fail generation purely due to changelog conversion
+            # Do not fail generation purely due to changelog conversion.
             logger.warning(
                 "Failed to convert %s to HTML due to error: %s",
                 CHANGELOG_FILE.name,

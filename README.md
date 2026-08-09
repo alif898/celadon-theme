@@ -30,16 +30,15 @@
   <img src="https://cdn.jsdelivr.net/gh/alif898/celadon-theme@main/screenshots/vscode.png" alt="Screenshot">
 </p>
 
-**Celadon** is a dark IDE theme inspired by the muted, matte finish of classical ceramics. 
+**Celadon** is a dark IDE/terminal theme inspired by the muted, matte finish of classical ceramics. 
 It layers cheerful, milky pastels over a deep jade base, 
 providing a high-contrast yet eye-friendly environment for long-form coding.
 **Celadon** is available for 
 [JetBrains IDEs](https://plugins.jetbrains.com/plugin/30354),
 [VS Code](https://marketplace.visualstudio.com/items?itemName=alif-naufal.celadon-theme),
-and VS Code-based editors,
-including new generation AI-native IDEs like Cursor, Devin, and Antigravity,
-via the [Open VSX Registry](https://open-vsx.org/extension/alif-naufal/celadon-theme).
-Additionally, it is available for Claude Code
+VS Code-based editors (VSCodium, AI-native IDEs: Cursor, Devin, Antigravity)
+via the [Open VSX Registry](https://open-vsx.org/extension/alif-naufal/celadon-theme),
+CLI agentic coding tools (Claude Code, Pi, Qwen Code, Kimi Code)
 and Windows Terminal.
 
 ## Project Details
@@ -58,10 +57,27 @@ Marketplace installation is available for the following platforms:
 Manual installation can be done by downloading from [GitHub Releases](https://github.com/alif898/celadon-theme/releases),
 the `.zip` file is for JetBrains IDEs,
 the `.vsix` file is for VS Code/VS Code-based editors,
-and the `.json` files are for Claude Code and Windows Terminal.
+and the `.json` files are for Claude Code, Pi, Qwen Code, Kimi Code and Windows Terminal.
 
 For Claude Code (v2.1.118 or later), place the `.json` file in the `~/.claude/themes` directory,
 then activate it in Claude Code with `/theme` and select **Celadon Theme**.
+
+For Pi, place the `.json` file in the `~/.pi/agent/themes` directory,
+then select it via `/settings` → **Theme** and pick **Celadon Theme**.
+
+For Qwen Code, paste the `.json` file contents into the `ui.customThemes` block of `~/.qwen/settings.json`, for example:
+```json
+{ "ui": { "customThemes": { "Celadon Theme": <paste celadon-qwen-code.json contents here> } } }
+```
+then activate it with `/theme` and select **Celadon Theme**.
+If your `settings.json` already defines a theme via `ui.theme` (by name or by file path),
+you must remove that setting first. Otherwise `/theme` will not allow switching themes.
+Alternatively, set `"theme": "Celadon Theme"` inside the `ui` object to make it the default.
+
+For Kimi Code, place the `.json` file in the `~/.kimi-code/themes` directory
+(or `$KIMI_CODE_HOME/themes` if the `KIMI_CODE_HOME` environment variable is set),
+then activate it in Kimi Code with `/theme` and select **Custom: celadon-kimi-code**.
+Alternatively, set the theme in `tui.toml`, with `theme = "Celadon Theme"`.
 
 For Windows Terminal, copy the `.json` into the `schemes` array of `settings.json`,
 by opening Windows Terminal settings and clicking "Open JSON file". 
@@ -135,9 +151,9 @@ vsce package --no-git-tag-version
 ```
 Output `.vsix` file will be located in `vscode/celadon-theme-*.vsix`.
 
-For Claude Code and Windows Terminal,
+For Claude Code, Qwen Code, Kimi Code, Windows Terminal, and Pi,
 their respective `.json` files will be generated automatically when running the generator 
-and can be found in the respective `claude-code` and `windows-terminal` folders.
+and can be found in the respective `claude-code`, `qwen-code`, `kimi-code`, `windows-terminal`, and `pi` folders.
 
 ### Testing
 
@@ -215,6 +231,9 @@ However, depending on the specific language extension, the way it interacts with
 
 For the JetBrains plugin, it includes variants for both the classic JetBrains layout and the new Islands UI.
 
+For the CLI agentic coding tools, each tool exposes a different set of customizable elements,
+therefore the visual feel is not fully consistent from tool to tool.
+
 ### CI/CD
 
 CI/CD is automated using GitHub Actions to ensure code quality and automated deployment to all platforms.
@@ -227,6 +246,6 @@ There are three levels of workflow:
 
 The release workflow is triggered manually by creating a new release on GitHub, with a corresponding tag following `SemVer` conventions,
 along with the release description.
-Subsequently, the workflow will pick up the new version and release description, and modify `config.json` accordingly.
+Subsequently, the workflow will pick up the new version and release description and modify `config.json` accordingly.
 The workflow will then run the theme generator with this new version before publishing the new release to all platforms.
 The changelog will also be updated automatically.

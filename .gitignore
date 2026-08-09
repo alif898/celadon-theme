@@ -29,6 +29,9 @@ vscode/*
 !vscode/.vscodeignore
 *.vsix
 claude-code/
+qwen-code/
+kimi-code/
+pi/
 windows-terminal/
 
 # Sample Projects
@@ -39,6 +42,7 @@ windows-terminal/
 # AI
 AGENTS.md
 CLAUDE.md
+.qwen
 .reasonix
 
 # Sensitive

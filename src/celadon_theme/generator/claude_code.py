@@ -1,46 +1,15 @@
-import logging
 from pathlib import Path
-
-from jinja2 import Environment
+from typing import ClassVar
 
 from celadon_theme.config.paths import CLAUDE_CODE_DIR
-from celadon_theme.generator.base import AbstractThemeGenerator
-from celadon_theme.models.config import ConfigModel
-from celadon_theme.models.palette import PaletteModel
-
-logger = logging.getLogger(__name__)
+from celadon_theme.generator.single_file import SingleFileThemeGenerator
 
 
-class ClaudeCodeGenerator(AbstractThemeGenerator):
+class ClaudeCodeGenerator(SingleFileThemeGenerator):
     """
     Generator for Claude Code themes.
     """
 
-    def __init__(
-        self,
-        palette: PaletteModel,
-        config: ConfigModel,
-        env: Environment,
-        dist_path: Path = CLAUDE_CODE_DIR,
-    ) -> None:
-        super().__init__(palette, config, env)
-        self.dist_path = dist_path
-
-    def generate_theme_files(self) -> None:
-        """
-        Generate the Claude Code theme JSON file.
-        """
-        logger.info("Generating %s theme files", self)
-        self.dist_path.mkdir(parents=True, exist_ok=True)
-
-        self._render_to_file(
-            "claude-code-theme.json.j2", self.dist_path / "celadon-claude-code.json"
-        )
-
-        logger.info("%s theme files generated", self)
-
-    def generate_theme_metadata(self) -> None:
-        """
-        No-op: Claude Code themes are installed manually, no packaging needed.
-        """
-        logger.info("%s has no metadata to generate, skipping", self)
+    template_name: ClassVar[str] = "claude-code-theme.json.j2"
+    output_file_name: ClassVar[str] = "celadon-claude-code.json"
+    dist_dir: ClassVar[Path] = CLAUDE_CODE_DIR

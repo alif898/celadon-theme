@@ -127,11 +127,18 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          VERSION=$(jq -r '.version' config.json)
+          # The `#label` suffix is display-only. It shows the versioned name on the
+          # release page, while the asset keeps its filename so the stable
+          # releases/latest/download/<name>.json URLs keep working.
           gh release upload ${{ github.event.release.tag_name }} \
             ./jetbrains/build/distributions/*.zip \
             ./vscode/*.vsix \
-            './claude-code/celadon-claude-code.json#celadon-claude-code.json' \
-            './windows-terminal/celadon-windows-terminal.json#celadon-windows-terminal.json' \
+            "./claude-code/celadon-claude-code.json#celadon-claude-code-${VERSION}.json" \
+            "./qwen-code/celadon-qwen-code.json#celadon-qwen-code-${VERSION}.json" \
+            "./kimi-code/celadon-kimi-code.json#celadon-kimi-code-${VERSION}.json" \
+            "./pi/celadon-pi.json#celadon-pi-${VERSION}.json" \
+            "./windows-terminal/celadon-windows-terminal.json#celadon-windows-terminal-${VERSION}.json" \
             --clobber
 
       - name: Publish to JetBrains Marketplace

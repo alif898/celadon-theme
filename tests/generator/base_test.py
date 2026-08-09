@@ -22,6 +22,6 @@ def test_abstract_generator(
     generator = DummyGenerator(mock_palette, mock_config, env)
 
     assert str(generator) == "DummyGenerator"
-    # Call abstract methods which do nothing (pass)
+    # Call abstract methods which do nothing (pass).
     generator.generate_theme_files()
     generator.generate_theme_metadata()

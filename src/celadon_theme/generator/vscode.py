@@ -73,7 +73,7 @@ class VsCodeGenerator(AbstractThemeGenerator):
         readme_path = self.dist_path / "README.md"
         readme_content = self.config.description
 
-        # Compose jsDelivr URL from screenshot path + version
+        # Compose jsDelivr URL from screenshot path + version.
         if self.config.vscode_screenshot_path:
             owner: str | None = None
             repo: str | None = None
@@ -148,7 +148,7 @@ class VsCodeGenerator(AbstractThemeGenerator):
             logger.error("Failed to load SVG from %s", PLUGIN_ICON_SVG)
             return
 
-        # Ensure minimum resolution of 256x256
+        # Ensure minimum resolution of 256x256.
         target_size = 256
         scale_x = target_size / drawing.width
         scale_y = target_size / drawing.height

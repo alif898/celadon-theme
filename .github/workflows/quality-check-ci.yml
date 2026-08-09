@@ -109,5 +109,8 @@ jobs:
             jetbrains/build/distributions/*.zip
             vscode/*.vsix
             claude-code/celadon-claude-code.json
+            qwen-code/celadon-qwen-code.json
+            kimi-code/celadon-kimi-code.json
+            pi/celadon-pi.json
             windows-terminal/celadon-windows-terminal.json
           retention-days: 14

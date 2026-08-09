@@ -10,18 +10,18 @@ def test_version_logic() -> None:
     Verify that the build backend (Hatch) is correctly configured
     to pull the version from config.json.
     """
-    # Get the version from config.json
+    # Get the version from config.json.
     with CONFIG_FILE.open(encoding="utf-8") as f:
         config = json.load(f)
     expected_version = config["version"]
 
-    # Parse pyproject.toml to find the Hatch Regex
+    # Parse pyproject.toml to find the Hatch Regex.
     with (ROOT_DIR / "pyproject.toml").open("rb") as f:
         pyproject = tomllib.load(f)
 
     pattern = pyproject["tool"]["hatch"]["version"]["pattern"]
 
-    # Verify the regex actually finds the version in config.json
+    # Verify the regex actually finds the version in config.json.
     config_content = CONFIG_FILE.read_text(encoding="utf-8")
     match = re.search(pattern, config_content)
 

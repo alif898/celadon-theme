@@ -54,7 +54,7 @@ def test_vscode_generator_metadata(
     temp_dist_path: Path,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
-    # Create mock README, CHANGELOG, LICENSE, and SVG in a temporary location
+    # Create mock README, CHANGELOG, LICENSE, and SVG in a temporary location.
     temp_root = temp_dist_path.parent
     changelog_file = temp_root / "CHANGELOG.md"
     changelog_file.write_text("Change Log Content")
@@ -109,7 +109,7 @@ def test_vscode_generator_metadata_missing_files(
     temp_dist_path: Path,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
-    # Point to non-existent files
+    # Point to non-existent files.
     temp_root = temp_dist_path.parent / "non_existent"
     temp_root.mkdir()
 
@@ -121,7 +121,7 @@ def test_vscode_generator_metadata_missing_files(
         mock_palette, mock_config, mock_env, dist_path=temp_dist_path
     )
 
-    # Ensure it doesn't throw and gracefully skips
+    # Ensure it doesn't throw and gracefully skips.
     generator.generate_theme_metadata()
 
 
@@ -132,9 +132,9 @@ def test_vscode_generator_metadata_no_svg(
     temp_dist_path: Path,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
-    # Test when svg2rlg returns None
+    # Test when svg2rlg returns None.
     svg_file = temp_dist_path.parent / "non_existent.svg"
-    # We want it to exist but fail to load
+    # We want it to exist but fail to load.
     svg_file.write_text("<invalid>svg</invalid>")
 
     monkeypatch.setattr(vscode_mod, "PLUGIN_ICON_SVG", svg_file)
@@ -155,7 +155,7 @@ def test_vscode_generator_metadata_zero_size_svg(
     temp_dist_path: Path,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
-    # An SVG with zero width/height must be skipped, not hit a ZeroDivisionError
+    # An SVG with zero width/height must be skipped, not hit a ZeroDivisionError.
     temp_root = temp_dist_path.parent / "non_existent"
     temp_root.mkdir()
     monkeypatch.setattr(vscode_mod, "CHANGELOG_FILE", temp_root / "CHANGELOG.md")
@@ -187,7 +187,7 @@ def test_vscode_generator_metadata_svg_load_raises(
     temp_dist_path: Path,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
-    # A raise from svg2rlg must degrade to a skipped icon, not abort metadata
+    # A raise from svg2rlg must degrade to a skipped icon, not abort metadata.
     temp_root = temp_dist_path.parent / "non_existent"
     temp_root.mkdir()
     monkeypatch.setattr(vscode_mod, "CHANGELOG_FILE", temp_root / "CHANGELOG.md")
@@ -216,7 +216,7 @@ def test_vscode_generator_metadata_png_render_raises(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     # A raise from renderPM.drawToFile must degrade to a skipped icon,
-    # not abort the metadata generation
+    # not abort the metadata generation.
     temp_root = temp_dist_path.parent / "non_existent"
     temp_root.mkdir()
     monkeypatch.setattr(vscode_mod, "CHANGELOG_FILE", temp_root / "CHANGELOG.md")
@@ -256,7 +256,7 @@ def test_vscode_generator_readme_prefix(
     temp_dist_path: Path,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
-    # Point file constants at non-existent paths so no real repo files are used
+    # Point file constants at non-existent paths so no real repo files are used.
     temp_root = temp_dist_path.parent / "non_existent"
     temp_root.mkdir()
     monkeypatch.setattr(vscode_mod, "CHANGELOG_FILE", temp_root / "CHANGELOG.md")
@@ -278,7 +278,7 @@ def test_vscode_generator_readme_screenshot_path(
     temp_dist_path: Path,
 ) -> None:
     # When a screenshot path is provided, the generator should compose
-    # a jsDelivr URL pinned to the tag v{version} and prepend it
+    # a jsDelivr URL pinned to the tag v{version} and prepend it.
     mock_config.vscode_screenshot_path = "screenshots/vscode.png"
     mock_config.version = "1.2.3"
     mock_config.github_url = "https://github.com/alif898/celadon-theme"
@@ -303,7 +303,7 @@ def test_vscode_generator_readme_screenshot_path_version_with_v_prefix(
     temp_dist_path: Path,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
-    # A version that already starts with "v" must not produce a "vv" tag
+    # A version that already starts with "v" must not produce a "vv" tag.
     temp_root = temp_dist_path.parent / "non_existent"
     temp_root.mkdir()
     monkeypatch.setattr(vscode_mod, "CHANGELOG_FILE", temp_root / "CHANGELOG.md")
@@ -334,7 +334,8 @@ def test_vscode_generator_readme_screenshot_path_missing_github_url(
     # should skip adding the prefix and keep README as description only.
     mock_config.vscode_screenshot_path = "screenshots/vscode.png"
     mock_config.version = "9.9.9"
-    mock_config.github_url = ""  # Explicitly unset to trigger the skip path
+    # Explicitly unset to trigger the skip path.
+    mock_config.github_url = ""
 
     generator = VsCodeGenerator(
         mock_palette, mock_config, mock_env, dist_path=temp_dist_path

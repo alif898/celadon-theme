@@ -9,7 +9,7 @@
 | database | .csv, .md, .sql, .yml |
 | go | .go, .mod, .sh, Dockerfile |
 | java | .cmd, .gitattributes, .java, .properties, .xml, Jenkinsfile, mvnw |
-| kotlin | .bat, .jar, .json, .kt, .kts, .properties, .tf, .yaml, gradlew |
+| kotlin | .bat, .jar, .kt, .kts, .properties, .tf, .yaml, gradlew |
 | php | .php |
 | python | .env, .ipynb, .md, .py, .txt |
 | ruby | .erb, .lock, .rake, .rb, Gemfile |

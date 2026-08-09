@@ -24,13 +24,20 @@ def test_palette_model_valid() -> None:
 @pytest.mark.parametrize(
     "invalid_color",
     [
-        "red",  # Named color
-        "#123456",  # Hash prefix (not allowed by our regex)
-        "123",  # Too short
-        "12345",  # 5 chars
-        "1234567",  # 7 chars
-        "123456789",  # Too long
-        "GGGGGG",  # Non-hex characters
+        # Named color
+        "red",
+        # Hash prefix (not allowed by our regex)
+        "#123456",
+        # Too short
+        "123",
+        # 5 chars
+        "12345",
+        # 7 chars
+        "1234567",
+        # Too long
+        "123456789",
+        # Non-hex characters
+        "GGGGGG",
     ],
 )
 def test_palette_model_invalid(invalid_color: str) -> None:

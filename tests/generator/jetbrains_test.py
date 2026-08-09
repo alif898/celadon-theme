@@ -83,7 +83,7 @@ def test_jetbrains_generator_metadata(
     (temp_templates_dir / "pluginIcon.svg").write_text("<svg>Icon</svg>")
 
     monkeypatch.setattr(jetbrains_mod, "TEMPLATES_DIR", temp_templates_dir)
-    # Fallback to config.change_notes by pointing CHANGELOG_FILE to non-existent path
+    # Fallback to config.change_notes by pointing CHANGELOG_FILE to non-existent path.
     monkeypatch.setattr(
         jetbrains_mod, "CHANGELOG_FILE", temp_dist_path.parent / "NO_CHANGELOG.md"
     )
@@ -144,7 +144,7 @@ def test_jetbrains_generator_metadata_no_icon(
     temp_dist_path: Path,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
-    # Set an empty templates dir so pluginIcon.svg is not found
+    # Set an empty templates dir so pluginIcon.svg is not found.
     temp_templates_dir = temp_dist_path.parent / "empty_templates"
     temp_templates_dir.mkdir()
 
@@ -153,7 +153,7 @@ def test_jetbrains_generator_metadata_no_icon(
     generator = JetBrainsGenerator(
         mock_palette, mock_config, mock_env, dist_path=temp_dist_path
     )
-    # Ensure it doesn't throw and gracefully skips
+    # Ensure it doesn't throw and gracefully skips.
     generator.generate_theme_metadata()
 
     meta_inf_path = temp_dist_path / "src/main/resources/META-INF"
@@ -167,7 +167,7 @@ def test_jetbrains_generator_metadata_uses_changelog_html(
     temp_dist_path: Path,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
-    # Create a temporary CHANGELOG with Markdown content
+    # Create a temporary CHANGELOG with Markdown content.
     temp_root = temp_dist_path.parent
     changelog_file = temp_root / "CHANGELOG.md"
     changelog_file.write_text(
@@ -176,7 +176,7 @@ def test_jetbrains_generator_metadata_uses_changelog_html(
         encoding="utf-8",
     )
 
-    # Point the generator CHANGELOG_FILE to this temp file
+    # Point the generator CHANGELOG_FILE to this temp file.
     monkeypatch.setattr(jetbrains_mod, "CHANGELOG_FILE", changelog_file)
 
     generator = JetBrainsGenerator(
@@ -187,10 +187,10 @@ def test_jetbrains_generator_metadata_uses_changelog_html(
     meta_inf_path = temp_dist_path / "src/main/resources/META-INF"
     content = (meta_inf_path / "plugin.xml").read_text(encoding="utf-8")
 
-    # Expect HTML headings/list rendered by markdown-it-py
+    # Expect HTML headings/list rendered by markdown-it-py.
     assert "<h2>1.2.3 - 2026-01-01</h2>" in content
     assert "<ul>" in content
-    # Non-ASCII content must survive the UTF-8 changelog read
+    # Non-ASCII content must survive the UTF-8 changelog read.
     assert "<li>Added feature X (café)</li>" in content
 
 
@@ -222,16 +222,16 @@ def test_jetbrains_generator_metadata_changelog_conversion_failure_falls_back(
     generator should not crash and must fall back to config.change_notes.
     """
 
-    # Prepare a temporary CHANGELOG file (it will be read before failing)
+    # Prepare a temporary CHANGELOG file (it will be read before failing).
     temp_root = temp_dist_path.parent
     changelog_file = temp_root / "CHANGELOG.md"
     changelog_file.write_text("# Changelog\n\nSome content\n")
 
-    # Point the generator's CHANGELOG_FILE to this temp file
+    # Point the generator's CHANGELOG_FILE to this temp file.
     monkeypatch.setattr(jetbrains_mod, "CHANGELOG_FILE", changelog_file)
 
     for exc_type in (ValueError, OSError):
-        # Stub MarkdownIt so that render() raises (covered in except)
+        # Stub MarkdownIt so that render() raises (covered in except).
         monkeypatch.setattr(
             jetbrains_mod, "MarkdownIt", _make_failing_markdown(exc_type)
         )
@@ -240,7 +240,7 @@ def test_jetbrains_generator_metadata_changelog_conversion_failure_falls_back(
             mock_palette, mock_config, mock_env, dist_path=temp_dist_path
         )
 
-        # Should not raise; should fall back to config.change_notes
+        # Should not raise. Should fall back to config.change_notes.
         generator.generate_theme_metadata()
 
         meta_inf_path = temp_dist_path / "src/main/resources/META-INF"
