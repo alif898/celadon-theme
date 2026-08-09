@@ -1,0 +1,78 @@
+{#- Pi only supports 6-digit hex (#RRGGBB). The 8-digit RGBA palette
+   entries (the chromatic *_alt2 keys, e.g. green_alt2, red_alt2) must
+   not be referenced here. See the PiGenerator docstring.
+
+   The input editor border color follows the current thinking level
+   (thinking* tokens, bashMode in bash mode), so those tokens are always
+   visible and the ramp should stay distinguishable. -#}
+{
+  "$schema": "https://raw.githubusercontent.com/earendil-works/pi/main/packages/coding-agent/src/modes/interactive/theme/theme-schema.json",
+  "name": {{ config.name | tojson }},
+  "colors": {
+    "accent": "#{{ theme.accent }}",
+    "border": "#{{ theme.accent_alt }}",
+    "borderAccent": "#{{ theme.accent_alt2 }}",
+    "borderMuted": "#{{ theme.cyan }}",
+    "success": "#{{ theme.lime }}",
+    "error": "#{{ theme.orange }}",
+    "warning": "#{{ theme.pink }}",
+    "muted": "#{{ theme.bone_alt }}",
+    "dim": "#{{ theme.cream_alt }}",
+    "text": "#{{ theme.base4 }}",
+    "thinkingText": "#{{ theme.bone_alt }}",
+
+    "selectedBg": "#{{ theme.purple_alt }}",
+    "scrollbarThumb": "#{{ theme.purple }}",
+    "userMessageBg": "#{{ theme.base2 }}",
+    "userMessageText": "",
+    "customMessageBg": "#{{ theme.base1 }}",
+    "customMessageText": "",
+    "customMessageLabel": "#{{ theme.accent }}",
+    "toolPendingBg": "#{{ theme.base1 }}",
+    "toolSuccessBg": "#{{ theme.base2 }}",
+    "toolErrorBg": "#{{ theme.bone_alt2 }}",
+    "toolTitle": "#{{ theme.pink }}",
+    "toolOutput": "",
+
+    "mdHeading": "#{{ theme.purple }}",
+    "mdLink": "#{{ theme.cyan }}",
+    "mdLinkUrl": "#{{ theme.base3 }}",
+    "mdCode": "#{{ theme.pink_alt }}",
+    "mdCodeBlock": "#{{ theme.base4 }}",
+    "mdCodeBlockBorder": "#{{ theme.base3 }}",
+    "mdQuote": "#{{ theme.base3 }}",
+    "mdQuoteBorder": "#{{ theme.base2 }}",
+    "mdHr": "#{{ theme.base3 }}",
+    "mdListBullet": "#{{ theme.cyan }}",
+
+    "toolDiffAdded": "#{{ theme.lime }}",
+    "toolDiffRemoved": "#{{ theme.red_alt }}",
+    "toolDiffContext": "#{{ theme.base3 }}",
+
+    "syntaxComment": "#{{ theme.base3 }}",
+    "syntaxKeyword": "#{{ theme.pink }}",
+    "syntaxFunction": "#{{ theme.green }}",
+    "syntaxVariable": "#{{ theme.base4 }}",
+    "syntaxString": "#{{ theme.purple }}",
+    "syntaxNumber": "#{{ theme.orange }}",
+    "syntaxType": "#{{ theme.cyan }}",
+    "syntaxOperator": "#{{ theme.base4 }}",
+    "syntaxPunctuation": "#{{ theme.base4 }}",
+{#- Editor border = current thinking level. Keep the ramp distinct. #}
+
+    "thinkingOff": "#{{ theme.red_alt }}",
+    "thinkingMinimal": "#{{ theme.orange_alt }}",
+    "thinkingLow": "#{{ theme.yellow_alt }}",
+    "thinkingMedium": "#{{ theme.lime }}",
+    "thinkingHigh": "#{{ theme.cyan }}",
+    "thinkingXhigh": "#{{ theme.purple }}",
+    "thinkingMax": "#{{ theme.pink }}",
+
+    "bashMode": "#{{ theme.cyan }}"
+  },
+  "export": {
+    "pageBg": "#{{ theme.base1 }}",
+    "cardBg": "#{{ theme.base2 }}",
+    "infoBg": "#{{ theme.base3 }}"
+  }
+}

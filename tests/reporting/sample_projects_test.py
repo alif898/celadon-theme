@@ -2,6 +2,7 @@ from pathlib import Path
 from unittest.mock import patch
 
 import pytest
+from pathspec import PathSpec
 
 from celadon_theme.reporting.sample_projects import (
     get_sample_project_file_coverage,
@@ -34,7 +35,7 @@ def sample_projects_dir(tmp_path: Path) -> Path:
 def existing_stats_file(tmp_path: Path) -> Path:
     stats_file = tmp_path / "STATS.md"
     stats_file.write_text(
-        "# Celadon Theme — Stats\n\n"
+        "# Celadon Theme: Stats\n\n"
         "## Sample Project Coverage\n\n"
         "<!-- section:sample-coverage -->\n"
         "old content\n"
@@ -61,6 +62,17 @@ def test_ignores_empty_project_folders(tmp_path: Path) -> None:
     (tmp_path / "empty").mkdir()
     result = get_sample_project_file_coverage(tmp_path)
     assert "empty" not in result
+
+
+def test_skips_top_level_generated_directories(tmp_path: Path) -> None:
+    (tmp_path / "node_modules" / "pkg").mkdir(parents=True)
+    (tmp_path / "node_modules" / "pkg" / "index.js").touch()
+    (tmp_path / "python" / "src").mkdir(parents=True)
+    (tmp_path / "python" / "src" / "main.py").touch()
+
+    result = get_sample_project_file_coverage(tmp_path)
+    assert "node_modules" not in result
+    assert result["python"] == [".py"]
 
 
 def test_ignores_root_level_files(tmp_path: Path) -> None:
@@ -102,14 +114,14 @@ def test_gitignore_is_respected(tmp_path: Path) -> None:
 
 def test_ignores_gitignore_file_itself(tmp_path: Path) -> None:
     (tmp_path / "project").mkdir()
-    # Add a .gitignore file and a real source file
+    # Add a .gitignore file and a real source file.
     (tmp_path / "project" / ".gitignore").write_text(
         "node_modules/\n", encoding="utf-8"
     )
     (tmp_path / "project" / "main.ts").touch()
 
     result = get_sample_project_file_coverage(tmp_path)
-    # Ensure project detected and .gitignore is not counted as an extension token
+    # Ensure project detected and .gitignore is not counted as an extension token.
     assert "project" in result
     assert ".gitignore" not in result["project"]
     assert ".ts" in result["project"]
@@ -118,11 +130,47 @@ def test_ignores_gitignore_file_itself(tmp_path: Path) -> None:
 def test_root_gitignore_is_respected(tmp_path: Path) -> None:
     (tmp_path / "python").mkdir()
     (tmp_path / "python" / "main.py").touch()
-    (tmp_path / "dist").mkdir()
-    (tmp_path / "dist" / "output.js").touch()
-    (tmp_path / ".gitignore").write_text("dist/\n", encoding="utf-8")
+    (tmp_path / "generated").mkdir()
+    (tmp_path / "generated" / "output.js").touch()
+    (tmp_path / ".gitignore").write_text("generated/\n", encoding="utf-8")
     result = get_sample_project_file_coverage(tmp_path)
-    assert ".js" not in result.get("dist", [])
+    assert "generated" not in result
+    assert result["python"] == [".py"]
+
+
+def test_skips_build_and_vendor_directories(tmp_path: Path) -> None:
+    (tmp_path / "python").mkdir()
+    (tmp_path / "python" / "main.py").touch()
+    (tmp_path / "python" / "node_modules" / "pkg").mkdir(parents=True)
+    (tmp_path / "python" / "node_modules" / "pkg" / "index.js").touch()
+    (tmp_path / "python" / "cmake-build-debug").mkdir(parents=True)
+    (tmp_path / "python" / "cmake-build-debug" / "build.ninja").touch()
+
+    result = get_sample_project_file_coverage(tmp_path)
+
+    assert ".py" in result["python"]
+    assert ".js" not in result["python"]
+    assert ".ninja" not in result["python"]
+
+
+def test_gitignore_parsed_once_per_project(tmp_path: Path) -> None:
+    (tmp_path / "python").mkdir()
+    (tmp_path / "python" / ".gitignore").write_text("*.pyc\n", encoding="utf-8")
+    (tmp_path / "python" / "a.py").touch()
+    (tmp_path / "python" / "b.py").touch()
+    (tmp_path / "java").mkdir()
+    (tmp_path / "java" / ".gitignore").write_text("*.class\n", encoding="utf-8")
+    (tmp_path / "java" / "A.java").touch()
+    (tmp_path / "java" / "B.java").touch()
+
+    with patch.object(PathSpec, "from_lines", wraps=PathSpec.from_lines) as mock:
+        get_sample_project_file_coverage(tmp_path)
+
+    # The .gitignore is parsed once per project, not once per file.
+    gitignored_projects = sum(
+        1 for p in tmp_path.iterdir() if (p / ".gitignore").exists()
+    )
+    assert mock.call_count == gitignored_projects
 
 
 def test_render_contains_table_headers() -> None:
@@ -170,7 +218,7 @@ def test_updates_existing_section(existing_stats_file: Path) -> None:
 
 def test_preserves_content_outside_section(existing_stats_file: Path) -> None:
     existing_stats_file.write_text(
-        "# Celadon Theme — Stats\n\n"
+        "# Celadon Theme: Stats\n\n"
         "Some other content\n\n"
         "<!-- section:sample-coverage -->\n"
         "old content\n"
@@ -187,7 +235,7 @@ def test_preserves_content_outside_section(existing_stats_file: Path) -> None:
 def test_appends_section_when_markers_missing(tmp_path: Path) -> None:
     stats_file = tmp_path / "STATS.md"
     stats_file.write_text(
-        "# Celadon Theme — Stats\n\nSome other content\n", encoding="utf-8"
+        "# Celadon Theme: Stats\n\nSome other content\n", encoding="utf-8"
     )
     with patch("celadon_theme.reporting.sample_projects.ROOT_DIR", tmp_path):
         write_report({"python": [".py"]})
@@ -198,8 +246,8 @@ def test_appends_section_when_markers_missing(tmp_path: Path) -> None:
 
 
 def test_no_append_when_section_already_current(tmp_path: Path) -> None:
-    # The generated section is byte-identical to what is already in the file;
-    # this must replace in place and never append a duplicate section.
+    # The generated section is byte-identical to what is already in the file.
+    # This must replace in place and never append a duplicate section.
     stats_file = tmp_path / "STATS.md"
     stats_file.write_text(
         "# celadon-theme\n\n## Sample Project Coverage\n\n"

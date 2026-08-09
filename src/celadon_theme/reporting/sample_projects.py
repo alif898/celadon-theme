@@ -1,6 +1,8 @@
 import logging
+import os
 import re
 from collections import defaultdict
+from functools import lru_cache
 from pathlib import Path
 
 from pathspec import PathSpec
@@ -9,7 +11,38 @@ from celadon_theme.config.paths import ROOT_DIR
 
 logger = logging.getLogger(__name__)
 
+# Directory names that never contribute source-file tokens.  They are pruned
+# during traversal so vendored and generated content is not walked.
+SKIPPED_DIRS = frozenset(
+    {
+        ".git",
+        ".gradle",
+        ".hg",
+        ".idea",
+        ".pytest_cache",
+        ".ruff_cache",
+        ".svn",
+        ".tox",
+        ".venv",
+        ".vs",
+        ".vscode",
+        "__pycache__",
+        "bower_components",
+        "build",
+        "cmake-build",
+        "cmake-build-debug",
+        "cmake-build-release",
+        "dist",
+        "node_modules",
+        "out",
+        "target",
+        "venv",
+        "vendor",
+    }
+)
 
+
+@lru_cache
 def _load_gitignore(directory: Path) -> PathSpec | None:
     gitignore = directory / ".gitignore"
     if gitignore.exists():
@@ -22,35 +55,35 @@ def get_sample_project_file_coverage(root: Path) -> dict[str, list[str]]:
     root_gitignore = _load_gitignore(root)
     result = defaultdict(set)
 
-    for file_path in root.rglob("*"):
-        if not file_path.is_file():
-            continue
-
-        relative_path = file_path.relative_to(root)
-
-        if len(relative_path.parts) <= 1:
-            continue
-
-        if root_gitignore and root_gitignore.match_file(str(relative_path)):
-            continue
-
-        first_subfolder = relative_path.parts[0]
-        project_dir = root / first_subfolder
-
+    for project_dir in sorted(
+        p for p in root.iterdir() if p.is_dir() and p.name not in SKIPPED_DIRS
+    ):
         project_gitignore = _load_gitignore(project_dir)
-        relative_to_project = file_path.relative_to(project_dir)
-        if project_gitignore and project_gitignore.match_file(str(relative_to_project)):
-            continue
+        for dirpath, dirnames, filenames in os.walk(project_dir):
+            dirnames[:] = sorted(d for d in dirnames if d not in SKIPPED_DIRS)
+            for name in filenames:
+                file_path = Path(dirpath) / name
 
-        # Skip the .gitignore file itself from coverage tokens
-        if file_path.name == ".gitignore":
-            continue
+                if root_gitignore and root_gitignore.match_file(
+                    str(file_path.relative_to(root))
+                ):
+                    continue
 
-        # Determine the token to record:
-        # If the file has a standard suffix, keep it (e.g., ".py").
-        # If there is no suffix, use the full filename (e.g., "Dockerfile", ".env")
-        token = file_path.suffix or file_path.name
-        result[first_subfolder].add(token)
+                relative_to_project = file_path.relative_to(project_dir)
+                if project_gitignore and project_gitignore.match_file(
+                    str(relative_to_project)
+                ):
+                    continue
+
+                # Skip the .gitignore file itself from coverage tokens.
+                if name == ".gitignore":
+                    continue
+
+                # Determine the token to record:
+                # If the file has a standard suffix, keep it (e.g., ".py").
+                # Otherwise, use the full filename (e.g., "Dockerfile", ".env").
+                token = file_path.suffix or file_path.name
+                result[project_dir.name].add(token)
 
     final_result = {
         project: sorted(extensions) for project, extensions in result.items()

@@ -7,6 +7,9 @@ from .config.logging_config import logging_config
 from .config.paths import CONFIG_FILE, PALETTE_FILE, SAMPLE_PROJECTS_DIR, TEMPLATES_DIR
 from .generator.claude_code import ClaudeCodeGenerator
 from .generator.jetbrains import JetBrainsGenerator
+from .generator.kimi_code import KimiCodeGenerator
+from .generator.pi import PiGenerator
+from .generator.qwen_code import QwenCodeGenerator
 from .generator.vscode import VsCodeGenerator
 from .generator.windows_terminal import WindowsTerminalGenerator
 from .reporting.sample_projects import update_stats_report
@@ -32,7 +35,7 @@ def main() -> None:
     logger = logging.getLogger(__name__)
     logger.info("Starting theme generation")
 
-    # Load palette and config data
+    # Load palette and config data.
     logger.info("Loading palette and config data")
     palette = ThemeParser.load_palette(PALETTE_FILE)
     config = ThemeParser.load_config(CONFIG_FILE)
@@ -41,12 +44,15 @@ def main() -> None:
         "Successfully loaded palette and config data, found version: %s", config.version
     )
 
-    # Initialize theme generators, for any new target theme type, add class here
+    # Initialize theme generators, for any new target theme type, add class here.
     generators = [
         JetBrainsGenerator(palette, config, env),
         VsCodeGenerator(palette, config, env),
         ClaudeCodeGenerator(palette, config, env),
+        QwenCodeGenerator(palette, config, env),
+        KimiCodeGenerator(palette, config, env),
         WindowsTerminalGenerator(palette, config, env),
+        PiGenerator(palette, config, env),
     ]
     logger.info("Initialized theme generators: %s", generators)
 
@@ -58,7 +64,7 @@ def main() -> None:
         "Theme generation completed successfully for version: %s", config.version
     )
 
-    # For local runs, generate report of sample-project coverage
+    # For local runs, generate report of sample-project coverage.
     if SAMPLE_PROJECTS_DIR.exists():
         logger.info(
             "%s is present, will generate coverage report", SAMPLE_PROJECTS_DIR.name
