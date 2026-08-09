@@ -1,5 +1,9 @@
 # Changelog
 
+## [v1.2.0] - 2026-08-09
+ - Added Pi, Qwen Code, Kimi Code
+
+
 ## [v1.1.3] - 2026-08-08
  - Fixed release workflow
 
