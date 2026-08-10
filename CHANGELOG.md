@@ -1,5 +1,9 @@
 # Changelog
 
+## [v1.3.1] - 2026-08-10
+ - Updated npm instructions
+
+
 ## [v1.3.0] - 2026-08-10
  - Added publishing to npm
 
