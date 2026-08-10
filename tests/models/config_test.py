@@ -25,6 +25,26 @@ def test_url_fields_default_to_empty_string() -> None:
     assert model.direct_git_url == ""
     assert model.issues_url == ""
     assert model.sponsor_url == ""
+    assert model.npm_description == ""
+
+
+def test_npm_description_accepts_explicit_value() -> None:
+    """
+    npm_description must be settable so the npm package can carry its own
+    description instead of reusing short_description.
+    """
+    model = ConfigModel(
+        id="test.id",
+        name="Test Theme",
+        version="1.0.0",
+        short_description="Test Short Description",
+        npm_description="Npm Specific Description",
+        plugin_name="Test Plugin",
+        author="Test Author",
+        description="Test Description",
+    )
+
+    assert model.npm_description == "Npm Specific Description"
 
 
 def test_description_file_accepts_file_only_config() -> None:

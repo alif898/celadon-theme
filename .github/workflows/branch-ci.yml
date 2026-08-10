@@ -78,3 +78,30 @@ jobs:
       - name: Validate VS Code extension
         working-directory: vscode
         run: vsce package --no-git-tag-version -o test.vsix
+
+      - name: Verify npm package
+        working-directory: npm
+        run: |
+          set -euo pipefail
+          PACKAGE_VERSION=$(jq -r '.version' package.json)
+          CONFIG_VERSION=$(jq -r '.version' ../config.json)
+          if [ "$PACKAGE_VERSION" != "$CONFIG_VERSION" ]; then
+            echo "::error::npm package version $PACKAGE_VERSION does not match config.json version $CONFIG_VERSION"
+            exit 1
+          fi
+          npm pack --dry-run
+
+      - name: Install yarn, pnpm, and bun
+        run: npm install -g @yarnpkg/cli-dist@4.18.0 pnpm@11.21.0 bun@1.3.14
+
+      - name: Verify package with yarn
+        working-directory: npm
+        run: yarn pack --dry-run
+
+      - name: Verify package with pnpm
+        working-directory: npm
+        run: pnpm pack --dry-run
+
+      - name: Verify package with bun
+        working-directory: npm
+        run: bun pm pack --dry-run

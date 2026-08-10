@@ -1,5 +1,4 @@
 import logging
-import shutil
 from pathlib import Path
 from urllib.parse import urlparse
 
@@ -61,7 +60,7 @@ class VsCodeGenerator(AbstractThemeGenerator):
 
         self._render_to_file("vscode-package.json.j2", self.dist_path / "package.json")
         self._generate_readme()
-        self._copy_metadata_files()
+        self._copy_files_if_exist(self.dist_path, [CHANGELOG_FILE, LICENSE_FILE])
         self._generate_icon()
 
         logger.info("%s theme metadata generated", self)
@@ -106,24 +105,6 @@ class VsCodeGenerator(AbstractThemeGenerator):
         with readme_path.open("w") as f:
             f.write(readme_content)
         logger.info("Successfully generated %s", readme_path.name)
-
-    def _copy_metadata_files(self) -> None:
-        """
-        Copy CHANGELOG and LICENSE if they exist.
-        """
-        files_to_copy = [CHANGELOG_FILE, LICENSE_FILE]
-        for src_file in files_to_copy:
-            if src_file.exists():
-                dest = self.dist_path / src_file.name
-                logger.info("Copying %s to %s", src_file.name, dest.parent)
-                shutil.copy(src_file, dest)
-                logger.info("Successfully copied %s", src_file.name)
-            else:
-                logger.warning(
-                    "File: %s not found, skipping copy step for %s",
-                    src_file.name,
-                    self,
-                )
 
     def _generate_icon(self) -> None:
         """

@@ -27,6 +27,7 @@ class PiGenerator(SingleFileThemeGenerator):
     template_name: ClassVar[str] = "pi-theme.json.j2"
     output_file_name: ClassVar[str] = "celadon-pi.json"
     dist_dir: ClassVar[Path] = PI_DIR
+    label: ClassVar[str] = "Pi"
 
     def generate_theme_files(self) -> None:
         """

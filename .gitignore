@@ -33,6 +33,9 @@ qwen-code/
 kimi-code/
 pi/
 windows-terminal/
+/npm/*
+!/npm/bin/
+!/npm/bin/celadon-theme.js
 
 # Sample Projects
 /sample-projects

@@ -17,6 +17,7 @@ class SingleFileThemeGenerator(AbstractThemeGenerator):
     template_name: ClassVar[str]
     output_file_name: ClassVar[str]
     dist_dir: ClassVar[Path]
+    label: ClassVar[str]
 
     def __init__(
         self,

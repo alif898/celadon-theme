@@ -1,0 +1,25 @@
+# {{ config.name }}
+
+This is the npm package for [{{ config.plugin_name }}]({{ config.github_url }}),
+intended to distribute the `.json` files needed for CLI coding agents and Windows Terminal.
+For JetBrains, VS Code, or VS Code-based editors, please visit the repository linked above
+for the official marketplace plugin/extension listings.
+Those extensions are not included here to minimize the package size.
+
+For installation instructions, refer to [INSTRUCTIONS.md](INSTRUCTIONS.md).
+
+To see where the theme files are located after installing:
+
+```bash
+npx -y celadon-theme
+```
+
+## Theme files
+
+The package contains the following files under `themes/`:
+
+| File | Target |
+| --- | --- |
+{% for file_name, label in theme_targets -%}
+| `{{ file_name }}` | {{ label }} |
+{% endfor -%}

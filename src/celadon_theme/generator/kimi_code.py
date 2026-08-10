@@ -13,3 +13,4 @@ class KimiCodeGenerator(SingleFileThemeGenerator):
     template_name: ClassVar[str] = "kimi-code-theme.json.j2"
     output_file_name: ClassVar[str] = "celadon-kimi-code.json"
     dist_dir: ClassVar[Path] = KIMI_CODE_DIR
+    label: ClassVar[str] = "Kimi Code"
