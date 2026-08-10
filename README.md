@@ -59,7 +59,8 @@ Marketplace installation is available for the following platforms:
  - [Open VSX Registry](https://open-vsx.org/extension/alif-naufal/celadon-theme)
  - [npm](https://www.npmjs.com/package/celadon-theme)
 
-The files needed for the CLI coding agents and Windows Terminal can be installed via various package managers:
+The files needed for the CLI coding agents and Windows Terminal are distributed via npm
+and can be installed via various package managers:
 
 | Package manager | Install globally | Install in a project | Run without installing | Where the files land (global install) |
 | --- | --- | --- | --- | --- |
@@ -159,6 +160,20 @@ For Claude Code, Qwen Code, Kimi Code, Windows Terminal, and Pi,
 their respective `.json` files will be generated automatically when running the generator 
 and can be found in the respective `claude-code`, `qwen-code`, `kimi-code`, `windows-terminal`, and `pi` folders.
 
+For the npm package, running the generator also produces the package contents
+under `npm/`. To validate and try the package locally:
+
+```bash
+cd npm
+npm pack --dry-run                     # preview the tarball contents
+npm pack                               # build celadon-theme-<version>.tgz
+npm install -g ./celadon-theme-<version>.tgz
+celadon-theme                          # prints the exact themes directory
+```
+
+The same package can be validated with `yarn pack --dry-run`,
+`pnpm pack --dry-run`, or `bun pm pack --dry-run`.
+
 ### Testing
 
 #### Code Quality
@@ -211,8 +226,9 @@ To verify the validity of the generated theme files for each platform,
 there are different commands available for each IDE as part of their respective extension tooling/APIs:
  - JetBrains IDEs: `./gradlew verifyPlugin`
  - VS Code: `vsce ls` or `vsce package`
+ - npm: `npm pack --dry-run` (with `yarn pack --dry-run`, `pnpm pack --dry-run`, and `bun pm pack --dry-run` to cover the other package managers)
 
-These commands can be run within the respective subfolder of each IDE and are also included in the CI/CD workflows.
+These commands can be run within the respective subfolder of each target and are also included in the CI/CD workflows.
 The `.vsix` file built for VS Code can directly be used for Open VSX Registry too.
 
 #### Visual Inspection
