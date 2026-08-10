@@ -1,5 +1,9 @@
 # Changelog
 
+## [v1.3.0] - 2026-08-10
+ - Added publishing to npm
+
+
 ## [v1.2.0] - 2026-08-09
  - Added Pi, Qwen Code, Kimi Code
 
