@@ -8,6 +8,7 @@ from .config.paths import CONFIG_FILE, PALETTE_FILE, SAMPLE_PROJECTS_DIR, TEMPLA
 from .generator.claude_code import ClaudeCodeGenerator
 from .generator.jetbrains import JetBrainsGenerator
 from .generator.kimi_code import KimiCodeGenerator
+from .generator.npm import NpmGenerator
 from .generator.pi import PiGenerator
 from .generator.qwen_code import QwenCodeGenerator
 from .generator.vscode import VsCodeGenerator
@@ -44,7 +45,8 @@ def main() -> None:
         "Successfully loaded palette and config data, found version: %s", config.version
     )
 
-    # Initialize theme generators, for any new target theme type, add class here.
+    # Initialize theme generators, for any new target theme type, add its class here.
+    # Note that NpmGenerator must always be last, as it is dependent on the others.
     generators = [
         JetBrainsGenerator(palette, config, env),
         VsCodeGenerator(palette, config, env),
@@ -53,6 +55,7 @@ def main() -> None:
         KimiCodeGenerator(palette, config, env),
         WindowsTerminalGenerator(palette, config, env),
         PiGenerator(palette, config, env),
+        NpmGenerator(palette, config, env),
     ]
     logger.info("Initialized theme generators: %s", generators)
 

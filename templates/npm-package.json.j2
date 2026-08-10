@@ -1,0 +1,46 @@
+{
+  "name": {{ config.plugin_name | tojson }},
+  "version": {{ config.version | tojson }},
+  "description": {{ (config.npm_description or config.short_description) | tojson }},
+  "license": "MIT",
+  "author": {{ config.author | tojson }},
+  "homepage": {{ config.github_url | tojson }},
+  "repository": {
+    "type": "git",
+    "url": {{ config.direct_git_url | tojson }}
+  },
+  "bugs": {
+    "url": {{ config.issues_url | tojson }}
+  },
+  "keywords": [
+    "theme",
+    "color-theme",
+    "dark",
+    "minimal",
+    "eye-friendly",
+    "contrast",
+    "muted",
+    "matte",
+    "celadon",
+    "ceramic",
+    "pastel",
+    "jade",
+    "green",
+    "teal",
+    "claude-code",
+    "qwen-code",
+    "kimi-code",
+    "windows-terminal"
+  ],
+  "files": [
+    "themes",
+    "bin",
+    "README.md",
+    "INSTRUCTIONS.md",
+    "CHANGELOG.md",
+    "LICENSE.md"
+  ],
+  "bin": {
+    "celadon-theme": "bin/celadon-theme.js"
+  }
+}

@@ -13,3 +13,4 @@ class WindowsTerminalGenerator(SingleFileThemeGenerator):
     template_name: ClassVar[str] = "windows-terminal-theme.json.j2"
     output_file_name: ClassVar[str] = "celadon-windows-terminal.json"
     dist_dir: ClassVar[Path] = WINDOWS_TERMINAL_DIR
+    label: ClassVar[str] = "Windows Terminal"

@@ -1,4 +1,5 @@
 import logging
+import shutil
 from abc import ABC, abstractmethod
 from pathlib import Path
 from typing import override
@@ -43,6 +44,23 @@ class AbstractThemeGenerator(ABC):
     @override
     def __repr__(self) -> str:
         return self.__class__.__name__
+
+    def _copy_files_if_exist(self, dest_path: Path, files_to_copy: list[Path]) -> None:
+        """
+        Copy each file into the destination directory if it exists.
+        """
+        for src_file in files_to_copy:
+            if src_file.exists():
+                dest = dest_path / src_file.name
+                logger.info("Copying %s to %s", src_file.name, dest.parent)
+                shutil.copy(src_file, dest)
+                logger.info("Successfully copied %s", src_file.name)
+            else:
+                logger.warning(
+                    "File: %s not found, skipping copy step for %s",
+                    src_file.name,
+                    self,
+                )
 
     def _render_to_file(
         self, template_name: str, out_path: Path, **extra: object

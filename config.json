@@ -12,6 +12,7 @@
   "description_file": "templates/description.html",
   "jetbrains_description_suffix": "<p>Includes variants for both the classic JetBrains layout and the new Islands UI.</p>",
   "short_description": "Soft pastel dark theme with jade tones",
+  "npm_description": "Soft pastel dark theme for CLI coding agents",
   "vscode_screenshot_path": "screenshots/vscode.png",
   "version": "1.2.0",
   "change_notes": " - Added Pi, Qwen Code, Kimi Code"

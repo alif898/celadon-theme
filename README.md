@@ -11,6 +11,7 @@
 <p align="center">
   <a href="https://codecov.io/gh/alif898/celadon-theme"><img src="https://codecov.io/gh/alif898/celadon-theme/graph/badge.svg?style=flat" alt="codecov"></a>
   <a href="https://github.com/alif898/celadon-theme/actions/workflows/quality-check-ci.yml"><img src="https://github.com/alif898/celadon-theme/actions/workflows/quality-check-ci.yml/badge.svg" alt="Quality Check CI"></a>
+  <a href="https://socket.dev/npm/package/celadon-theme/overview"><img src="https://badge.socket.dev/npm/package/celadon-theme" alt="Socket"></a>
 </p>
 
 <h2 align="center">Download Metrics</h2>
@@ -20,6 +21,7 @@
   <a href="https://marketplace.visualstudio.com/items?itemName=alif-naufal.celadon-theme"><img src="https://vsmarketplacebadges.dev/downloads-short/alif-naufal.celadon-theme.svg?color=518c83&subject=VS%20Code" alt="VS Code"></a>
   <a href="https://open-vsx.org/extension/alif-naufal/celadon-theme"><img src="https://img.shields.io/open-vsx/dt/alif-naufal/celadon-theme?style=flat&label=Open%20VSX&color=518c83" alt="Open VSX"></a>
   <a href="https://github.com/alif898/celadon-theme/releases"><img src="https://img.shields.io/github/downloads/alif898/celadon-theme/total?style=flat&label=GitHub%20Direct&color=518c83" alt="GitHub Direct"></a>
+  <a href="https://www.npmjs.com/package/celadon-theme"><img src="https://img.shields.io/npm/dt/celadon-theme?style=flat&label=npm&color=518c83" alt="npm"></a>
 </p>
 
 <p align="center">
@@ -38,8 +40,8 @@ providing a high-contrast yet eye-friendly environment for long-form coding.
 [VS Code](https://marketplace.visualstudio.com/items?itemName=alif-naufal.celadon-theme),
 VS Code-based editors (VSCodium, AI-native IDEs: Cursor, Devin, Antigravity)
 via the [Open VSX Registry](https://open-vsx.org/extension/alif-naufal/celadon-theme),
-CLI agentic coding tools (Claude Code, Pi, Qwen Code, Kimi Code)
-and Windows Terminal.
+CLI coding agents (Claude Code, Pi, Qwen Code, Kimi Code)
+and Windows Terminal, via [npm](https://www.npmjs.com/package/celadon-theme).
 
 ## Project Details
 
@@ -49,39 +51,41 @@ For sample screenshots of what the theme looks like, refer to [screenshots](scre
 
 ### Installation
 
+#### Marketplace
+
 Marketplace installation is available for the following platforms:
  - [JetBrains](https://plugins.jetbrains.com/plugin/30354)
  - [VS Code](https://marketplace.visualstudio.com/items?itemName=alif-naufal.celadon-theme)
  - [Open VSX Registry](https://open-vsx.org/extension/alif-naufal/celadon-theme)
+ - [npm](https://www.npmjs.com/package/celadon-theme)
+
+The files needed for the CLI coding agents and Windows Terminal can be installed via various package managers:
+
+| Package manager | Install globally | Install in a project | Run without installing | Where the files land (global install) |
+| --- | --- | --- | --- | --- |
+| npm | `npm install -g celadon-theme` | `npm install celadon-theme` | `npx -y celadon-theme` | `$(npm root -g)/celadon-theme/themes` |
+| yarn 1.x | `yarn global add celadon-theme` | `yarn add celadon-theme` | — | `$(yarn global dir)/node_modules/celadon-theme/themes` |
+| yarn 2+ | — | `yarn add celadon-theme` | `yarn dlx celadon-theme` | `node_modules/celadon-theme/themes` (project) |
+| pnpm | `pnpm add -g celadon-theme` | `pnpm add celadon-theme` | `pnpm dlx celadon-theme` | `$(pnpm root -g)/celadon-theme/themes` |
+| bun | `bun add -g celadon-theme` | `bun add celadon-theme` | `bunx celadon-theme` | `$(bun pm root -g)/celadon-theme/themes` |
+
+The `$(...)` commands print the exact directory on your machine. The paths
+above are for global installs while project installs place the files under
+`node_modules/celadon-theme/themes`. The "Run without installing" commands
+download the package into a cache and will print the theme file locations. In all
+cases, run `celadon-theme` to print the exact themes directory, then copy the
+files from it to each target as described in
+[INSTRUCTIONS.md](INSTRUCTIONS.md).
+
+#### Manual Installation
 
 Manual installation can be done by downloading from [GitHub Releases](https://github.com/alif898/celadon-theme/releases),
 the `.zip` file is for JetBrains IDEs,
 the `.vsix` file is for VS Code/VS Code-based editors,
 and the `.json` files are for Claude Code, Pi, Qwen Code, Kimi Code and Windows Terminal.
 
-For Claude Code (v2.1.118 or later), place the `.json` file in the `~/.claude/themes` directory,
-then activate it in Claude Code with `/theme` and select **Celadon Theme**.
-
-For Pi, place the `.json` file in the `~/.pi/agent/themes` directory,
-then select it via `/settings` → **Theme** and pick **Celadon Theme**.
-
-For Qwen Code, paste the `.json` file contents into the `ui.customThemes` block of `~/.qwen/settings.json`, for example:
-```json
-{ "ui": { "customThemes": { "Celadon Theme": <paste celadon-qwen-code.json contents here> } } }
-```
-then activate it with `/theme` and select **Celadon Theme**.
-If your `settings.json` already defines a theme via `ui.theme` (by name or by file path),
-you must remove that setting first. Otherwise `/theme` will not allow switching themes.
-Alternatively, set `"theme": "Celadon Theme"` inside the `ui` object to make it the default.
-
-For Kimi Code, place the `.json` file in the `~/.kimi-code/themes` directory
-(or `$KIMI_CODE_HOME/themes` if the `KIMI_CODE_HOME` environment variable is set),
-then activate it in Kimi Code with `/theme` and select **Custom: celadon-kimi-code**.
-Alternatively, set the theme in `tui.toml`, with `theme = "Celadon Theme"`.
-
-For Windows Terminal, copy the `.json` into the `schemes` array of `settings.json`,
-by opening Windows Terminal settings and clicking "Open JSON file". 
-Then set the scheme in your profile with `"colorScheme": "Celadon Theme"`.
+For installation instructions for Claude Code, Pi, Qwen Code, Kimi Code, and Windows Terminal,
+refer to [INSTRUCTIONS.md](INSTRUCTIONS.md).
 
 ### Project Structure
 
@@ -158,6 +162,7 @@ and can be found in the respective `claude-code`, `qwen-code`, `kimi-code`, `win
 ### Testing
 
 #### Code Quality
+
 To verify the theme generator code, 
 unit tests are run with `pytest`,
 static type checking is performed with `ty`
@@ -231,8 +236,10 @@ However, depending on the specific language extension, the way it interacts with
 
 For the JetBrains plugin, it includes variants for both the classic JetBrains layout and the new Islands UI.
 
-For the CLI agentic coding tools, each tool exposes a different set of customizable elements,
+For the CLI coding agents, each tool exposes a different set of customizable elements,
 therefore the visual feel is not fully consistent from tool to tool.
+It is recommended that the Windows Terminal theme be used concurrently,
+as they were designed and tested together.
 
 ### CI/CD
 

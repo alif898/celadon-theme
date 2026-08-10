@@ -13,3 +13,4 @@ class ClaudeCodeGenerator(SingleFileThemeGenerator):
     template_name: ClassVar[str] = "claude-code-theme.json.j2"
     output_file_name: ClassVar[str] = "celadon-claude-code.json"
     dist_dir: ClassVar[Path] = CLAUDE_CODE_DIR
+    label: ClassVar[str] = "Claude Code"

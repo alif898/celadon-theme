@@ -13,3 +13,4 @@ class QwenCodeGenerator(SingleFileThemeGenerator):
     template_name: ClassVar[str] = "qwen-code-theme.json.j2"
     output_file_name: ClassVar[str] = "celadon-qwen-code.json"
     dist_dir: ClassVar[Path] = QWEN_CODE_DIR
+    label: ClassVar[str] = "Qwen Code"
