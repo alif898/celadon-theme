@@ -113,6 +113,10 @@ jobs:
         working-directory: vscode
         run: vsce package --no-git-tag-version
 
+      - name: Pack npm package
+        working-directory: npm
+        run: npm pack
+
       - name: Commit version and changelog back to Main
         run: |
           git config --global user.name "github-actions[bot]"
@@ -137,6 +141,7 @@ jobs:
           gh release upload ${{ github.event.release.tag_name }} \
             ./jetbrains/build/distributions/*.zip \
             ./vscode/*.vsix \
+            "./npm/celadon-theme-${VERSION}.tgz" \
             "./claude-code/celadon-claude-code.json#celadon-claude-code-${VERSION}.json" \
             "./qwen-code/celadon-qwen-code.json#celadon-qwen-code-${VERSION}.json" \
             "./kimi-code/celadon-kimi-code.json#celadon-kimi-code-${VERSION}.json" \

@@ -83,6 +83,7 @@ files from it to each target as described in
 Manual installation can be done by downloading from [GitHub Releases](https://github.com/alif898/celadon-theme/releases),
 the `.zip` file is for JetBrains IDEs,
 the `.vsix` file is for VS Code/VS Code-based editors,
+the `.tgz` file is the npm package, installable with `npm install -g ./celadon-theme-<version>.tgz`,
 and the `.json` files are for Claude Code, Pi, Qwen Code, Kimi Code and Windows Terminal.
 
 For installation instructions for Claude Code, Pi, Qwen Code, Kimi Code, and Windows Terminal,
