@@ -15,6 +15,7 @@ THEME_FILE_NAMES = [
     "celadon-pi.json",
     "celadon-windows-terminal.json",
     "celadon-opencode.json",
+    "celadon.tmTheme",
 ]
 
 
@@ -141,19 +142,47 @@ def test_npm_generator_theme_files_removes_stale_files(
     npm_package_setup: NpmPackageSetup,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
-    # Theme JSONs no longer part of THEME_SOURCE_FILES must be removed.
+    # Theme files no longer part of THEME_SOURCE_FILES must be removed,
+    # regardless of their extension.
     setup = npm_package_setup
     _patch_theme_sources(monkeypatch, setup.theme_sources)
     stale_file = setup.dist_path / "themes" / "celadon-obsolete.json"
+    stale_tm_file = setup.dist_path / "themes" / "celadon-obsolete.tmTheme"
 
     generator = NpmGenerator(
         mock_palette, mock_config, mock_env, dist_path=setup.dist_path
     )
     generator.generate_theme_files()
     stale_file.write_text('{"name": "obsolete"}', encoding="utf-8")
+    stale_tm_file.write_text("obsolete", encoding="utf-8")
     generator.generate_theme_files()
 
     assert not stale_file.exists()
+    assert not stale_tm_file.exists()
+    for file_name in THEME_FILE_NAMES:
+        assert (setup.dist_path / "themes" / file_name).exists()
+
+
+def test_npm_generator_theme_files_ignores_stale_directories(
+    mock_palette: PaletteModel,
+    mock_config: ConfigModel,
+    mock_env: Environment,
+    npm_package_setup: NpmPackageSetup,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    # Directories inside the themes folder must not abort packaging.
+    setup = npm_package_setup
+    _patch_theme_sources(monkeypatch, setup.theme_sources)
+    stale_dir = setup.dist_path / "themes" / "celadon-stale-dir"
+
+    generator = NpmGenerator(
+        mock_palette, mock_config, mock_env, dist_path=setup.dist_path
+    )
+    generator.generate_theme_files()
+    stale_dir.mkdir()
+    generator.generate_theme_files()
+
+    assert stale_dir.is_dir()
     for file_name in THEME_FILE_NAMES:
         assert (setup.dist_path / "themes" / file_name).exists()
 

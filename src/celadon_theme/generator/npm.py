@@ -6,6 +6,7 @@ from jinja2 import Environment
 
 from celadon_theme.config.paths import (
     CHANGELOG_FILE,
+    CODEX_DIR,
     INSTRUCTIONS_FILE,
     LICENSE_FILE,
     NPM_DIR,
@@ -35,10 +36,23 @@ SINGLE_FILE_THEME_GENERATORS: tuple[type[SingleFileThemeGenerator], ...] = (
     OpenCodeGenerator,
 )
 
-# Map of theme file name to the single-file dist directory that produces it.
+# Additional themes shipped in the npm package that are not produced by a
+# SingleFileThemeGenerator. CodexGenerator emits a plist XML theme, so it
+# cannot reuse the JSON-validation base class.
+ADDITIONAL_THEME_FILES: tuple[tuple[str, Path, str], ...] = (
+    ("celadon.tmTheme", CODEX_DIR, "Codex CLI"),
+)
+
+# Map of theme file name to the dist directory that produces it.
 THEME_SOURCE_FILES: dict[str, Path] = {
-    generator_cls.output_file_name: generator_cls.dist_dir
-    for generator_cls in SINGLE_FILE_THEME_GENERATORS
+    **{
+        generator_cls.output_file_name: generator_cls.dist_dir
+        for generator_cls in SINGLE_FILE_THEME_GENERATORS
+    },
+    **{
+        file_name: source_dir
+        for file_name, source_dir, _label in ADDITIONAL_THEME_FILES
+    },
 }
 
 # Pairs of theme file name and target label, rendered into the package README.
@@ -46,6 +60,8 @@ THEME_TARGETS: list[tuple[str, str]] = [
     (generator_cls.output_file_name, generator_cls.label)
     for generator_cls in SINGLE_FILE_THEME_GENERATORS
 ]
+for file_name, _source_dir, label in ADDITIONAL_THEME_FILES:
+    THEME_TARGETS.append((file_name, label))
 
 
 class NpmGenerator(AbstractThemeGenerator):
@@ -72,8 +88,10 @@ class NpmGenerator(AbstractThemeGenerator):
         self.themes_path.mkdir(parents=True, exist_ok=True)
 
         # Remove stale theme files left over from previous generations.
-        for stale in self.themes_path.glob("*.json"):
-            if stale.name not in THEME_SOURCE_FILES:
+        # Directories are skipped, since unlink only handles files and the
+        # generator never creates directories inside the themes folder.
+        for stale in self.themes_path.iterdir():
+            if stale.is_file() and stale.name not in THEME_SOURCE_FILES:
                 stale.unlink()
 
         for file_name, source_dir in THEME_SOURCE_FILES.items():

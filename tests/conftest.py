@@ -12,6 +12,10 @@ def mock_palette() -> PaletteModel:
             "text": "000000",
             "black": "000000",
             "red": "FF0000",
+            "red_alt": "E66E6E",
+            "base0": "1B2222",
+            "base4": "CEDDDD",
+            "accent_alt2": "38615B",
         },
     )
 

@@ -23,6 +23,7 @@ If a theme stops working after an upgrade, check the version before reporting an
 | Qwen Code | `@qwen-code/qwen-code` | 0.21.7 |
 | Kimi Code | `@moonshot-ai/kimi-code` | 0.34.0 |
 | OpenCode | `opencode-ai` | 1.18.18 |
+| Codex CLI | `@openai/codex` | 0.147.0 |
 
 ## Table of Contents
 
@@ -31,6 +32,7 @@ If a theme stops working after an upgrade, check the version before reporting an
 - [Qwen Code](#qwen-code)
 - [Kimi Code](#kimi-code)
 - [OpenCode](#opencode)
+- [Codex CLI](#codex-cli)
 - [Windows Terminal](#windows-terminal)
 - [Troubleshooting](#troubleshooting)
 
@@ -123,6 +125,30 @@ from the file name without the `.json` extension.
 Delete `~/.config/opencode/themes/celadon-opencode.json` (user-wide), or
 `.opencode/themes/celadon-opencode.json` at your project root or current
 working directory (project-specific).
+
+## Codex CLI
+
+### Install
+
+Place `celadon.tmTheme` in the `$CODEX_HOME/themes` directory (`CODEX_HOME`
+defaults to `~/.codex`).
+
+### Activate
+
+Set the theme in `$CODEX_HOME/config.toml`:
+
+```toml
+[tui]
+theme = "celadon"
+```
+
+Alternatively, run `/theme` in the Codex TUI and select **celadon**. Codex
+derives the theme name from the file name without the `.tmTheme` extension.
+
+### Uninstall
+
+Delete `$CODEX_HOME/themes/celadon.tmTheme`. If you set the theme via
+`config.toml`, remove or reset the `theme` entry.
 
 ## Windows Terminal
 

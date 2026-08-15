@@ -17,6 +17,8 @@ from celadon_theme.models.palette import PaletteModel
 
 logger = logging.getLogger(__name__)
 
+VSCODE_THEME_TEMPLATE = "vscode-theme.json.j2"
+
 
 class VsCodeGenerator(AbstractThemeGenerator):
     """
@@ -42,7 +44,7 @@ class VsCodeGenerator(AbstractThemeGenerator):
         self.themes_path.mkdir(parents=True, exist_ok=True)
 
         self._render_to_file(
-            "vscode-theme.json.j2",
+            VSCODE_THEME_TEMPLATE,
             self.themes_path / "celadon-theme-color-theme.json",
         )
 

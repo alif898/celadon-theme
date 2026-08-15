@@ -148,6 +148,7 @@ jobs:
             "./pi/celadon-pi.json#celadon-pi-${VERSION}.json" \
             "./windows-terminal/celadon-windows-terminal.json#celadon-windows-terminal-${VERSION}.json" \
             "./opencode/celadon-opencode.json#celadon-opencode-${VERSION}.json" \
+            "./codex/celadon.tmTheme#celadon-codex-${VERSION}.tmTheme" \
             --clobber
 
       - name: Publish to JetBrains Marketplace

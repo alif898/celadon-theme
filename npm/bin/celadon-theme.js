@@ -15,7 +15,7 @@ console.log('');
 
 const themeFiles = fs
   .readdirSync(themesDir)
-  .filter((file) => file.endsWith('.json'))
+  .filter((file) => file.endsWith('.json') || file.endsWith('.tmTheme'))
   .sort();
 
 for (const file of themeFiles) {

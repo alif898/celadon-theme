@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>name</key>
+  <string>{{ config.name | e }}</string>
+  <key>settings</key>
+  <array>
+    <dict>
+      <key>settings</key>
+      <dict>
+        <key>background</key>
+        <string>#{{ theme.base0 }}</string>
+        <key>foreground</key>
+        <string>#{{ theme.base4 }}</string>
+      </dict>
+    </dict>
+{% for rule in token_rules %}
+    <dict>
+      <key>name</key>
+      <string>{{ rule.name | e }}</string>
+{% if rule.scope %}      <key>scope</key>
+      <string>{{ rule.scope | e }}</string>
+{% endif %}      <key>settings</key>
+      <dict>
+{% if rule.font_style is not none %}        <key>fontStyle</key>
+        <string>{{ rule.font_style | e }}</string>
+{% endif %}        <key>foreground</key>
+        <string>{{ rule.foreground | e }}</string>
+      </dict>
+    </dict>
+{% endfor %}    <dict>
+      <key>name</key>
+      <string>Diff: Inserted</string>
+      <key>scope</key>
+      <string>markup.inserted, diff.inserted</string>
+      <key>settings</key>
+      <dict>
+        <key>background</key>
+        <string>#{{ theme.accent_alt2 }}</string>
+      </dict>
+    </dict>
+    <dict>
+      <key>name</key>
+      <string>Diff: Deleted</string>
+      <key>scope</key>
+      <string>markup.deleted, diff.deleted</string>
+      <key>settings</key>
+      <dict>
+        <key>background</key>
+        <string>#{{ theme.red_alt }}</string>
+      </dict>
+    </dict>
+  </array>
+</dict>
+</plist>

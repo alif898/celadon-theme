@@ -7,6 +7,7 @@ from .config.logging_config import logging_config
 from .config.paths import CONFIG_FILE, PALETTE_FILE, SAMPLE_PROJECTS_DIR, TEMPLATES_DIR
 from .generator.base import AbstractThemeGenerator
 from .generator.claude_code import ClaudeCodeGenerator
+from .generator.codex import CodexGenerator
 from .generator.jetbrains import JetBrainsGenerator
 from .generator.kimi_code import KimiCodeGenerator
 from .generator.npm import NpmGenerator
@@ -50,6 +51,7 @@ def _build_generators(
         WindowsTerminalGenerator(palette, config, env),
         PiGenerator(palette, config, env),
         OpenCodeGenerator(palette, config, env),
+        CodexGenerator(palette, config, env),
         NpmGenerator(palette, config, env),
     ]
 
