@@ -29,6 +29,7 @@ vscode/*
 !vscode/.vscodeignore
 *.vsix
 claude-code/
+codex/
 qwen-code/
 kimi-code/
 pi/

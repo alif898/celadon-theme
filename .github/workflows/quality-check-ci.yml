@@ -146,4 +146,5 @@ jobs:
             pi/celadon-pi.json
             windows-terminal/celadon-windows-terminal.json
             opencode/celadon-opencode.json
+            codex/celadon.tmTheme
           retention-days: 14
