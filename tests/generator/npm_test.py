@@ -14,6 +14,7 @@ THEME_FILE_NAMES = [
     "celadon-kimi-code.json",
     "celadon-pi.json",
     "celadon-windows-terminal.json",
+    "celadon-opencode.json",
 ]
 
 
@@ -28,7 +29,7 @@ class NpmPackageSetup:
 
         self.theme_sources: dict[str, Path] = {}
         for file_name in THEME_FILE_NAMES:
-            source_dir = tmp_path / file_name.removesuffix(".json")
+            source_dir = tmp_path / Path(file_name).stem
             source_dir.mkdir()
             theme_file = source_dir / file_name
             theme_file.write_text(f'{{"name": "{file_name}"}}', encoding="utf-8")
@@ -47,6 +48,7 @@ def mock_env() -> Environment:
                 "npm-package.json.j2": "PACKAGE: {{ config.version }}",
                 "npm-README.md.j2": (
                     "README: {{ config.name }} | {{ theme_targets | length }} targets"
+                    " | {{ screenshot_url or '' }}"
                 ),
             }
         ),
@@ -176,11 +178,39 @@ def test_npm_generator_metadata(
         f"PACKAGE: {mock_config.version}"
     )
     assert (setup.dist_path / "README.md").read_text() == (
-        f"README: {mock_config.name} | {len(npm_mod.THEME_TARGETS)} targets"
+        f"README: {mock_config.name} | {len(npm_mod.THEME_TARGETS)} targets | "
     )
     assert (setup.dist_path / "INSTRUCTIONS.md").read_text() == ("Instructions Content")
     assert (setup.dist_path / "CHANGELOG.md").read_text() == "Change Log Content"
     assert (setup.dist_path / "LICENSE.md").read_text() == "License Content"
+
+
+def test_npm_generator_metadata_screenshot_url(
+    mock_palette: PaletteModel,
+    mock_config: ConfigModel,
+    mock_env: Environment,
+    npm_package_setup: NpmPackageSetup,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    # When a screenshot path and GitHub URL are configured, the README must
+    # receive the jsDelivr URL pinned to the version tag.
+    setup = npm_package_setup
+    _patch_theme_sources(monkeypatch, setup.theme_sources)
+    _patch_metadata_sources(monkeypatch, setup)
+    mock_config.vscode_screenshot_path = "screenshots/vscode.png"
+    mock_config.version = "1.2.3"
+    mock_config.github_url = "https://github.com/alif898/celadon-theme"
+
+    generator = NpmGenerator(
+        mock_palette, mock_config, mock_env, dist_path=setup.dist_path
+    )
+    generator.generate_theme_metadata()
+
+    readme = (setup.dist_path / "README.md").read_text()
+    assert (
+        "https://cdn.jsdelivr.net/gh/"
+        "alif898/celadon-theme@v1.2.3/screenshots/vscode.png" in readme
+    )
 
 
 def test_npm_generator_metadata_missing_files(

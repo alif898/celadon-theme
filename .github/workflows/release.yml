@@ -147,6 +147,7 @@ jobs:
             "./kimi-code/celadon-kimi-code.json#celadon-kimi-code-${VERSION}.json" \
             "./pi/celadon-pi.json#celadon-pi-${VERSION}.json" \
             "./windows-terminal/celadon-windows-terminal.json#celadon-windows-terminal-${VERSION}.json" \
+            "./opencode/celadon-opencode.json#celadon-opencode-${VERSION}.json" \
             --clobber
 
       - name: Publish to JetBrains Marketplace

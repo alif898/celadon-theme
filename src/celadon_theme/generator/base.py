@@ -3,6 +3,7 @@ import shutil
 from abc import ABC, abstractmethod
 from pathlib import Path
 from typing import override
+from urllib.parse import urlparse
 
 from jinja2 import Environment
 
@@ -10,6 +11,40 @@ from celadon_theme.models.config import ConfigModel
 from celadon_theme.models.palette import PaletteModel
 
 logger = logging.getLogger(__name__)
+
+# Minimum path segments (owner, repo) needed to compose a GitHub CDN URL.
+MIN_GH_PATH_PARTS = 2
+
+
+def compose_screenshot_url(config: ConfigModel) -> str | None:
+    """
+    Compose the jsDelivr URL for the theme screenshot, pinned to the current
+    version tag.
+
+    Returns None when the config lacks a screenshot path or a parseable
+    GitHub URL.
+    """
+    if not config.vscode_screenshot_path:
+        return None
+    if not config.github_url:
+        logger.warning("Skipping screenshot URL: missing github_url.")
+        return None
+    parsed = urlparse(config.github_url)
+    parts = [p for p in parsed.path.split("/") if p]
+    if len(parts) < MIN_GH_PATH_PARTS:
+        logger.warning(
+            "Skipping screenshot URL: github_url must include owner and repo."
+        )
+        return None
+    owner, repo = parts[0], parts[1]
+    version = config.version
+    tag = f"v{version}" if not version.startswith("v") else version
+    cdn_url = (
+        "https://cdn.jsdelivr.net/gh/"
+        f"{owner}/{repo}@{tag}/{config.vscode_screenshot_path}"
+    )
+    logger.info("Composed jsDelivr URL: %s", cdn_url)
+    return cdn_url
 
 
 class AbstractThemeGenerator(ABC):

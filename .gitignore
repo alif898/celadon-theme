@@ -33,6 +33,7 @@ qwen-code/
 kimi-code/
 pi/
 windows-terminal/
+opencode/
 /npm/*
 !/npm/bin/
 !/npm/bin/celadon-theme.js
