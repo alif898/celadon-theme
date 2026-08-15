@@ -1,5 +1,9 @@
 # Changelog
 
+## [v1.4.0] - 2026-08-15
+ - Added OpenCode, Codex CLI
+
+
 ## [v1.3.1] - 2026-08-10
  - Updated npm instructions
 
