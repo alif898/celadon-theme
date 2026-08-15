@@ -79,7 +79,7 @@ def test_single_file_generator_files(
     out_file = tmp_path / "dist" / output_file_name
     assert out_file.exists()
 
-    content = json.loads(out_file.read_text())
+    content = json.loads(out_file.read_text(encoding="utf-8"))
     assert content["name"] == mock_config.name
     assert content["Background"] == f"#{mock_palette.theme['base']}"
     assert content["Foreground"] == f"#{mock_palette.theme['text']}"
@@ -106,7 +106,9 @@ def test_single_file_generator_escapes_config_name(
     )
     generator.generate_theme_files()
 
-    content = json.loads((tmp_path / "dist" / output_file_name).read_text())
+    content = json.loads(
+        (tmp_path / "dist" / output_file_name).read_text(encoding="utf-8")
+    )
     assert content["name"] == mock_config.name
 
 
@@ -132,3 +134,136 @@ def test_single_file_generator_metadata_is_noop(
 
     # Metadata generation is a no-op. It must not create the dist directory.
     assert not (tmp_path / "dist").exists()
+
+
+def test_single_file_generator_skips_name_check_when_disabled(
+    mock_palette: PaletteModel,
+    mock_config: ConfigModel,
+    tmp_path: Path,
+) -> None:
+    """
+    A generator with validate_name=False must accept a theme without a
+    name key. Targets such as OpenCode derive the theme name from the
+    file name, and their schema forbids extra top-level properties.
+    """
+    template = '{\n  "Background": "#{{ theme.base }}"\n}'
+    env = Environment(
+        loader=DictLoader({"opencode-theme.json.j2": template}),
+        autoescape=select_autoescape(enabled_extensions=("html",)),
+    )
+
+    class NoNameThemeGenerator(SingleFileThemeGenerator):
+        template_name = "opencode-theme.json.j2"
+        output_file_name = "no-name.json"
+        dist_dir = tmp_path
+        label = "No Name"
+        validate_name = False
+
+    generator = NoNameThemeGenerator(
+        mock_palette, mock_config, env, dist_path=tmp_path / "dist"
+    )
+    generator.generate_theme_files()
+
+    content = json.loads(
+        (tmp_path / "dist" / "no-name.json").read_text(encoding="utf-8")
+    )
+    assert content["Background"] == f"#{mock_palette.theme['base']}"
+
+
+INVALID_TEMPLATE_CASES = [
+    pytest.param(
+        (
+            '{\n  "name": "Wrong Name",\n  "Background": "#{{ theme.base }}"\n}',
+            ValueError,
+            "expected",
+        ),
+        id="wrong-name",
+    ),
+    pytest.param(
+        (
+            '{\n  "name": {{ config.name | tojson }},\n  "Bad": "#ZZZZZZ"\n}',
+            ValueError,
+            "#ZZZZZZ",
+        ),
+        id="invalid-hex",
+    ),
+    pytest.param(
+        ('{\n  "name": {{ config.name | tojson }},', ValueError, "not valid JSON"),
+        id="malformed-json",
+    ),
+    pytest.param(
+        ('[\n  "not",\n  "a",\n  "theme"\n]', TypeError, "must be a JSON object"),
+        id="non-object-array",
+    ),
+    pytest.param(
+        ('"just a string"', TypeError, "must be a JSON object"),
+        id="non-object-string",
+    ),
+    pytest.param(
+        (
+            (
+                '{\n  "name": {{ config.name | tojson }},\n'
+                '  "GradientColors": ["#123456", "#ZZZZZZ"]\n}'
+            ),
+            ValueError,
+            "#ZZZZZZ",
+        ),
+        id="invalid-hex-in-list",
+    ),
+]
+
+
+@pytest.mark.parametrize("case", INVALID_TEMPLATE_CASES)
+def test_single_file_generator_rejects_invalid_theme(
+    case: tuple[str, type[Exception], str],
+    mock_palette: PaletteModel,
+    mock_config: ConfigModel,
+    tmp_path: Path,
+) -> None:
+    """
+    A rendered theme with the wrong name, a non-hex color, malformed
+    JSON, or a non-object JSON value must abort generation instead of
+    shipping a broken theme.
+    """
+    template, exc_type, match = case
+    env = Environment(
+        loader=DictLoader({"claude-code-theme.json.j2": template}),
+        autoescape=select_autoescape(enabled_extensions=("html",)),
+    )
+    generator = ClaudeCodeGenerator(
+        mock_palette, mock_config, env, dist_path=tmp_path / "dist"
+    )
+
+    with pytest.raises(exc_type, match=match):
+        generator.generate_theme_files()
+
+    # The rendered file is left on disk for inspection; generation aborts after it.
+    assert (tmp_path / "dist" / "celadon-claude-code.json").exists()
+
+
+def test_single_file_generator_accepts_color_lists(
+    mock_palette: PaletteModel,
+    mock_config: ConfigModel,
+    tmp_path: Path,
+) -> None:
+    """
+    A theme with an array of hex colors (such as Qwen's GradientColors)
+    must validate successfully.
+    """
+    template = (
+        '{\n  "name": {{ config.name | tojson }},\n'
+        '  "GradientColors": ["#123456", "#ABCDEF"]\n}'
+    )
+    env = Environment(
+        loader=DictLoader({"claude-code-theme.json.j2": template}),
+        autoescape=select_autoescape(enabled_extensions=("html",)),
+    )
+    generator = ClaudeCodeGenerator(
+        mock_palette, mock_config, env, dist_path=tmp_path / "dist"
+    )
+
+    generator.generate_theme_files()
+
+    out_file = tmp_path / "dist" / "celadon-claude-code.json"
+    content = json.loads(out_file.read_text(encoding="utf-8"))
+    assert content["GradientColors"] == ["#123456", "#ABCDEF"]

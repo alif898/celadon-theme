@@ -105,3 +105,53 @@ def test_config_rejects_whitespace_only_description_source(
             description=description,
             description_file=description_file,
         )
+
+
+@pytest.mark.parametrize(
+    "version",
+    [
+        "0.1.0",
+        "1.3.1",
+        "10.20.30",
+        "1.2.3-rc.1+build.5",
+        "1.3.2+main.20260814",
+        "1.3.2+pr123.20260814",
+    ],
+)
+def test_config_accepts_valid_semver(version: str) -> None:
+    """
+    Valid SemVer versions, including prerelease and build metadata used by
+    the CI snapshot versioning, must be accepted.
+    """
+    model = ConfigModel(
+        id="test.id",
+        name="Test Theme",
+        version=version,
+        short_description="Test Short Description",
+        plugin_name="Test Plugin",
+        author="Test Author",
+        description="Test Description",
+    )
+
+    assert model.version == version
+
+
+@pytest.mark.parametrize(
+    "version",
+    ["v1.2.3", "1.2", "1.2.3.4", "1.2.3-", "1.2.3-rc..1", "01.2.3", ""],
+)
+def test_config_rejects_invalid_semver(version: str) -> None:
+    """
+    A malformed version must be rejected at construction so it never flows
+    into generated artifacts.
+    """
+    with pytest.raises(ValidationError):
+        ConfigModel(
+            id="test.id",
+            name="Test Theme",
+            version=version,
+            short_description="Test Short Description",
+            plugin_name="Test Plugin",
+            author="Test Author",
+            description="Test Description",
+        )

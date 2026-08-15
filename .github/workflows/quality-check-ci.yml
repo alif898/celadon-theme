@@ -145,4 +145,5 @@ jobs:
             kimi-code/celadon-kimi-code.json
             pi/celadon-pi.json
             windows-terminal/celadon-windows-terminal.json
+            opencode/celadon-opencode.json
           retention-days: 14

@@ -1,6 +1,5 @@
 import logging
 from pathlib import Path
-from urllib.parse import urlparse
 
 from jinja2 import Environment
 from reportlab.graphics import renderPM
@@ -12,13 +11,11 @@ from celadon_theme.config.paths import (
     PLUGIN_ICON_SVG,
     VSCODE_DIR,
 )
-from celadon_theme.generator.base import AbstractThemeGenerator
+from celadon_theme.generator.base import AbstractThemeGenerator, compose_screenshot_url
 from celadon_theme.models.config import ConfigModel
 from celadon_theme.models.palette import PaletteModel
 
 logger = logging.getLogger(__name__)
-
-MIN_GH_PATH_PARTS = 2
 
 
 class VsCodeGenerator(AbstractThemeGenerator):
@@ -72,37 +69,14 @@ class VsCodeGenerator(AbstractThemeGenerator):
         readme_path = self.dist_path / "README.md"
         readme_content = self.config.description
 
-        # Compose jsDelivr URL from screenshot path + version.
-        if self.config.vscode_screenshot_path:
-            owner: str | None = None
-            repo: str | None = None
-
-            if self.config.github_url:
-                parsed = urlparse(self.config.github_url)
-                parts = [p for p in parsed.path.split("/") if p]
-                if len(parts) >= MIN_GH_PATH_PARTS:
-                    owner, repo = parts[0], parts[1]
-                    logger.info(
-                        "Found owner: %s, repo: %s from github_url", owner, repo
-                    )
-
-            if owner and repo:
-                version = self.config.version
-                tag = f"v{version}" if not version.startswith("v") else version
-                cdn_url = (
-                    "https://cdn.jsdelivr.net/gh/"
-                    f"{owner}/{repo}@{tag}/{self.config.vscode_screenshot_path}"
-                )
-                logger.info("Composed jsDelivr URL: %s", cdn_url)
-                prefix = f"![Theme Preview]({cdn_url})"
-                readme_content = f"{prefix}\n{readme_content}"
-            else:
-                logger.warning(
-                    "Skipping screenshot prefix: missing or invalid github_url."
-                )
+        # Prepend the version-pinned screenshot image when a URL is available.
+        screenshot_url = compose_screenshot_url(self.config)
+        if screenshot_url:
+            prefix = f"![Theme Preview]({screenshot_url})"
+            readme_content = f"{prefix}\n{readme_content}"
 
         logger.info("Generating %s", readme_path.name)
-        with readme_path.open("w") as f:
+        with readme_path.open("w", encoding="utf-8") as f:
             f.write(readme_content)
         logger.info("Successfully generated %s", readme_path.name)
 

@@ -11,12 +11,26 @@ is `%USERPROFILE%` (usually `C:\Users\<your username>`).
 If the npm package is installed, it is also possible to run `celadon-theme` to print the exact directory that
 contains the theme files.
 
+## Version Compatibility
+
+These CLI tools may change rapidly, hence the exact versions they were tested against are recorded below.
+If a theme stops working after an upgrade, check the version before reporting an issue.
+
+| Tool | npm package | Verified version |
+| --- | --- | --- |
+| Claude Code | `@anthropic-ai/claude-code` | 2.1.226 |
+| Pi | `@earendil-works/pi-coding-agent` | 0.84.1 |
+| Qwen Code | `@qwen-code/qwen-code` | 0.21.7 |
+| Kimi Code | `@moonshot-ai/kimi-code` | 0.34.0 |
+| OpenCode | `opencode-ai` | 1.18.18 |
+
 ## Table of Contents
 
 - [Claude Code](#claude-code)
 - [Pi](#pi)
 - [Qwen Code](#qwen-code)
 - [Kimi Code](#kimi-code)
+- [OpenCode](#opencode)
 - [Windows Terminal](#windows-terminal)
 - [Troubleshooting](#troubleshooting)
 
@@ -90,6 +104,25 @@ Run `/theme` and select **Custom: celadon-kimi-code**. Alternatively, set
 
 Delete `~/.kimi-code/themes/celadon-kimi-code.json`. If you set the theme via
 `tui.toml`, remove or reset the `theme` entry.
+
+## OpenCode
+
+### Install
+
+Place `celadon-opencode.json` in the `~/.config/opencode/themes` directory
+(user-wide), or in `.opencode/themes` at your project root or current working
+directory (project-specific). On Windows, `~` is `%USERPROFILE%`.
+
+### Activate
+
+Run `/theme` and select **celadon-opencode**. OpenCode derives the theme name
+from the file name without the `.json` extension.
+
+### Uninstall
+
+Delete `~/.config/opencode/themes/celadon-opencode.json` (user-wide), or
+`.opencode/themes/celadon-opencode.json` at your project root or current
+working directory (project-specific).
 
 ## Windows Terminal
 

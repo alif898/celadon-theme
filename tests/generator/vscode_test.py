@@ -372,3 +372,30 @@ def test_vscode_generator_readme_screenshot_path_short_github_url(
     readme = (temp_dist_path / "README.md").read_text()
     assert readme == mock_config.description
     assert "jsdelivr" not in readme
+
+
+def test_vscode_generator_readme_utf8_description(
+    mock_palette: PaletteModel,
+    mock_config: ConfigModel,
+    mock_env: Environment,
+    temp_dist_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    # A non-ASCII description must survive README generation on any platform.
+    # Without an explicit UTF-8 encoding, Windows (cp1252 default) would raise
+    # UnicodeEncodeError on characters such as the arrow below.
+    temp_root = temp_dist_path.parent / "non_existent"
+    temp_root.mkdir()
+    monkeypatch.setattr(vscode_mod, "CHANGELOG_FILE", temp_root / "CHANGELOG.md")
+    monkeypatch.setattr(vscode_mod, "LICENSE_FILE", temp_root / "LICENSE.md")
+    monkeypatch.setattr(vscode_mod, "PLUGIN_ICON_SVG", temp_root / "pluginIcon.svg")
+
+    mock_config.description = "Café: theme →"
+
+    generator = VsCodeGenerator(
+        mock_palette, mock_config, mock_env, dist_path=temp_dist_path
+    )
+    generator.generate_theme_metadata()
+
+    readme = (temp_dist_path / "README.md").read_text(encoding="utf-8")
+    assert readme == "Café: theme →"

@@ -5,14 +5,18 @@ from jinja2 import Environment, FileSystemLoader, StrictUndefined, select_autoes
 
 from .config.logging_config import logging_config
 from .config.paths import CONFIG_FILE, PALETTE_FILE, SAMPLE_PROJECTS_DIR, TEMPLATES_DIR
+from .generator.base import AbstractThemeGenerator
 from .generator.claude_code import ClaudeCodeGenerator
 from .generator.jetbrains import JetBrainsGenerator
 from .generator.kimi_code import KimiCodeGenerator
 from .generator.npm import NpmGenerator
+from .generator.opencode import OpenCodeGenerator
 from .generator.pi import PiGenerator
 from .generator.qwen_code import QwenCodeGenerator
 from .generator.vscode import VsCodeGenerator
 from .generator.windows_terminal import WindowsTerminalGenerator
+from .models.config import ConfigModel
+from .models.palette import PaletteModel
 from .reporting.sample_projects import update_stats_report
 from .template.parser import ThemeParser
 
@@ -26,6 +30,28 @@ def _build_environment() -> Environment:
         autoescape=select_autoescape(enabled_extensions=("html",)),
         undefined=StrictUndefined,
     )
+
+
+def _build_generators(
+    palette: PaletteModel, config: ConfigModel, env: Environment
+) -> list[AbstractThemeGenerator]:
+    """
+    Build the theme generators in execution order.
+
+    NpmGenerator packages the single-file theme outputs of the other
+    generators, so it must always be listed last.
+    """
+    return [
+        JetBrainsGenerator(palette, config, env),
+        VsCodeGenerator(palette, config, env),
+        ClaudeCodeGenerator(palette, config, env),
+        QwenCodeGenerator(palette, config, env),
+        KimiCodeGenerator(palette, config, env),
+        WindowsTerminalGenerator(palette, config, env),
+        PiGenerator(palette, config, env),
+        OpenCodeGenerator(palette, config, env),
+        NpmGenerator(palette, config, env),
+    ]
 
 
 def main() -> None:
@@ -46,17 +72,7 @@ def main() -> None:
     )
 
     # Initialize theme generators, for any new target theme type, add its class here.
-    # Note that NpmGenerator must always be last, as it is dependent on the others.
-    generators = [
-        JetBrainsGenerator(palette, config, env),
-        VsCodeGenerator(palette, config, env),
-        ClaudeCodeGenerator(palette, config, env),
-        QwenCodeGenerator(palette, config, env),
-        KimiCodeGenerator(palette, config, env),
-        WindowsTerminalGenerator(palette, config, env),
-        PiGenerator(palette, config, env),
-        NpmGenerator(palette, config, env),
-    ]
+    generators = _build_generators(palette, config, env)
     logger.info("Initialized theme generators: %s", generators)
 
     for generator in generators:

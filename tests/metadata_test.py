@@ -29,3 +29,16 @@ def test_version_logic() -> None:
     assert match.group("version") == expected_version, (
         f"Regex mismatch: Found {match.group('version')}, expected {expected_version}"
     )
+
+
+def test_license_metadata() -> None:
+    """
+    Verify that the project license uses PEP 639 SPDX metadata instead of
+    the deprecated `license = { file = ... }` table.
+    """
+    with (ROOT_DIR / "pyproject.toml").open("rb") as f:
+        pyproject = tomllib.load(f)
+
+    project = pyproject["project"]
+    assert project["license"] == "MIT"
+    assert "LICENSE.md" in project["license-files"]

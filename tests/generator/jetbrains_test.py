@@ -244,7 +244,7 @@ def test_jetbrains_generator_metadata_changelog_conversion_failure_falls_back(
         generator.generate_theme_metadata()
 
         meta_inf_path = temp_dist_path / "src/main/resources/META-INF"
-        content = (meta_inf_path / "plugin.xml").read_text()
+        content = (meta_inf_path / "plugin.xml").read_text(encoding="utf-8")
         expected_plugin = (
             f"PLUGIN: {mock_config.author}, CHANGES: {mock_config.change_notes}, "
             f"PROVIDERS: {mock_config.id}|{mock_config.id}.islands"

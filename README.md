@@ -40,7 +40,7 @@ providing a high-contrast yet eye-friendly environment for long-form coding.
 [VS Code](https://marketplace.visualstudio.com/items?itemName=alif-naufal.celadon-theme),
 VS Code-based editors (VSCodium, AI-native IDEs: Cursor, Devin, Antigravity)
 via the [Open VSX Registry](https://open-vsx.org/extension/alif-naufal/celadon-theme),
-CLI coding agents (Claude Code, Pi, Qwen Code, Kimi Code)
+CLI coding agents (Claude Code, Pi, Qwen Code, Kimi Code, OpenCode)
 and Windows Terminal, via [npm](https://www.npmjs.com/package/celadon-theme).
 
 ## Project Details
@@ -84,9 +84,9 @@ Manual installation can be done by downloading from [GitHub Releases](https://gi
 the `.zip` file is for JetBrains IDEs,
 the `.vsix` file is for VS Code/VS Code-based editors,
 the `.tgz` file is the npm package, installable with `npm install -g ./celadon-theme-<version>.tgz`,
-and the `.json` files are for Claude Code, Pi, Qwen Code, Kimi Code and Windows Terminal.
+the `.json` files are for Claude Code, Pi, Qwen Code, Kimi Code, OpenCode and Windows Terminal.
 
-For installation instructions for Claude Code, Pi, Qwen Code, Kimi Code, and Windows Terminal,
+For installation instructions for Claude Code, Pi, Qwen Code, Kimi Code, OpenCode, and Windows Terminal,
 refer to [INSTRUCTIONS.md](INSTRUCTIONS.md).
 
 ### Project Structure
@@ -157,9 +157,9 @@ vsce package --no-git-tag-version
 ```
 Output `.vsix` file will be located in `vscode/celadon-theme-*.vsix`.
 
-For Claude Code, Qwen Code, Kimi Code, Windows Terminal, and Pi,
+For Claude Code, Qwen Code, Kimi Code, Windows Terminal, Pi, and OpenCode,
 their respective `.json` files will be generated automatically when running the generator 
-and can be found in the respective `claude-code`, `qwen-code`, `kimi-code`, `windows-terminal`, and `pi` folders.
+and can be found in the respective `claude-code`, `qwen-code`, `kimi-code`, `windows-terminal`, `pi`, and `opencode` folders.
 
 For the npm package, running the generator also produces the package contents
 under `npm/`. To validate and try the package locally:

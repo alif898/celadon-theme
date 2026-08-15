@@ -9,7 +9,8 @@ name = "celadon-theme"
 dynamic = ["version"]
 description = "A ceramic-inspired IDE dark theme generator using Python and Jinja2"
 readme = "README.md"
-license = { file = "LICENSE.md" }
+license = "MIT"
+license-files = ["LICENSE.md"]
 authors = [
     { name = "Alif Naufal", email = "alif898@gmail.com" }
 ]

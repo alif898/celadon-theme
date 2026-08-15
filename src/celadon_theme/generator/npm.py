@@ -10,9 +10,10 @@ from celadon_theme.config.paths import (
     LICENSE_FILE,
     NPM_DIR,
 )
-from celadon_theme.generator.base import AbstractThemeGenerator
+from celadon_theme.generator.base import AbstractThemeGenerator, compose_screenshot_url
 from celadon_theme.generator.claude_code import ClaudeCodeGenerator
 from celadon_theme.generator.kimi_code import KimiCodeGenerator
+from celadon_theme.generator.opencode import OpenCodeGenerator
 from celadon_theme.generator.pi import PiGenerator
 from celadon_theme.generator.qwen_code import QwenCodeGenerator
 from celadon_theme.generator.single_file import SingleFileThemeGenerator
@@ -31,6 +32,7 @@ SINGLE_FILE_THEME_GENERATORS: tuple[type[SingleFileThemeGenerator], ...] = (
     KimiCodeGenerator,
     PiGenerator,
     WindowsTerminalGenerator,
+    OpenCodeGenerator,
 )
 
 # Map of theme file name to the single-file dist directory that produces it.
@@ -95,6 +97,7 @@ class NpmGenerator(AbstractThemeGenerator):
             "npm-README.md.j2",
             self.dist_path / "README.md",
             theme_targets=THEME_TARGETS,
+            screenshot_url=compose_screenshot_url(self.config),
         )
         self._copy_files_if_exist(
             self.dist_path, [INSTRUCTIONS_FILE, CHANGELOG_FILE, LICENSE_FILE]
