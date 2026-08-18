@@ -1,5 +1,9 @@
 # Changelog
 
+## [v1.4.1] - 2026-08-18
+ - Minor changes to CLI themes for consistency
+
+
 ## [v1.4.0] - 2026-08-15
  - Added OpenCode, Codex CLI
 
