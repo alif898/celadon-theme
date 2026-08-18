@@ -47,6 +47,7 @@ opencode/
 # AI
 AGENTS.md
 CLAUDE.md
+.claude
 .qwen
 .reasonix
 
